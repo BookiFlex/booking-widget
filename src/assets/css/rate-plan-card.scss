@@ -1,0 +1,158 @@
+.rate-plan-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "description actions"
+                          "bottom actions";
+  width: 100%;
+  background-color: var(--rate-plan-background, transparent);
+  font-size: var(--rate-plan-font-size, medium);
+  color: var(--rate-plan-color, #000000);
+  position: relative;
+
+  .block {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 1;
+  }
+
+  h2.vs-modal__header-text {
+    margin-bottom: 0 !important;
+  }
+
+  .more-details {
+    display: inline;
+    border-bottom-style: dotted;
+    border-bottom-width: 1px;
+    cursor: pointer;
+  }
+
+  &__wrapper {
+    grid-area: description;
+    padding: 0;
+  }
+
+  &__description-text {
+    border-left: 3px solid var(--rate-plan-secondary-color, #696969);
+    padding-left: 1em;
+    margin-bottom: 1em;
+    font-size: 0.9em;
+    font-weight: normal;
+    color: var(--rate-plan-secondary-color, #696969);
+  }
+
+  &__description {
+    padding: 5%;
+
+    h3 {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 0;
+      margin-bottom: .7em;
+      font-weight: normal;
+      font-size: 1.2em;
+      cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      flex-wrap: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .dashed {
+      border-bottom-style: dashed;
+      border-width: 1px;
+    }
+
+    .more {
+      margin-left: 5px;
+      font-size: 0.7em;
+      color: #7b7780;
+    }
+
+    & > p {
+      font-weight: 300;
+      font-size: .9em;
+    }
+  }
+
+  &__offers {
+    font-weight: normal;
+    font-size: .9em;
+    color: var(--rate-plan-secondary-color, #696969);
+
+    &-item {
+      display: flex;
+      align-items: center;
+      padding: 5px 0;
+      /*white-space: nowrap;*/
+      line-height: 1.4em;
+
+      .material-icons {
+        font-size: 1.5em;
+        margin-right: 7px;
+        color: var(--rate-plan-icon-primary-color, #696969);
+      }
+
+      &.extra-offer {
+        .material-icons {
+          color: inherit;
+        }
+      }
+
+      &.feed-offer {
+        color: var(--rate-plan-icon-secondary-color, #28a745);
+        .material-icons {
+          color: var(--rate-plan-icon-secondary-color, #28a745);
+        }
+      }
+    }
+  }
+
+  .offers-item__separator {
+    padding: 0 5px;
+    font-weight: bold;
+    border: none;
+  }
+}
+
+.variant-select__items {
+  font-size: var(--base-font);
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+
+  .long-stay {
+    display: block;
+    font-size: .9em;
+    text-align: right;
+    padding: .5em 1em 0;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .rate-plan-card {
+    grid-template-columns: 1fr;
+    grid-template-areas: "description"
+                        "actions";
+    align-content: space-between;
+    min-width: 300px;
+    margin-right: .5em;
+    border-radius: var(--main-border-radius, 10px);
+    border: 1px solid var(--main-border-color, #e0e0e0);
+
+    &__actions {
+      justify-self: stretch;
+    }
+  }
+
+  .rate-plan__offers {
+    font-size: .9em;
+
+    &-item .material-icons {
+      font-size: 1.4em;
+    }
+  }
+}

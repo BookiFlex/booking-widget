@@ -1,0 +1,59 @@
+.summary-block {
+  position: sticky;
+  width: auto;
+  bottom: 0;
+  right: 0;
+  padding: 13px 16px;
+  box-shadow: 0 -4px 54px hsla(0, 0%, 62%, .2);
+  background: #fff;
+  z-index: 4;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__content-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    &__price {
+      font-size: .9em;
+      font-weight: bold;
+      color: orangered;
+    }
+
+    &__text {
+      display: flex;
+      align-items: center;
+      font-size: .8em;
+      color: rgba(34, 34, 34, .6);
+      vertical-align: center;
+
+      .material-icons {
+        font-size: 1em;
+        margin-left: 0.2em;
+      }
+    }
+  }
+
+  .accommodation-summary-trigger {
+    cursor: pointer;
+
+    &:hover {
+      color: orangered;
+    }
+  }
+}
+@media screen and (max-width: 460px) {
+  .summary-block {
+    position: fixed;
+    box-sizing: border-box;
+    left: 0;
+    width: 100%;
+  }
+}

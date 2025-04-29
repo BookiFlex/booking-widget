@@ -1,0 +1,23 @@
+.variant-option {
+  padding: 0;
+
+  &__book {
+    margin-left: 1em;
+
+    select {
+      height: 100%;
+      width: 100px;
+      font-size: 0.75em;
+      padding: 0.65em;
+    }
+  }
+
+  .scenario-text {
+    font-size: var(--base-font-size);
+    font-weight: lighter;
+  }
+
+  @media screen and (max-width: 460px) {
+    // border-left: 2px solid var(--rate-plan-border-color, #28a745);
+  }
+}

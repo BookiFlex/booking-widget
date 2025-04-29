@@ -1,0 +1,61 @@
+.field-decorator {
+  &__required {
+    padding-left: 3px;
+    color: red;
+  }
+  &__input-group {
+    border: 1px solid rgba(34, 34, 34, .2);
+    border-radius: 5px;
+    background-color: white;
+    padding: .3em .5em;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__label {
+    font-size: .8em;
+    margin-bottom: .3em;
+    line-height: 1;
+    color: rgba(34, 34, 34, .4);
+  }
+
+  &__slot {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+
+    textarea,
+    select,
+    input {
+      border: 0 !important;
+      outline: 0 !important;
+      background: white;
+      width: 100%;
+      height: 100%;
+      font-size: .9em;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+  }
+
+  &__hint {
+    height: 20px;
+    color: #3d3d3d;
+    text-align: right;
+    font-size: 12px;
+    overflow: hidden;
+  }
+}
+
+.form-group--error {
+  .field-decorator__input-group {
+    border-color: red;
+  }
+
+  .field-decorator__hint {
+    color: red;
+  }
+}

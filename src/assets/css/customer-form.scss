@@ -1,0 +1,13 @@
+.customer-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 1em;
+  column-gap: 1.5em;
+  padding: 1em 0 0;
+}
+
+@media screen and (max-width: 460px) {
+  .customer-form {
+    grid-template-columns: 1fr;
+  }
+}

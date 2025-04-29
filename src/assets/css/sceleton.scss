@@ -1,0 +1,190 @@
+// Variables
+$skeleton-color: #e0e0e0;
+$border-radius: 10px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$breakpoint-md: 768px;
+
+// Mixins
+@mixin skeleton-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background-color: $skeleton-color;
+}
+
+@mixin skeleton-block {
+  @include skeleton-pulse;
+  border-radius: 4px;
+}
+
+// Keyframes
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// Component Styles
+.accommodation-skeleton {
+  &.accommodation-result .header {
+    .thumbnail,
+    .content .description,
+    .content .amenities {
+      display: none;
+    }
+
+    .content .title-skeleton {
+      width: 220px;
+      margin-bottom: 0;
+    }
+  }
+
+  // Header Section
+  .header {
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: $breakpoint-md) {
+      flex-direction: row;
+    }
+
+    // Thumbnail
+    .thumbnail {
+      width: 100%;
+      height: 192px;
+      border-top-left-radius: 10px;
+      @include skeleton-pulse;
+
+      @media (min-width: $breakpoint-md) {
+        width: 320px;
+      }
+    }
+
+    // Content
+    .content {
+      flex: 1;
+      padding: $spacing-md;
+
+      .title-skeleton {
+        height: 32px;
+        width: 96px;
+        margin-bottom: $spacing-md;
+        @include skeleton-block;
+      }
+
+      .description {
+        margin-bottom: $spacing-md;
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-sm;
+
+        .line {
+          height: 16px;
+          width: 100%;
+          @include skeleton-block;
+
+          &.line-short {
+            width: 75%;
+          }
+        }
+      }
+
+      .amenities {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $spacing-sm;
+        margin-top: $spacing-md;
+
+        .amenity-item {
+          height: 32px;
+          width: 80px;
+          @include skeleton-block;
+        }
+      }
+    }
+  }
+
+  // Footer Section
+  .footer {
+    .option-header {
+      padding: $spacing-md;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .option-title {
+        height: 24px;
+        width: 80px;
+        @include skeleton-block;
+      }
+
+      .option-value {
+        height: 24px;
+        width: 64px;
+        @include skeleton-block;
+      }
+    }
+
+    .room-option {
+      padding: $spacing-md;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      @media (min-width: $breakpoint-md) {
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .option-details {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-sm;
+        width: 100%;
+
+        @media (min-width: $breakpoint-md) {
+          width: 50%;
+        }
+
+        .option-name {
+          height: 20px;
+          width: 192px;
+          @include skeleton-block;
+        }
+
+        .option-description {
+          height: 16px;
+          width: 128px;
+          @include skeleton-block;
+        }
+      }
+
+      .price-section {
+        display: flex;
+        align-items: center;
+        margin-top: $spacing-sm;
+
+        @media (min-width: $breakpoint-md) {
+          margin-top: 0;
+        }
+
+        .price {
+          height: 24px;
+          width: 64px;
+          margin-right: $spacing-md;
+          @include skeleton-block;
+        }
+
+        .book-button {
+          height: 40px;
+          width: 96px;
+          @include skeleton-block;
+        }
+      }
+    }
+  }
+}
