@@ -7,9 +7,8 @@
             <span>-{{ discount }}</span>
             <span class="price-block__percent">%</span>
           </span>
-          <span class="price-block__old"><span
-            class="amount"
-            v-html="formatMoney(originalSellingPrice,'currency')"
+          <span class="price-block__old"
+            ><span class="amount" v-html="formatMoney(originalSellingPrice, 'currency')"
           /></span>
         </div>
 
@@ -21,7 +20,7 @@
           <span v-if="sellingPrice" class="price-block__current">
             <span
               class="price-block__current-amount"
-              v-html="formatMoney(sellingPrice,'price-block__current-currency')"
+              v-html="formatMoney(sellingPrice, 'price-block__current-currency')"
             />
           </span>
 
@@ -45,38 +44,38 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
-import { htmlFormatMoney } from '../util/money.js';
+import { defineProps } from 'vue'
+import { htmlFormatMoney } from '../util/money.js'
 
 const props = defineProps({
   sellingPrice: {
     type: String || null,
-    default: null
+    default: null,
   },
   originalSellingPrice: {
     type: String || null,
-    default: null
+    default: null,
   },
   discount: {
     type: String || null,
-    default: null
+    default: null,
   },
   currency: {
     type: String,
-    required: true
+    required: true,
   },
   details: {
     type: String || null,
     default: null,
-    required: false
-  }
-});
+    required: false,
+  },
+})
 
 const formatMoney = (money, className = '', showFraction = true) => {
-  return htmlFormatMoney(money, props.currency, className, showFraction);
+  return htmlFormatMoney(money, props.currency, className, showFraction)
 }
 </script>
 
 <style lang="scss">
-@import "../assets/css/price-block.scss";
+@forward '../assets/css/price-block.scss';
 </style>

@@ -1,51 +1,67 @@
 <script setup>
-import {defineProps, ref} from 'vue';
-import Gallery from "./ui/Gallery.vue";
+import { defineProps, ref } from 'vue'
+import Gallery from './ui/Gallery.vue'
 
 defineProps({
+  /**
+   * @type {{
+   *   name: string,
+   *   description: string,
+   *   thumbnail: {
+   *     url: string,
+   *     name: string
+   *   } | null,
+   *   gallery: Array<{
+   *      src: string,
+   *      title: string,
+   *      description: string
+   *      }>,
+   *   amenities: Array<{
+   *     title: string
+   *   }>
+   * }}
+   */
   data: {
     type: Object,
-    required: true,
     default: () => ({
-      id: '',
-      code: '',
-      name: '',
-      description: '',
-      content: '',
-      thumbnail: {
-        url: '',
-        name: ''
-      },
-      gallery: [],
-      amenities: []
+        name: '',
+        description: '',
+        thumbnail: null,
+        gallery: [],
+        amenities: []
     })
-  }
-});
+  },
+})
 
-const isOpen = ref(false);
+const isOpen = ref(false)
 const openGallery = () => {
-  isOpen.value = true;
-};
+  isOpen.value = true
+}
 </script>
 
 <template>
   <section class="accommodation-type-card">
     <section @click="openGallery" class="accommodation-type-card__img">
       <Gallery v-model="isOpen" :images="data.gallery">
-        <img v-if="data.thumbnail && data.thumbnail.url" @click="openGallery" :src="data.thumbnail.url" :alt="data.thumbnail.name">
+        <img
+          v-if="data.thumbnail && data.thumbnail.url"
+          @click="openGallery"
+          :src="data.thumbnail.url"
+          :alt="data.thumbnail.name"
+        />
         <span v-else>Thumbnail</span>
       </Gallery>
     </section>
 
     <section class="accommodation-type-card__body">
-      <div class="description">
+      <div class="accommodation-type-card__body-description">
         <h3>{{ data.name }}</h3>
         <slot name="description">
           <p>{{ data.description }}</p>
         </slot>
 
-        <div class="amenities">
-          <span v-for="amenity in data.amenities">{{ amenity.title }}</span>
+        <div class="accommodation-type-card__amenities">
+          <span v-for="(amenity, index) in data.amenities" :key="index" class="accommodation-type-card__amenities-item">{{ amenity.title }}</span>
         </div>
       </div>
 
@@ -55,8 +71,6 @@ const openGallery = () => {
         </div>
 
         <div class="accommodation-type-card__bottom-right">
-          <!-- Предварительно загружать кешированные минимальные цены за 1 ночь, в период - ближайшие 14 дней -->
-          <!-- Как загрузятся реальные варианты, то заменять на мин из ТП -->
           <slot name="footerRight" />
         </div>
       </div>
@@ -65,5 +79,5 @@ const openGallery = () => {
 </template>
 
 <style lang="scss">
-
+@forward "../assets/css/accommodation-type-card.scss";
 </style>

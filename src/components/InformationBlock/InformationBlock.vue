@@ -1,6 +1,4 @@
-<script setup>
-
-</script>
+<script setup></script>
 
 <template>
   <section class="information-block">
@@ -9,5 +7,5 @@
 </template>
 
 <style lang="scss">
-@import "../../assets/css/information-block.scss";
+@forward '../../assets/css/information-block.scss';
 </style>

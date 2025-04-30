@@ -1,44 +1,44 @@
 <script setup>
-import { defineProps } from 'vue';
-import { Tooltip } from 'floating-vue';
+import { defineProps } from 'vue'
+import { Tooltip } from 'floating-vue'
 
 defineProps({
   trigger: {
     type: [String, Array],
-    default: ['click', 'touch']
+    default: ['click', 'touch'],
   },
   distance: {
     type: Number,
-    default: 0
+    default: 0,
   },
   skidding: {
     type: Number,
-    default: 0
+    default: 0,
   },
   placement: {
     type: String,
-    default: 'top'
+    default: 'top',
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: false,
   },
   shown: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 </script>
 
 <template>
-  <Tooltip
-      :disabled="disabled"
-      :placement="placement"
-      v-bind="$attrs"
-  >
+  <Tooltip :disabled="disabled" :placement="placement" :container="false" v-bind="$attrs">
     <slot />
     <template #popper>
       <slot name="popper" />
     </template>
   </Tooltip>
 </template>
+
+<style lang="scss">
+@forward "floating-vue/dist/style.css";
+</style>

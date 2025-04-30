@@ -52,17 +52,17 @@
 </template>
 
 <script setup>
-import InformationBlock from "../InformationBlock/InformationBlock.vue";
-import Divider from "../InformationBlock/Divider.vue";
-import { defineProps } from 'vue';
+import InformationBlock from '../InformationBlock/InformationBlock.vue'
+import Divider from '../InformationBlock/Divider.vue'
+import { defineProps } from 'vue'
 defineProps({
   isResult: {
     type: Boolean,
     default: false,
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/css/sceleton.scss";
+@forward '../../assets/css/sceleton.scss';
 </style>

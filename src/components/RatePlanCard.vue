@@ -1,10 +1,11 @@
 <script setup>
-import { ref, defineProps, defineEmits, computed } from 'vue';
-import Tooltip from "./ui/Tooltip.vue";
-import RatePlanVariant from "./RatePlanVariant.vue";
-import Divider from "./InformationBlock/Divider.vue";
-import VsLoader from "@vuesimple/vs-loader";
-import { prepareText } from "../util/text.js";
+import { ref, defineProps, defineEmits, computed } from 'vue'
+import Tooltip from './ui/Tooltip.vue'
+import RatePlanVariant from './RatePlanVariant.vue'
+import Divider from './InformationBlock/Divider.vue'
+import Loader from './ui/Loader.vue'
+import { prepareText } from '../util/text.js'
+import MaterialIcon from '@/components/ui/MaterialIcon.vue'
 
 const props = defineProps({
   /**
@@ -50,67 +51,76 @@ const props = defineProps({
    */
   data: {
     type: Object,
-    required: true
+    required: true,
   },
   lengthOfStay: {
     type: Number,
-    default: 0
+    default: 0,
   },
   isBlocked: {
     type: Boolean,
-    default: false
-  }
-});
+    default: false,
+  },
+})
 
 const prepareCancellationDescription = (description) => {
   if (!description || !Array.isArray(description)) {
-    return '';
+    return ''
   }
-  let text = [];
+  let text = []
   description.forEach((item) => {
-    text.push(prepareText(item));
+    text.push(prepareText(item))
   })
-  return text;
-};
+  return text
+}
 
-const isDescriptionOpen = ref(false);
+const isDescriptionOpen = ref(false)
 
-const hasFeedOffer = computed(() => props.data.feed?.name !== 'ROOM_ONLY');
+const hasFeedOffer = computed(() => props.data.feed?.name !== 'ROOM_ONLY')
 
-const emit = defineEmits(['variant-chosen']);
+const emit = defineEmits(['variant-chosen'])
 const emitVariantChosen = (value) => {
-  emit('variant-chosen', value);
-};
+  emit('variant-chosen', value)
+}
 </script>
 
 <template>
   <Divider></Divider>
   <div class="rate-plan-card">
     <div class="block" v-if="isBlocked">
-      <VsLoader variant="pulse" color="red" center />
+      <Loader variant="pulse" color="red" center />
     </div>
 
     <div class="rate-plan-card__wrapper">
       <div class="rate-plan-card__description">
         <h3 @click="isDescriptionOpen = !isDescriptionOpen">
-          {{ data.name }} <span class="material-icons">{{ isDescriptionOpen ? 'expand_less' : 'expand_more' }}</span>
+          {{ data.name }}
+          <MaterialIcon>{{
+            isDescriptionOpen ? 'expand_less' : 'expand_more'
+          }}</MaterialIcon>
         </h3>
 
-        <div
-          v-show="isDescriptionOpen"
-          class="rate-plan-card__description-text"
-        >{{ data.description }}</div>
+        <div v-show="isDescriptionOpen" class="rate-plan-card__description-text">
+          {{ data.description }}
+        </div>
 
         <div class="rate-plan-card__offers">
           <div class="rate-plan-card__offers-item">
-            <span class="material-icons">restore</span>
+            <MaterialIcon>restore</MaterialIcon>
             <span>
-            <Tooltip class="more-details" trigger="touch">
-              <span>{{ data.cancellationPolicy.name || '' }}</span>
-              <template #popper>
-                <p v-for="item in prepareCancellationDescription(data.cancellationPolicy.description)">{{ item }}</p>
-              </template>
-            </Tooltip>
+              <Tooltip class="more-details" trigger="touch">
+                <span>{{ data.cancellationPolicy.name || '' }}</span>
+                <template #popper>
+                  <p
+                    v-for="(item, index) in prepareCancellationDescription(
+                      data.cancellationPolicy.description,
+                    )"
+                    :key="index"
+                  >
+                    {{ item }}
+                  </p>
+                </template>
+              </Tooltip>
             </span>
           </div>
 
@@ -120,26 +130,34 @@ const emitVariantChosen = (value) => {
             :class="{ 'feed-offer': hasFeedOffer }"
             :title="data.feed.description"
           >
-            <span class="material-icons">restaurant</span>
+            <MaterialIcon>restaurant</MaterialIcon>
             <span>{{ data.feed.name || '' }}</span>
           </div>
 
           <div class="rate-plan-card__offers-item">
-            <span class="material-icons">credit_card</span>
-            <span><strong style="margin-right: 5px">Payments:</strong>
+            <MaterialIcon>credit_card</MaterialIcon>
+            <span
+              ><strong style="margin-right: 5px">Payments:</strong>
               <template v-for="(paymentType, idx) in data.paymentTypes" :key="paymentType.name">
                 <Tooltip class="more-details">
                   <span>{{ paymentType.name }}</span>
                   <template #popper>{{ paymentType.description }}</template>
                 </Tooltip>
-                <span v-if="data.paymentTypes.length - 1 !== idx" class="offers-item__separator">OR</span>
+                <span v-if="data.paymentTypes.length - 1 !== idx" class="offers-item__separator"
+                  >OR</span
+                >
               </template>
             </span>
           </div>
 
           <template v-if="data.extras.length">
-            <div v-for="(extra, extraIdx) in data.extras" :key="extraIdx" class="rate-plan-card__offers-item extra-offer" :style="{color: extra.color}">
-              <span class="material-icons">{{ extra.icon || 'check' }}</span>
+            <div
+              v-for="(extra, extraIdx) in data.extras"
+              :key="extraIdx"
+              class="rate-plan-card__offers-item extra-offer"
+              :style="{ color: extra.color }"
+            >
+              <MaterialIcon>{{ extra.icon || 'check' }}</MaterialIcon>
               <span>{{ extra.name }}</span>
             </div>
           </template>
@@ -151,11 +169,11 @@ const emitVariantChosen = (value) => {
       <slot>
         <div class="variant-select__items">
           <span class="long-stay">{{ lengthOfStay }} ночи</span>
-          <template v-for="(occupancyVariant) in data.variations || []">
+          <template v-for="(occupancyVariant, index) in data.variations || []" :key="index">
             <RatePlanVariant
-                :occupancy-option="occupancyVariant.occupancyOptions"
-                :price="occupancyVariant.price"
-                @chosen="() => emitVariantChosen(occupancyVariant)"
+              :occupancy-option="occupancyVariant.occupancyOptions"
+              :price="occupancyVariant.price"
+              @chosen="() => emitVariantChosen(occupancyVariant)"
             />
           </template>
         </div>
@@ -165,5 +183,5 @@ const emitVariantChosen = (value) => {
 </template>
 
 <style lang="scss">
-@import "../assets/css/rate-plan-card.scss";
+@forward '../assets/css/rate-plan-card.scss';
 </style>

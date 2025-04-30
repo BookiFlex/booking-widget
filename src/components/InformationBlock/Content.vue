@@ -1,6 +1,4 @@
-<script setup>
-
-</script>
+<script setup></script>
 
 <template>
   <div class="information-block__content">
@@ -8,5 +6,4 @@
   </div>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

@@ -1,29 +1,31 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps } from 'vue'
 const props = defineProps({
   label: {
     type: String,
-    required: true
+    required: true,
   },
   hint: {
     type: String,
-    default: ''
+    default: '',
   },
   hideHint: {
     type: Boolean,
-    default: false
+    default: false,
   },
   required: {
     type: Boolean,
-    default: false
-  }
-});
+    default: false,
+  },
+})
 </script>
 
 <template>
   <div class="field-decorator">
     <div class="field-decorator__input-group">
-      <label class="field-decorator__label">{{ label }}<span class="field-decorator__required" v-if="required">*</span></label>
+      <label class="field-decorator__label"
+        >{{ label }}<span class="field-decorator__required" v-if="required">*</span></label
+      >
       <div class="field-decorator__slot">
         <slot></slot>
       </div>
@@ -33,5 +35,5 @@ const props = defineProps({
 </template>
 
 <style lang="scss">
-@import "../../assets/css/field-decorator.scss";
+@forward '../../assets/css/field-decorator.scss';
 </style>

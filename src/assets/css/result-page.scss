@@ -1,0 +1,32 @@
+.reservation-result {
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    font-size: 1.5em;
+    font-weight: bold;
+    //margin-bottom: 1em;
+    text-align: center;
+  }
+
+  &__description {
+    font-size: 1.2em;
+    margin-bottom: 2em;
+    text-align: center;
+  }
+
+  .hotel-information {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9em;
+
+    .icon-text {
+      margin-bottom: 0.5em;
+
+      &__icon {
+        color: orangered;
+        margin-right: 0.3em;
+      }
+    }
+  }
+}

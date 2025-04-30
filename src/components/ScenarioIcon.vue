@@ -1,41 +1,44 @@
 <template>
   <div v-if="kind === 'adults'" class="icons">
-    <span v-show="main === 2" class="material-icons" title="Main bed(s)">person</span>
-    <i v-show="main > 2"><span class="material-icons" title="Main bed(s)">person</span>{{ main }}</i>
-    <span class="material-icons" title="Main bed(s)">person</span>
+    <MaterialIcon v-show="main === 2" title="Main bed(s)">person</MaterialIcon>
+    <i v-show="main > 2"
+      ><MaterialIcon title="Main bed(s)">person</MaterialIcon>{{ main }}</i
+    >
+    <MaterialIcon title="Main bed(s)">person</MaterialIcon>
     <template v-if="extraBed">
-      <span class="material-icons">add</span>
-      <span class="material-icons" title="Extra bed(s)">person_outline</span>
+      <MaterialIcon>add</MaterialIcon>
+      <MaterialIcon title="Extra bed(s)">person_outline</MaterialIcon>
     </template>
   </div>
 
   <span v-else-if="kind === 'child'" class="scenario-text">Adults + children</span>
 
   <div v-else class="icons" title="Main bed(s) + Extra bed">
-    <span class="material-icons">people</span>
-    <span class="material-icons">add</span>
-    <span class="material-icons">people_outline</span>
+    <MaterialIcon>people</MaterialIcon>
+    <MaterialIcon>add</MaterialIcon>
+    <MaterialIcon>people_outline</MaterialIcon>
   </div>
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps } from 'vue'
+import MaterialIcon from '@/components/ui/MaterialIcon.vue'
 defineProps({
   kind: {
     type: String,
-    required: true
+    required: true,
   },
   main: {
     type: Number,
-    required: true
+    required: true,
   },
   extraBed: {
     type: Boolean,
-    default: false
-  }
-});
+    default: false,
+  },
+})
 </script>
 
 <style lang="scss">
-@import "../assets/css/scenario-icon.scss";
+@forward '../assets/css/scenario-icon.scss';
 </style>

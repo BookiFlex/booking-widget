@@ -1,9 +1,9 @@
 <script setup>
-import PriceBlock from "./PriceBlock.vue";
-import ScenarioIcon from "./ScenarioIcon.vue";
-import VsButton from "@vuesimple/vs-button";
+import PriceBlock from './PriceBlock.vue'
+import ScenarioIcon from './ScenarioIcon.vue'
+import Button from './ui/Button.vue'
 
-const emit = defineEmits(["chosen"]);
+const emit = defineEmits(['chosen'])
 
 defineProps({
   /**
@@ -35,32 +35,30 @@ defineProps({
     type: Object,
     required: true,
   },
-});
+})
 
-const onBookClick = () => emit("chosen");
+const onBookClick = () => emit('chosen')
 </script>
 
 <template>
   <div class="variant-option">
     <PriceBlock
-        :selling-price="price.sellingPrice"
-        :original-selling-price="price.originalSellingPrice"
-        :discount="price.discount || null"
-        :currency="price.currency"
+      :selling-price="price.sellingPrice"
+      :original-selling-price="price.originalSellingPrice"
+      :discount="price.discount || null"
+      :currency="price.currency"
     >
       <template #icons>
         <ScenarioIcon
-            :kind="occupancyOption.kind"
-            :main="occupancyOption.main"
-            :extra-bed="occupancyOption.extraBed"
+          :kind="occupancyOption.kind"
+          :main="occupancyOption.main"
+          :extra-bed="occupancyOption.extraBed"
         />
       </template>
 
       <template #default>
         <div class="variant-option__book">
-          <VsButton @click="onBookClick" variant="success" fill>
-            Book now
-          </VsButton>
+          <Button @click="onBookClick" variant="success" fill> Book now </Button>
         </div>
       </template>
     </PriceBlock>
@@ -68,5 +66,5 @@ const onBookClick = () => emit("chosen");
 </template>
 
 <style lang="scss">
-
+@forward "../assets/css/rate-plan-variant.scss";
 </style>

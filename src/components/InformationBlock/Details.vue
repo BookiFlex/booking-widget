@@ -1,23 +1,23 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps } from 'vue'
+import MaterialIcon from '@/components/ui/MaterialIcon.vue'
 const props = defineProps({
   icon: {
     type: String,
-    default: 'info'
+    default: 'info',
   },
   hideIcon: {
     type: Boolean,
-    default: false
-  }
-});
+    default: false,
+  },
+})
 </script>
 
 <template>
   <div class="information-block__info__details">
-    <span v-if="!hideIcon" class="material-icons small">{{ icon }}</span>
+    <MaterialIcon small v-if="!hideIcon">{{ icon }}</MaterialIcon>
     <slot name="default"></slot>
   </div>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

@@ -1,11 +1,11 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps } from 'vue'
 const props = defineProps({
   dense: {
     type: Boolean,
-    default: false
-  }
-});
+    default: false,
+  },
+})
 </script>
 
 <template>
@@ -15,5 +15,4 @@ const props = defineProps({
   </header>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

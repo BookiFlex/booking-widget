@@ -1,0 +1,25 @@
+.search-page {
+  display: grid;
+  grid-row-gap: 1.25em;
+}
+.rate-plan-list {
+  display: flex;
+  flex-flow: column;
+}
+.rate-plan-list .rate-plan-card:last-child {
+  border-bottom-left-radius: var(--main-border-radius, 10px);
+  border-bottom-right-radius: var(--main-border-radius, 10px);
+}
+@media screen and (max-width: 460px) {
+  .accommodation-offer {
+    overflow-x: hidden;
+  }
+  .rate-plan-list {
+    //border-left: 2px solid #00ca9d;
+    flex-direction: row;
+    overflow-x: scroll;
+    width: 100%;
+    max-width: 100%;
+    margin: 0.5em 0.3em 0.5em 0.3em;
+  }
+}

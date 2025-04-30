@@ -24,14 +24,6 @@
     }
   }
 
-  &.big {
-    .accommodation-type-card__img {
-      img {
-        max-height: 220px;
-      }
-    }
-  }
-
   &__body {
     display: flex;
     flex-flow: column;
@@ -39,7 +31,12 @@
     padding: 1.5em;
     width: 100%;
 
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       margin-bottom: 0.8em;
       font-size: 1.2em;
       font-weight: normal;
@@ -53,28 +50,28 @@
       color: var(--accommodation-type-card-secondary-color, #696969);
     }
 
-    .description {
+    &-description {
       h3 {
         margin-top: 0;
       }
     }
+  }
 
-    .amenities {
-      font-size: .7em;
+  &__amenities {
+    font-size: 0.7em;
+    background: transparent;
+    margin-top: 1em;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+
+    &-item {
+      border: 1px solid var(--main-border-color, #e0e0e0);
+      padding: 0.4em 0.4em;
       background: transparent;
-      margin-top: 1em;
-      display: inline-flex;
-      flex-wrap: wrap;
-      gap: .5em;
-
-      span {
-        border: 1px solid var(--main-border-color, #e0e0e0);
-        padding: .4em .4em;
-        background: transparent;
-        line-height: 1;
-        border-radius: 3px;
-        opacity: .6;
-      }
+      line-height: 1;
+      border-radius: 3px;
+      opacity: 0.6;
     }
   }
 

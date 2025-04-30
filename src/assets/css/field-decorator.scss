@@ -4,19 +4,19 @@
     color: red;
   }
   &__input-group {
-    border: 1px solid rgba(34, 34, 34, .2);
+    border: 1px solid rgba(34, 34, 34, 0.2);
     border-radius: 5px;
     background-color: white;
-    padding: .3em .5em;
+    padding: 0.3em 0.5em;
     display: flex;
     flex-direction: column;
   }
 
   &__label {
-    font-size: .8em;
-    margin-bottom: .3em;
+    font-size: 0.8em;
+    margin-bottom: 0.3em;
     line-height: 1;
-    color: rgba(34, 34, 34, .4);
+    color: rgba(34, 34, 34, 0.4);
   }
 
   &__slot {
@@ -33,7 +33,7 @@
       background: white;
       width: 100%;
       height: 100%;
-      font-size: .9em;
+      font-size: 0.9em;
     }
 
     textarea {

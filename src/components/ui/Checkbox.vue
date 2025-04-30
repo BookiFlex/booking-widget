@@ -1,23 +1,23 @@
 <script setup>
-import { computed, defineProps, defineEmits } from 'vue';
+import { computed, defineProps, defineEmits } from 'vue'
 
 const props = defineProps({
   modelValue: {
     type: Boolean,
-    required: true
+    required: true,
   },
   required: {
     type: Boolean,
-    default: false
-  }
-});
+    default: false,
+  },
+})
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue'])
 
 const isChecked = computed({
   get: () => props.modelValue,
-  set: (value) => emit('update:modelValue', value)
-});
+  set: (value) => emit('update:modelValue', value),
+})
 </script>
 
 <template>
@@ -28,6 +28,6 @@ const isChecked = computed({
   </label>
 </template>
 
-<style>
-@import "../../assets/css/checkbox.scss";
+<style lang="scss">
+@forward '../../assets/css/checkbox.scss';
 </style>

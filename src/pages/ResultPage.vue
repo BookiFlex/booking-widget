@@ -1,12 +1,12 @@
 <script setup>
-import { defineProps, onMounted, ref, watch, inject } from 'vue';
-import { loadReservation } from "../api/api.js";
-import AccommodationsCard from "../components/AccommodationsCard.vue";
-import InformationBlock from "../components/InformationBlock/InformationBlock.vue";
-import Header from "../components/InformationBlock/Header.vue";
-import Divider from "../components/InformationBlock/Divider.vue";
-import Content from "../components/InformationBlock/Content.vue";
-import Skeleton from "../components/Skeleton/Skeleton.vue";
+import { defineProps, onMounted, ref, watch, inject } from 'vue'
+import { loadReservation } from '../api/api.js'
+import AccommodationsCard from '../components/AccommodationsCard.vue'
+import InformationBlock from '../components/InformationBlock/InformationBlock.vue'
+import Header from '../components/InformationBlock/Header.vue'
+import Divider from '../components/InformationBlock/Divider.vue'
+import Content from '../components/InformationBlock/Content.vue'
+import Skeleton from '../components/Skeleton/Skeleton.vue'
 
 const props = defineProps({
   sid: {
@@ -14,25 +14,25 @@ const props = defineProps({
     required: true,
     default: '',
   },
-});
+})
 
-const settings = inject('settings');
-const reservation = ref(null);
-const loading = ref(false);
+const settings = inject('settings')
+const reservation = ref(null)
+const loading = ref(false)
 
 const loadReservationCallback = async () => {
   if (!props.sid) {
-    return;
+    return
   }
 
-  loading.value = true;
-  const result = await loadReservation({ sid: props.sid });
-  reservation.value = result.reservations;
-  loading.value = false;
-};
+  loading.value = true
+  const result = await loadReservation({ sid: props.sid })
+  reservation.value = result.reservations
+  loading.value = false
+}
 
-watch(() => props.sid, loadReservationCallback);
-onMounted(loadReservationCallback);
+watch(() => props.sid, loadReservationCallback)
+onMounted(loadReservationCallback)
 </script>
 
 <template>
@@ -41,7 +41,13 @@ onMounted(loadReservationCallback);
     <div class="reservation-result__description">Ожидайте подтверждение от отеля</div>
 
     <Skeleton v-if="loading"></Skeleton>
-    <AccommodationsCard v-else :items="reservation.reservations" :summary="reservation.summary" :payment="reservation.payment" dummy></AccommodationsCard>
+    <AccommodationsCard
+      v-else
+      :items="reservation.reservations"
+      :summary="reservation.summary"
+      :payment="reservation.payment"
+      dummy
+    ></AccommodationsCard>
 
     <InformationBlock v-if="reservation.note">
       <Header>Your comment</Header>
@@ -49,7 +55,9 @@ onMounted(loadReservationCallback);
       <Content>{{ reservation.note }}</Content>
     </InformationBlock>
 
-    <div style="width: 150px; height: 3px; margin: 0 auto; margin-bottom: 1em; background: gray"></div>
+    <div
+      style="width: 150px; height: 3px; margin: 0 auto; margin-bottom: 1em; background: gray"
+    ></div>
     <InformationBlock>
       <Header>Hotel information</Header>
       <Divider></Divider>
@@ -69,7 +77,9 @@ onMounted(loadReservationCallback);
           </span>
           <span class="icon-text">
             <span class="icon-text__icon material-icons">email</span>
-            <span class="icon-text__text">Email: <a href="#">{{ settings.hotelInfo.email }}</a></span>
+            <span class="icon-text__text"
+              >Email: <a href="#">{{ settings.hotelInfo.email }}</a></span
+            >
           </span>
         </div>
       </Content>
@@ -78,36 +88,5 @@ onMounted(loadReservationCallback);
 </template>
 
 <style lang="scss">
-.reservation-result {
-  display: flex;
-  flex-direction: column;
-
-  &__title {
-    font-size: 1.5em;
-    font-weight: bold;
-    //margin-bottom: 1em;
-    text-align: center;
-  }
-
-  &__description {
-    font-size: 1.2em;
-    margin-bottom: 2em;
-    text-align: center;
-  }
-
-  .hotel-information {
-    display: flex;
-    flex-direction: column;
-    font-size: .9em;
-
-    .icon-text {
-      margin-bottom: .5em;
-
-      &__icon {
-        color: orangered;
-        margin-right: 0.3em;
-      }
-    }
-  }
-}
+@forward "../assets/css/result-page.scss";
 </style>

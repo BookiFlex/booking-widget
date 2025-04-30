@@ -5,7 +5,7 @@
   &__info__details {
     display: flex;
     font-size: 0.8em;
-    color: rgba(34, 34, 34, .6);
+    color: rgba(34, 34, 34, 0.6);
     margin-top: 1em;
     background-color: #f9f9fa;
     border-radius: 5px;
@@ -22,7 +22,7 @@
     ul {
       margin: 0;
       padding-left: 1.5em;
-      font-size: .9em;
+      font-size: 0.9em;
 
       li {
         margin-bottom: 0.5em;
@@ -34,7 +34,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0.2em;
-      font-size: .9em;
+      font-size: 0.9em;
       align-items: center;
 
       dt {
@@ -55,7 +55,7 @@
   &__info__details {
     display: flex;
     font-size: 0.8em;
-    color: rgba(34, 34, 34, .6);
+    color: rgba(34, 34, 34, 0.6);
     margin-top: 1em;
     background-color: #f9f9fa;
     border-radius: 5px;

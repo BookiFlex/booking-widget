@@ -1,0 +1,31 @@
+.agreements-list__items {
+  margin-top: 1em;
+  font-size: 0.9em;
+
+  .agreements-list__item {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.6em;
+    cursor: pointer;
+
+    .combined-agreement {
+      color: orangered;
+      text-decoration: underline;
+      padding: 0;
+
+      &:after {
+        display: inline-block;
+        padding-right: 0.5em;
+        content: ', ';
+        text-decoration: none;
+      }
+
+      &:last-child {
+        &:after {
+          content: '';
+          display: none;
+        }
+      }
+    }
+  }
+}
