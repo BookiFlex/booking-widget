@@ -51,5 +51,5 @@ const emit = defineEmits(['onAccommodationSummaryClick'])
 </template>
 
 <style lang="scss">
-@forward '../assets/css/fixed-summary.scss';
+@forward '../assets/css/summary-block.scss';
 </style>

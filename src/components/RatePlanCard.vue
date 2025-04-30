@@ -2,7 +2,6 @@
 import { ref, defineProps, defineEmits, computed } from 'vue'
 import Tooltip from './ui/Tooltip.vue'
 import RatePlanVariant from './RatePlanVariant.vue'
-import Divider from './InformationBlock/Divider.vue'
 import Loader from './ui/Loader.vue'
 import { prepareText } from '../util/text.js'
 import MaterialIcon from '@/components/ui/MaterialIcon.vue'
@@ -85,7 +84,6 @@ const emitVariantChosen = (value) => {
 </script>
 
 <template>
-  <Divider></Divider>
   <div class="rate-plan-card">
     <div class="block" v-if="isBlocked">
       <Loader variant="pulse" color="red" center />

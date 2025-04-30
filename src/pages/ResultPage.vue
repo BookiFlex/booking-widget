@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, onMounted, ref, watch, inject } from 'vue'
 import { loadReservation } from '../api/api.js'
-import AccommodationsCard from '../components/AccommodationsCard.vue'
+import ChosenAccommodationsBlock from '../components/ChosenAccommodationsBlock.vue'
 import InformationBlock from '../components/InformationBlock/InformationBlock.vue'
 import Header from '../components/InformationBlock/Header.vue'
 import Divider from '../components/InformationBlock/Divider.vue'
@@ -41,13 +41,13 @@ onMounted(loadReservationCallback)
     <div class="reservation-result__description">Ожидайте подтверждение от отеля</div>
 
     <Skeleton v-if="loading"></Skeleton>
-    <AccommodationsCard
+    <ChosenAccommodationsBlock
       v-else
       :items="reservation.reservations"
       :summary="reservation.summary"
       :payment="reservation.payment"
       dummy
-    ></AccommodationsCard>
+    ></ChosenAccommodationsBlock>
 
     <InformationBlock v-if="reservation.note">
       <Header>Your comment</Header>

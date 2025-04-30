@@ -56,7 +56,7 @@ const onAddToCartHandler = async ({
   loading.value = false
   activePage.value = CONFIRMATION_PAGE
 }
-const onRemoveFromCartHandler = async ({
+const onDeleteFromCartHandler = async ({
   checkInDate,
   checkOutDate,
   accommodationType,
@@ -105,7 +105,7 @@ const onConfirmCartHandler = async (data) => {
         ></SearchPage>
         <ConfirmationPage
           v-if="activePage === CONFIRMATION_PAGE"
-          @removeFromCart="onRemoveFromCartHandler"
+          @deleteFromCart="onDeleteFromCartHandler"
           @confirmCart="onConfirmCartHandler"
         ></ConfirmationPage>
         <ResultPage v-if="activePage === RESULT_PAGE" :sid="sid"></ResultPage>

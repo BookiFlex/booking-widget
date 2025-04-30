@@ -1,4 +1,4 @@
-.customer-form {
+.customer-data-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
   row-gap: 1em;
@@ -7,7 +7,7 @@
 }
 
 @media screen and (max-width: 460px) {
-  .customer-form {
+  .customer-data-form {
     grid-template-columns: 1fr;
   }
 }

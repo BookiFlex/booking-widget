@@ -6,6 +6,7 @@ import Content from './InformationBlock/Content.vue'
 import InformationBlock from './InformationBlock/InformationBlock.vue'
 import Header from './InformationBlock/Header.vue'
 import MaterialIcon from '@/components/ui/MaterialIcon.vue'
+import Skeleton from '@/components/Skeleton/Skeleton.vue'
 
 const props = defineProps({
   dummy: {
@@ -37,14 +38,18 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  loading: {
+    type: Boolean,
+    default: false,
+  }
 })
-const emit = defineEmits(['changePaymentType', 'deleteRequest'])
+const emit = defineEmits(['changePaymentType', 'deleteAccommodationRequest'])
 
-const changeActivePaymentType = (request, paymentType) => {
+const onChangeActivePaymentType = (request, paymentType) => {
   emit('changePaymentType', { request, paymentType })
 }
-const onDeleteClick = (item) => {
-  emit('deleteRequest', {
+const onDeleteAccommodation = (item) => {
+  emit('deleteAccommodationRequest', {
     checkInDate: item.checkInDate,
     checkOutDate: item.checkOutDate,
     accommodationType: item.accommodationType.id,
@@ -64,7 +69,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <InformationBlock>
+  <Skeleton v-if="loading" is-result></Skeleton>
+
+  <InformationBlock v-else>
     <slot>
       <Header>Accommodations</Header>
     </slot>
@@ -102,7 +109,7 @@ onMounted(() => {
               >
               <small
                 v-if="!dummy"
-                @click="() => onDeleteClick(item)"
+                @click="() => onDeleteAccommodation(item)"
                 style="font-weight: normal; opacity: 0.6"
                 >delete</small
               >
@@ -129,7 +136,7 @@ onMounted(() => {
                 :id="`payment-type-${index}-${item.ratePlan.id}-${paymentType.id}`"
                 :value="activePaymentTypes[id]"
                 :checked="activePaymentTypes[id] == paymentType.id"
-                @change="() => changeActivePaymentType(id, paymentType.id)"
+                @change="() => onChangeActivePaymentType(id, paymentType.id)"
               />
               {{ paymentType.name }}
             </label>

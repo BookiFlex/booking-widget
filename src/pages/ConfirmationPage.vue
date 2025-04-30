@@ -2,17 +2,12 @@
 import { ref, defineProps, defineEmits, onMounted, computed, inject } from 'vue'
 import { loadCart, changePaymentType } from '../api/api.js'
 import { lengthOfStay } from '../util/date.js'
-import CustomerForm from '../components/CustomerForm.vue'
-import Divider from '../components/InformationBlock/Divider.vue'
-import Content from '../components/InformationBlock/Content.vue'
-import InformationBlock from '../components/InformationBlock/InformationBlock.vue'
-import Header from '../components/InformationBlock/Header.vue'
-import Details from '../components/InformationBlock/Details.vue'
-import AccommodationsCard from '../components/AccommodationsCard.vue'
-import FieldDecorator from '../components/ui/FieldDecorator.vue'
-import Checkbox from '../components/ui/Checkbox.vue'
-import FixedSummary from '../components/FixedSummary.vue'
-import Skeleton from '../components/Skeleton/Skeleton.vue'
+import ContactInformationBlock from '../components/ContactInformationBlock.vue'
+import ChosenAccommodationsBlock from '../components/ChosenAccommodationsBlock.vue'
+import SummaryBlock from '../components/SummaryBlock.vue'
+import CustomerRequestBlock from '@/components/CustomerRequestBlock.vue'
+import AccommodationRulesBlock from '@/components/AccommodationRulesBlock.vue'
+import InformationBlockGrid from '@/components/InformationBlock/InformationBlockGrid.vue'
 
 defineProps({
   cart: {
@@ -36,15 +31,6 @@ defineProps({
   },
 })
 
-/**
- * TODO: нужно добавить:
- * - политики отеля
- * - соглашения
- * - вместо id размещения и тарифа, нужно передавать объекты
- * - добавить политику отмены каждому размещению
- * - описание в paymentTypes
- */
-
 const data = ref({
   customerInfo: {
     firstName: '',
@@ -52,21 +38,19 @@ const data = ref({
     email: '',
     phone: '',
   },
-  comment: '',
-  arrivalTime: 'none',
+  customerRequest: {
+    comment: '',
+    arrivalTime: 'none',
+  },
   agreementList: [],
 })
-const emit = defineEmits(['removeFromCart', 'confirmCart'])
-const onRemoveAccommodationHandler = (data) => {
-  emit('removeFromCart', data)
+const emit = defineEmits(['deleteFromCart', 'confirmCart'])
+const onDeleteAccommodationRequest = (data) => {
+  emit('deleteFromCart', data)
 }
 
 const confirmForm = ref(null)
 const settings = inject('settings')
-
-const combinedAgreements = computed(() => {
-  return settings.value.hotelRules.agreements.filter((item) => item.combined)
-})
 
 const onSubmit = (event) => {
   event.preventDefault()
@@ -119,118 +103,39 @@ const lengthOfStayOfFirstRequest = computed(() => {
 </script>
 
 <template>
-  <form @submit="onSubmit" ref="confirmForm">
-    <InformationBlock>
-      <Header>Contact information</Header>
-      <Divider></Divider>
-      <Content>
-        <CustomerForm v-model="data.customerInfo" />
-        <Details>
-          Подтверждение бронирования придет на электронную почту. Владелец места может связаться с
-          вами по телефону для уточнения деталей.
-        </Details>
-      </Content>
-    </InformationBlock>
+    <form @submit="onSubmit" ref="confirmForm">
+      <InformationBlockGrid>
 
-    <Skeleton v-if="loading || !cart" is-result></Skeleton>
-    <AccommodationsCard
-      v-else
-      :cart="cart"
-      :currency="cart.currency"
-      :payment="cart.payment"
-      :summary="cart.summary"
-      :items="cart.requests"
-      @change-payment-type="onChangePaymentType"
-      @delete-request="onRemoveAccommodationHandler"
-    ></AccommodationsCard>
+      <ContactInformationBlock v-model="data.customerInfo" />
 
-    <InformationBlock>
-      <Header>Comment for administrator</Header>
-      <Divider></Divider>
-      <Content>
-        <FieldDecorator label="Comment">
-          <textarea
-            :value="data.comment"
-            @input="data.comment = $event.target.value"
-            name="comment"
-            rows="3"
-            maxlength="500"
-          ></textarea>
-        </FieldDecorator>
-      </Content>
-      <Divider></Divider>
-      <Header dense>
-        Check-in/out time
-        <template v-slot:additional
-          >Check-in time from: {{ settings.policies.arrivalPolicy.checkInTime }}; Check-out time to:
-          {{ settings.policies.arrivalPolicy.checkOutTime }}</template
-        >
-      </Header>
-      <Divider></Divider>
-      <Content>
-        <FieldDecorator label="Your arrival time" style="width: 50%">
-          <select
-            name="arrivalTime"
-            :value="data.arrivalTime"
-            @change="data.arrivalTime = $event.target.value"
-          >
-            <option value="none" selected>Еще не знаю</option>
-            <option value="14:00">{{ settings.policies.arrivalPolicy.checkOutTime }}</option>
-            <option value="15:00">{{ settings.policies.arrivalPolicy.checkOutTime }}</option>
-          </select>
-        </FieldDecorator>
-      </Content>
-    </InformationBlock>
+      <ChosenAccommodationsBlock
+        v-if="cart"
+        :loading="loading"
+        :cart="cart"
+        :currency="cart.currency"
+        :payment="cart.payment"
+        :summary="cart.summary"
+        :items="cart.requests"
+        @changePaymentType="onChangePaymentType"
+        @deleteAccommodationRequest="onDeleteAccommodationRequest"
+      ></ChosenAccommodationsBlock>
 
-    <InformationBlock>
-      <Header>Accommodation rules</Header>
-      <template v-if="settings.hotelRules.rules.length > 0">
-        <Divider></Divider>
-        <Content>
-          <ul>
-            <li v-for="(rule, idx) in settings.hotelRules.rules" :key="idx">{{ rule.text }}</li>
-          </ul>
-        </Content>
-      </template>
-      <Divider></Divider>
-      <Content>
-        <div class="agreements-list__items">
-          <label v-if="combinedAgreements.length > 0" class="agreements-list__item">
-            <Checkbox model-value="model-value" required></Checkbox>
-            <span
-              >Подтверждаю, что ознакомился и согласен c
-              <a
-                class="combined-agreement"
-                target="_blank"
-                v-for="agreement in combinedAgreements"
-                :href="agreement.url"
-                >{{ agreement.anchor }}</a
-              >.</span
-            >
-          </label>
-          <template v-for="agreement in settings.hotelRules.agreements">
-            <label v-if="agreement.combined === false" class="agreements-list__item">
-              <Checkbox model-value="model-value" :required="agreement.required"></Checkbox>
-              <span
-                >Подтверждаю, что
-                <a target="_blank" :href="agreement.url">{{ agreement.anchor }}</a></span
-              >
-            </label>
-          </template>
-        </div>
-      </Content>
-    </InformationBlock>
+      <CustomerRequestBlock v-model="data.customerRequest"></CustomerRequestBlock>
+      <AccommodationRulesBlock
+        :agreements="settings.hotelRules.agreements"
+        :rules="settings.hotelRules.rules"
+      ></AccommodationRulesBlock>
 
-    <FixedSummary
-      v-if="!loading && cart"
-      :total-amount="cart.summary.total"
-      :currency="cart.currency"
-      :accommodation-units="accommodationUnits"
-      :length-of-stay="lengthOfStayOfFirstRequest"
-    ></FixedSummary>
-  </form>
+      <SummaryBlock
+        v-if="!loading && cart"
+        :total-amount="cart.summary.total"
+        :currency="cart.currency"
+        :accommodation-units="accommodationUnits"
+        :length-of-stay="lengthOfStayOfFirstRequest"
+      ></SummaryBlock>
+      </InformationBlockGrid>
+    </form>
 </template>
 
 <style lang="scss">
-@forward "../assets/css/confirmation-page.scss";
 </style>

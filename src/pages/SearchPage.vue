@@ -1,11 +1,10 @@
 <script setup>
 import { ref, defineEmits, defineProps, computed, watchEffect, onMounted } from 'vue'
-import AccommodationTypeCard from '../components/AccommodationTypeCard.vue'
-import RatePlanCard from '../components/RatePlanCard.vue'
 import Skeleton from '../components/Skeleton/Skeleton.vue'
-import InformationBlock from '../components/InformationBlock/InformationBlock.vue'
 import { lengthOfStay as lengthOfStayFn } from '../util/date.js'
 import { loadOffers } from '../api/api.js'
+import AccommodationOfferBlock from '@/components/AccommodationOfferBlock.vue'
+import InformationBlockGrid from '@/components/InformationBlock/InformationBlockGrid.vue'
 
 defineProps({
   loading: {
@@ -44,8 +43,8 @@ watchEffect(async () => {
 })
 
 const emit = defineEmits(['addToCart'])
-const onAddToCartHandler = (accommodationOffer, ratePlan, variant) => {
-  console.log('onAddToCartHandler', accommodationOffer, ratePlan, variant)
+const onAccommodationOfferChosen = ({ accommodationOffer, ratePlan, variant }) => {
+  console.log('accommodationOfferChosen', accommodationOffer, ratePlan, variant)
   emit('addToCart', {
     checkInDate: dateRange.value.start,
     checkOutDate: dateRange.value.end,
@@ -65,9 +64,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="search-page">
+  <InformationBlockGrid>
     <bflex-search-bar
       id="searchBar"
+      style="position: sticky; top: 0; z-index: 999"
       :check-in-date="dateRange.start"
       :check-out-date="dateRange.end"
     ></bflex-search-bar>
@@ -75,29 +75,16 @@ onMounted(() => {
       <Skeleton v-for="i in 3" :key="i"></Skeleton>
     </template>
     <template v-else>
-      <InformationBlock
+      <AccommodationOfferBlock
         v-for="accommodationOffer in accommodationOffers"
-        class="accommodation-offer"
+        :accommodation-offer="accommodationOffer"
+        :length-of-stay="lengthOfStay"
         :key="accommodationOffer.accommodationType.id"
-      >
-        <AccommodationTypeCard :data="accommodationOffer.accommodationType"></AccommodationTypeCard>
-
-        <div class="rate-plan-list">
-          <RatePlanCard
-            v-for="ratePlan in accommodationOffer.ratePlans"
-            :key="ratePlan.id"
-            :data="ratePlan"
-            :length-of-stay="lengthOfStay"
-            :isBlocked="loading"
-            @variant-chosen="(variant) => onAddToCartHandler(accommodationOffer, ratePlan, variant)"
-          >
-          </RatePlanCard>
-        </div>
-      </InformationBlock>
+        @accommodationOfferChosen="onAccommodationOfferChosen"
+      ></AccommodationOfferBlock>
     </template>
-  </div>
+  </InformationBlockGrid>
 </template>
 
 <style lang="scss">
-@forward "../assets/css/search-page.scss";
 </style>

@@ -60,7 +60,7 @@ $breakpoint-md: 768px;
       @include skeleton-pulse;
 
       @media (min-width: $breakpoint-md) {
-        width: 320px;
+        width: 300px;
       }
     }
 
