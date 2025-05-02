@@ -33,4 +33,21 @@ function lengthOfStay(startDate, endDate, unit = 'nights') {
   }
 }
 
-export { formatDateRange, lengthOfStay }
+function getStartEndDates() {
+  const now = new Date();
+
+  const startDate = new Date(now);
+  startDate.setDate(now.getDate() + 1);
+
+  const endDate = new Date(now);
+  endDate.setDate(now.getDate() + 2);
+
+  const formatDate = (date) => date.toISOString().split('T')[0];
+
+  return {
+    start: formatDate(startDate),
+    end: formatDate(endDate)
+  };
+}
+
+export { formatDateRange, lengthOfStay, getStartEndDates }

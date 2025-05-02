@@ -1,10 +1,33 @@
 <script setup>
-import { ref, onMounted, provide } from 'vue'
+import { ref, onMounted, provide, defineProps, onUnmounted, watch } from 'vue'
 import { updateCart, confirmCart, init } from './api/api.js'
+import { getStartEndDates } from '@/util/date.js'
 import { SEARCH_PAGE, CONFIRMATION_PAGE, RESULT_PAGE } from './constants.js'
 import SearchPage from '@/pages/SearchPage.vue'
 import ConfirmationPage from '@/pages/ConfirmationPage.vue'
 import ResultPage from '@/pages/ResultPage.vue'
+
+const props = defineProps({
+  dateRange: {
+    type: Object,
+    default: () => ({
+      start: null,
+      end: null,
+    }),
+  },
+  promoCode: {
+    type: String,
+    default: null
+  },
+  accommodationTypes: {
+    type: Array,
+    default: () => []
+  },
+  ratePlans: {
+    type: Array,
+    default: () => []
+  }
+})
 
 const activePage = ref(null)
 const loading = ref(false)
@@ -25,13 +48,30 @@ const settings = ref({
 })
 provide('settings', settings)
 
+watch(() => props.dateRange, (value, prevValue) => {
+  if (value.start && value.end) {
+    if (!prevValue || !prevValue.start || !prevValue.end || prevValue.start !== value.start || prevValue.end !== value.end) {
+      window.dispatchEvent(new CustomEvent('bflex:booking-widget:changed', { detail: props.dateRange }))
+    }
+  }
+}, {
+  immediate: true,
+})
+
 onMounted(async () => {
+  window.dispatchEvent(new CustomEvent('bflex:booking-widget:ready'))
+
   loading.value = true
+
   const { inProgress, settings: appSettings } = await init()
   settings.value = appSettings
   loading.value = false
 
   activePage.value = inProgress ? CONFIRMATION_PAGE : SEARCH_PAGE
+})
+
+onUnmounted(() => {
+  window.dispatchEvent(new CustomEvent('bflex:booking-widget:removed'))
 })
 
 const onAddToCartHandler = async ({
@@ -100,6 +140,8 @@ const onConfirmCartHandler = async (data) => {
       <section class="bflex-app__content">
         <SearchPage
           v-if="activePage === SEARCH_PAGE"
+          :dateRange="dateRange"
+          :promoCode="promoCode"
           :loading="loading"
           @addToCart="onAddToCartHandler"
         ></SearchPage>

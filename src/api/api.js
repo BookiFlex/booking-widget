@@ -5,6 +5,15 @@
  * @throws {Error} - Throws an error with the API error message on failure
  */
 const handleResponse = async (response) => {
+  if (response.status === 500) {
+    const errorMessage = 'Problem with server'
+    const errorCode = 'server_error'
+    const error = new Error(errorMessage)
+    error.code = errorCode
+    error.status = response.status
+    throw error
+  }
+
   const data = await response.json()
 
   // Success case - return the result directly

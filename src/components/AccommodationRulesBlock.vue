@@ -22,7 +22,7 @@ const combinedAgreements = computed(() => {
 })
 
 const combinedAgreementsChecked = ref(false);
-const agreementsChecked = ref([]);
+const agreementsChecked = ref(props.agreements.map(() => false));
 </script>
 
 <template>
