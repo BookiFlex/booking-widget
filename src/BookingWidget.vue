@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted, provide, defineProps, onUnmounted, watch } from 'vue'
 import { updateCart, confirmCart, init } from './api/api.js'
-import { getStartEndDates } from '@/util/date.js'
 import { SEARCH_PAGE, CONFIRMATION_PAGE, RESULT_PAGE } from './constants.js'
 import SearchPage from '@/pages/SearchPage.vue'
 import ConfirmationPage from '@/pages/ConfirmationPage.vue'
@@ -135,7 +134,7 @@ const onConfirmCartHandler = async (data) => {
 </script>
 
 <template>
-  <div id="app" class="bflex-app">
+  <main id="app" class="bflex-app">
     <div class="wrapper">
       <section class="bflex-app__content">
         <SearchPage
@@ -153,7 +152,7 @@ const onConfirmCartHandler = async (data) => {
         <ResultPage v-if="activePage === RESULT_PAGE" :sid="sid"></ResultPage>
       </section>
     </div>
-  </div>
+  </main>
 </template>
 
 <style lang="scss">

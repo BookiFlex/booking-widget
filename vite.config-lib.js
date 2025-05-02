@@ -2,6 +2,7 @@ import path from "node:path";
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
+import svgLoader from 'vite-svg-loader'
 
 const name = "index";
 
@@ -15,6 +16,7 @@ export default defineConfig({
         },
       },
     }),
+    svgLoader(),
   ],
   resolve: {
     alias: {

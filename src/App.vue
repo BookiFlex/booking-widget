@@ -20,6 +20,10 @@ onMounted(() => {
     console.log('bflex:search', e.detail)
     onSearchHandler(e.detail)
   })
+
+  setTimeout(() => {
+    window.dispatchEvent(new CustomEvent('bflex:search-bar:search', { detail: { start: '2025-07-01', end: '2025-07-05' } }))
+  }, 1000)
 })
 </script>
 

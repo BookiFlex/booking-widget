@@ -60,6 +60,10 @@
       overflow: hidden;
       flex-wrap: nowrap;
       text-overflow: ellipsis;
+
+      .icon {
+        fill: currentColor;
+      }
     }
 
     .dashed {
@@ -91,22 +95,23 @@
       /*white-space: nowrap;*/
       line-height: 1.4em;
 
-      .material-icons {
-        font-size: 1.5em;
-        margin-right: 7px;
+      .icon {
+        margin-right: 4px;
         color: var(--rate-plan-icon-primary-color, #696969);
+        fill: var(--rate-plan-icon-primary-color, #696969);
       }
 
       &.extra-offer {
-        .material-icons {
+        .icon {
           color: inherit;
         }
       }
 
       &.feed-offer {
         color: var(--rate-plan-icon-secondary-color, #28a745);
-        .material-icons {
+        .icon {
           color: var(--rate-plan-icon-secondary-color, #28a745);
+          fill: var(--rate-plan-icon-secondary-color, #28a745);
         }
       }
     }
@@ -154,7 +159,7 @@
   .rate-plan__offers {
     font-size: 0.9em;
 
-    &-item .material-icons {
+    &-item .icon {
       font-size: 1.4em;
     }
   }

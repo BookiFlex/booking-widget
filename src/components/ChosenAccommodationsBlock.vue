@@ -5,8 +5,8 @@ import Divider from './InformationBlock/Divider.vue'
 import Content from './InformationBlock/Content.vue'
 import InformationBlock from './InformationBlock/InformationBlock.vue'
 import Header from './InformationBlock/Header.vue'
-import MaterialIcon from '@/components/ui/MaterialIcon.vue'
 import Skeleton from '@/components/Skeleton/Skeleton.vue'
+import Icon from '@/components/ui/Icon.vue'
 
 const props = defineProps({
   dummy: {
@@ -82,7 +82,7 @@ onMounted(() => {
         <dl class="accommodation-list__items">
           <dt>
             <span class="icon-text">
-              <MaterialIcon class="icon-text__icon">event</MaterialIcon>
+              <Icon class="icon-text__icon" name="DateRange"></Icon>
               <span class="icon-text__text">{{
                 formatDateRange(item.checkInDate, item.checkOutDate, 'ru-RU')
               }}</span>
@@ -90,7 +90,7 @@ onMounted(() => {
           </dt>
           <dd>
             <span class="icon-text">
-              <MaterialIcon class="icon-text__icon">persons</MaterialIcon>
+              <Icon class="icon-text__icon" name="Persons"></Icon>
               <span class="icon-text__text"
                 >{{ item.adults }} взрослых, {{ item.children.length }} ребенок</span
               >

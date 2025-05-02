@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue'
 import Button from './ui/Button.vue'
-import MaterialIcon from '@/components/ui/MaterialIcon.vue'
+import Icon from '@/components/ui/Icon.vue'
 
 defineProps({
   totalAmount: {
@@ -34,17 +34,12 @@ const emit = defineEmits(['onAccommodationSummaryClick'])
         </div>
         <div class="summary-block__content-info__text">
           {{ accommodationUnits }} номер, {{ lengthOfStay }} ночи
-          <MaterialIcon
-            @click.stop="emit('onAccommodationSummaryClick')"
-            class="accommodation-summary-trigger"
-            small
-            >info</MaterialIcon
-          >
+          <Icon @click.stop="emit('onAccommodationSummaryClick')" class="accommodation-summary-trigger" name="Info" small></Icon>
         </div>
       </div>
       <Button type="submit" variant="success" fill>
         Booking
-        <MaterialIcon small style="margin-left: 0.5em">arrow_forward</MaterialIcon>
+        <Icon name="ArrowForward" style="margin-left: 0.5em" small></Icon>
       </Button>
     </div>
   </div>

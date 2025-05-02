@@ -4,7 +4,7 @@ import Tooltip from './ui/Tooltip.vue'
 import RatePlanVariant from './RatePlanVariant.vue'
 import Loader from './ui/Loader.vue'
 import { prepareText } from '../util/text.js'
-import MaterialIcon from '@/components/ui/MaterialIcon.vue'
+import Icon from '@/components/ui/Icon.vue'
 
 const props = defineProps({
   /**
@@ -93,9 +93,7 @@ const emitVariantChosen = (value) => {
       <div class="rate-plan-card__description">
         <h3 @click="isDescriptionOpen = !isDescriptionOpen">
           {{ data.name }}
-          <MaterialIcon>{{
-            isDescriptionOpen ? 'expand_less' : 'expand_more'
-          }}</MaterialIcon>
+          <Icon :name="isDescriptionOpen ? 'ExpandLess' : 'ExpandMore'"></Icon>
         </h3>
 
         <div v-show="isDescriptionOpen" class="rate-plan-card__description-text">
@@ -104,7 +102,7 @@ const emitVariantChosen = (value) => {
 
         <div class="rate-plan-card__offers">
           <div class="rate-plan-card__offers-item">
-            <MaterialIcon>restore</MaterialIcon>
+            <Icon name="Restore"></Icon>
             <span>
               <Tooltip class="more-details" trigger="touch">
                 <span>{{ data.cancellationPolicy.name || '' }}</span>
@@ -128,12 +126,12 @@ const emitVariantChosen = (value) => {
             :class="{ 'feed-offer': hasFeedOffer }"
             :title="data.feed.description"
           >
-            <MaterialIcon>restaurant</MaterialIcon>
+            <Icon name="Restaurant"></Icon>
             <span>{{ data.feed.name || '' }}</span>
           </div>
 
           <div class="rate-plan-card__offers-item">
-            <MaterialIcon>credit_card</MaterialIcon>
+            <Icon name="CreditCard"></Icon>
             <span
               ><strong style="margin-right: 5px">Payments:</strong>
               <template v-for="(paymentType, idx) in data.paymentTypes" :key="paymentType.name">
@@ -155,7 +153,7 @@ const emitVariantChosen = (value) => {
               class="rate-plan-card__offers-item extra-offer"
               :style="{ color: extra.color }"
             >
-              <MaterialIcon>{{ extra.icon || 'check' }}</MaterialIcon>
+              <Icon name="Check">credit_card</Icon>
               <span>{{ extra.name }}</span>
             </div>
           </template>

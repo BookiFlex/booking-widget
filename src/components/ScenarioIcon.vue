@@ -1,28 +1,28 @@
 <template>
   <div v-if="kind === 'adults'" class="icons">
-    <MaterialIcon v-show="main === 2" title="Main bed(s)">person</MaterialIcon>
+    <Icon v-show="main === 2" title="Main bed(s)" name="Person"></Icon>
     <i v-show="main > 2"
-      ><MaterialIcon title="Main bed(s)">person</MaterialIcon>{{ main }}</i
+      ><Icon name="Person" title="Main bed(s)"></Icon>{{ main }}</i
     >
-    <MaterialIcon title="Main bed(s)">person</MaterialIcon>
+    <Icon name="Person" title="Main bed(s)"></Icon>
     <template v-if="extraBed">
-      <MaterialIcon>add</MaterialIcon>
-      <MaterialIcon title="Extra bed(s)">person_outline</MaterialIcon>
+      <Icon name="Add">add</Icon>
+      <Icon name="PersonOutline" title="Extra bed(s)"></Icon>
     </template>
   </div>
 
   <span v-else-if="kind === 'child'" class="scenario-text">Adults + children</span>
 
   <div v-else class="icons" title="Main bed(s) + Extra bed">
-    <MaterialIcon>people</MaterialIcon>
-    <MaterialIcon>add</MaterialIcon>
-    <MaterialIcon>people_outline</MaterialIcon>
+    <Icon name="People"></Icon>
+    <Icon name="Add"></Icon>
+    <Icon name="PeopleOutline"></Icon>
   </div>
 </template>
 
 <script setup>
 import { defineProps } from 'vue'
-import MaterialIcon from '@/components/ui/MaterialIcon.vue'
+import Icon from '@/components/ui/Icon.vue'
 defineProps({
   kind: {
     type: String,
