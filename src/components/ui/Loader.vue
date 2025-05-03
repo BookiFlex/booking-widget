@@ -51,5 +51,4 @@ const spinnerDelay3 = computed(() => ({ animationDelay: '0.36s' }));
 </template>
 
 <style lang="scss">
-@forward "../../assets/css/loader.scss";
 </style>

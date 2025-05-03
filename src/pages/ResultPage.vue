@@ -88,5 +88,4 @@ onMounted(loadReservationCallback)
 </template>
 
 <style lang="scss">
-@forward "../assets/css/result-page.scss";
 </style>

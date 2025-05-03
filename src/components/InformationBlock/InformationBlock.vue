@@ -7,5 +7,4 @@
 </template>
 
 <style lang="scss">
-@forward '../../assets/css/information-block.scss';
 </style>

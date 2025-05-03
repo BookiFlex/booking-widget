@@ -40,5 +40,4 @@ defineProps({
 </template>
 
 <style lang="scss">
-@forward "floating-vue/dist/style.css";
 </style>

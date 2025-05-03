@@ -156,5 +156,5 @@ const onConfirmCartHandler = async (data) => {
 </template>
 
 <style lang="scss">
-@forward './assets/css/booking-widget.scss';
+@forward './assets/css/index.scss';
 </style>

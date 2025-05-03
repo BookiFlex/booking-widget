@@ -64,5 +64,4 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-@forward '../../assets/css/sceleton.scss';
 </style>

@@ -68,5 +68,4 @@ const agreementsChecked = ref(props.agreements.map(() => false));
 </template>
 
 <style lang="scss">
-@forward "../assets/css/accommodation-rules-block";
 </style>

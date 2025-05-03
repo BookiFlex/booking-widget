@@ -35,5 +35,4 @@ const props = defineProps({
 </template>
 
 <style lang="scss">
-@forward '../../assets/css/field-decorator.scss';
 </style>

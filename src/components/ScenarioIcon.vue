@@ -40,5 +40,4 @@ defineProps({
 </script>
 
 <style lang="scss">
-@forward '../assets/css/scenario-icon.scss';
 </style>

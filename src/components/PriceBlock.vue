@@ -77,5 +77,4 @@ const formatMoney = (money, className = '', showFraction = true) => {
 </script>
 
 <style lang="scss">
-@forward '../assets/css/price-block.scss';
 </style>

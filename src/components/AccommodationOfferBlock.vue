@@ -48,5 +48,4 @@ const onVariantChosen = (accommodationOffer, ratePlan, variant) => {
 </template>
 
 <style lang="scss">
-@forward '../assets/css/accommodation-offer-block';
 </style>

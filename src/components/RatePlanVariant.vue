@@ -66,5 +66,4 @@ const onBookClick = () => emit('chosen')
 </template>
 
 <style lang="scss">
-@forward "../assets/css/rate-plan-variant.scss";
 </style>

@@ -124,5 +124,4 @@ watch(
 </template>
 
 <style lang="scss">
-@forward '../assets/css/contact-information-block.scss';
 </style>

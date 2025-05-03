@@ -89,5 +89,4 @@ function emitClick(event) {
 </template>
 
 <style scoped lang="scss">
-@forward "../../assets/css/button.scss";
 </style>

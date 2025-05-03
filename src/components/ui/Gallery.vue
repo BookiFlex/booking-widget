@@ -58,5 +58,4 @@ onBeforeUnmount(() => {
 </template>
 
 <style lang="scss">
-@forward "glightbox/dist/css/glightbox.css";
 </style>

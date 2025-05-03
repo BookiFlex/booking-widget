@@ -79,5 +79,4 @@ const openGallery = () => {
 </template>
 
 <style lang="scss">
-@forward "../assets/css/accommodation-type-card.scss";
 </style>

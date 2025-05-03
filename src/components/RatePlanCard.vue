@@ -179,5 +179,4 @@ const emitVariantChosen = (value) => {
 </template>
 
 <style lang="scss">
-@forward '../assets/css/rate-plan-card.scss';
 </style>

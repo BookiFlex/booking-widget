@@ -29,5 +29,4 @@ const isChecked = computed({
 </template>
 
 <style lang="scss">
-@forward '../../assets/css/checkbox.scss';
 </style>

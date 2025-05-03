@@ -171,5 +171,4 @@ onMounted(() => {
 </template>
 
 <style lang="scss">
-@forward '../assets/css/accommodation-card.scss';
 </style>
