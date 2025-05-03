@@ -40,7 +40,7 @@ const openGallery = () => {
 </script>
 
 <template>
-  <section class="accommodation-type-card">
+  <article class="accommodation-type-card">
     <section @click="openGallery" class="accommodation-type-card__img">
       <Gallery v-model="isOpen" :images="data.gallery">
         <img
@@ -55,27 +55,17 @@ const openGallery = () => {
 
     <section class="accommodation-type-card__body">
       <div class="accommodation-type-card__body-description">
-        <h3>{{ data.name }}</h3>
+        <h2>{{ data.name }}</h2>
         <slot name="description">
           <p>{{ data.description }}</p>
         </slot>
 
-        <div class="accommodation-type-card__amenities">
-          <span v-for="(amenity, index) in data.amenities" :key="index" class="accommodation-type-card__amenities-item">{{ amenity.title }}</span>
-        </div>
-      </div>
-
-      <div class="accommodation-type-card__bottom">
-        <div class="accommodation-type-card__bottom-left">
-          <slot name="footerLeft"></slot>
-        </div>
-
-        <div class="accommodation-type-card__bottom-right">
-          <slot name="footerRight" />
+        <div class="amenities">
+          <span v-for="(amenity, index) in data.amenities" :key="index" class="amenities__item">{{ amenity.title }}</span>
         </div>
       </div>
     </section>
-  </section>
+  </article>
 </template>
 
 <style lang="scss">

@@ -5,12 +5,12 @@
     'description actions'
     'bottom actions';
   width: 100%;
-  background-color: var(--rate-plan-background, transparent);
-  font-size: var(--rate-plan-font-size, medium);
-  color: var(--rate-plan-color, #000000);
   position: relative;
+  background-color: var(--rate-plan-background);
+  font-size: var(--rate-plan-font-size);
+  color: var(--rate-plan-color);
 
-  .block {
+  &--blocked {
     display: flex;
     justify-content: center;
     height: 100%;
@@ -20,83 +20,31 @@
     z-index: 1;
   }
 
-  h2.vs-modal__header-text {
-    margin-bottom: 0 !important;
-  }
-
-  .more-details {
-    display: inline;
-    border-bottom-style: dotted;
-    border-bottom-width: 1px;
-    cursor: pointer;
-  }
-
   &__wrapper {
     grid-area: description;
     padding: 0;
   }
 
-  &__description-text {
-    border-left: 3px solid var(--rate-plan-secondary-color, #696969);
-    padding-left: 1em;
-    margin-bottom: 1em;
-    font-size: 0.9em;
-    font-weight: normal;
-    color: var(--rate-plan-secondary-color, #696969);
+  blockquote {
+    border-left-color: var(--rate-plan-secondary-color);
+    color: var(--rate-plan-secondary-color);
   }
 
   &__description {
-    padding: 5%;
-
-    h3 {
-      display: inline-flex;
-      align-items: center;
-      margin-top: 0;
-      margin-bottom: 0.7em;
-      font-weight: normal;
-      font-size: 1.2em;
-      cursor: pointer;
-      white-space: nowrap;
-      overflow: hidden;
-      flex-wrap: nowrap;
-      text-overflow: ellipsis;
-
-      .icon {
-        fill: currentColor;
-      }
-    }
-
-    .dashed {
-      border-bottom-style: dashed;
-      border-width: 1px;
-    }
-
-    .more {
-      margin-left: 5px;
-      font-size: 0.7em;
-      color: #7b7780;
-    }
-
-    & > p {
-      font-weight: 300;
-      font-size: 0.9em;
-    }
+    padding: 1.5rem;
   }
 
   &__offers {
-    font-weight: normal;
-    font-size: 0.9em;
-    color: var(--rate-plan-secondary-color, #696969);
+    font-size: var(--rate-plan-font-size, .875rem);
+    color: var(--rate-plan-secondary-color);
 
     &-item {
       display: flex;
       align-items: center;
-      padding: 5px 0;
-      /*white-space: nowrap;*/
-      line-height: 1.4em;
+      padding: .375rem 0;
 
       .icon {
-        margin-right: 4px;
+        margin-right: .375rem;
         color: var(--rate-plan-icon-primary-color, #696969);
         fill: var(--rate-plan-icon-primary-color, #696969);
       }
@@ -117,25 +65,18 @@
     }
   }
 
-  .offers-item__separator {
-    padding: 0 5px;
-    font-weight: bold;
-    border: none;
-  }
-}
+  &__variants {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    padding: 1rem 0;
 
-.variant-select__items {
-  font-size: var(--base-font);
-  display: flex;
-  flex-direction: column;
-  align-items: end;
-  padding: 1em 0;
-
-  .long-stay {
-    display: block;
-    font-size: 0.9em;
-    text-align: right;
-    padding: 0.5em 1em 0;
+    .length-of-stay {
+      display: block;
+      font-size: 0.875rem;
+      text-align: right;
+      padding: 0 1rem 0;
+    }
   }
 }
 

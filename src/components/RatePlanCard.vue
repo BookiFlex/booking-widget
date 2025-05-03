@@ -5,6 +5,8 @@ import RatePlanVariant from './RatePlanVariant.vue'
 import Loader from './ui/Loader.vue'
 import { prepareText } from '../util/text.js'
 import Icon from '@/components/ui/Icon.vue'
+import ScenarioIcon from '@/components/ScenarioIcon.vue'
+import Button from '@/components/ui/Button.vue'
 
 const props = defineProps({
   /**
@@ -85,27 +87,26 @@ const emitVariantChosen = (value) => {
 
 <template>
   <div class="rate-plan-card">
-    <div class="block" v-if="isBlocked">
+    <div class="rate-plan-card--blocked" v-if="isBlocked">
       <Loader variant="pulse" color="red" center />
     </div>
 
     <div class="rate-plan-card__wrapper">
       <div class="rate-plan-card__description">
-        <h3 @click="isDescriptionOpen = !isDescriptionOpen">
+        <h2 @click="isDescriptionOpen = !isDescriptionOpen" class="cursor-pointer">
           {{ data.name }}
           <Icon :name="isDescriptionOpen ? 'ExpandLess' : 'ExpandMore'"></Icon>
-        </h3>
+        </h2>
 
-        <div v-show="isDescriptionOpen" class="rate-plan-card__description-text">
+        <blockquote v-show="isDescriptionOpen">
           {{ data.description }}
-        </div>
+        </blockquote>
 
         <div class="rate-plan-card__offers">
           <div class="rate-plan-card__offers-item">
             <Icon name="Restore"></Icon>
-            <span>
-              <Tooltip class="more-details" trigger="touch">
-                <span>{{ data.cancellationPolicy.name || '' }}</span>
+            <Tooltip class="inline" trigger="touch">
+                <abbr>{{ data.cancellationPolicy.name || '' }}</abbr>
                 <template #popper>
                   <p
                     v-for="(item, index) in prepareCancellationDescription(
@@ -116,8 +117,7 @@ const emitVariantChosen = (value) => {
                     {{ item }}
                   </p>
                 </template>
-              </Tooltip>
-            </span>
+            </Tooltip>
           </div>
 
           <div
@@ -133,15 +133,13 @@ const emitVariantChosen = (value) => {
           <div class="rate-plan-card__offers-item">
             <Icon name="CreditCard"></Icon>
             <span
-              ><strong style="margin-right: 5px">Payments:</strong>
+              ><strong style="margin-right: .375rem">Payments:</strong>
               <template v-for="(paymentType, idx) in data.paymentTypes" :key="paymentType.name">
-                <Tooltip class="more-details">
-                  <span>{{ paymentType.name }}</span>
+                <Tooltip class="inline">
+                  <abbr>{{ paymentType.name }}</abbr>
                   <template #popper>{{ paymentType.description }}</template>
                 </Tooltip>
-                <span v-if="data.paymentTypes.length - 1 !== idx" class="offers-item__separator"
-                  >OR</span
-                >
+                <strong v-if="data.paymentTypes.length - 1 !== idx" style="margin: 0 .375rem">OR</strong>
               </template>
             </span>
           </div>
@@ -163,14 +161,20 @@ const emitVariantChosen = (value) => {
 
     <div class="rate-plan-card__actions">
       <slot>
-        <div class="variant-select__items">
-          <span class="long-stay">{{ lengthOfStay }} ночи</span>
+        <div class="rate-plan-card__variants">
+          <span class="length-of-stay">{{ lengthOfStay }} ночи</span>
           <template v-for="(occupancyVariant, index) in data.variations || []" :key="index">
-            <RatePlanVariant
-              :occupancy-option="occupancyVariant.occupancyOptions"
-              :price="occupancyVariant.price"
-              @chosen="() => emitVariantChosen(occupancyVariant)"
-            />
+            <RatePlanVariant :price="occupancyVariant.price">
+              <template #icons>
+                <ScenarioIcon
+                  :kind="occupancyVariant.occupancyOptions.kind"
+                  :main="occupancyVariant.occupancyOptions.main"
+                  :extra-bed="occupancyVariant.occupancyOptions.extraBed"
+                />
+              </template>
+
+              <Button @click="() => emitVariantChosen(occupancyVariant)" variant="success" fill> Book now </Button>
+            </RatePlanVariant>
           </template>
         </div>
       </slot>

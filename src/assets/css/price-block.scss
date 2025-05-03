@@ -1,32 +1,3 @@
-.variant-line {
-  text-align: right;
-  font-size: var(--variant-line-font-size, medium);
-  color: var(--variant-line-color, #000000);
-
-  &:hover {
-    background: var(--variant-line-selected, #e0e0e0);
-  }
-
-  &.selected {
-    background: var(--variant-line-selected, #e0e0e0);
-
-    &:hover {
-      background: var(--variant-line-hover, #d7d7d7);
-    }
-  }
-
-  &__content {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 0.5em 1em;
-  }
-
-  &__footer {
-  }
-}
-
 .price-block {
   display: flex;
   flex-direction: column;
@@ -35,23 +6,19 @@
   width: 100%;
   justify-content: center;
 
-  &__separator {
-    min-width: 20px;
-  }
-
   &__discount {
     line-height: 1;
     display: flex;
     align-items: center;
     align-self: end;
-    font-size: 0.75em;
+    font-size: 0.75rem;
     font-weight: lighter;
   }
 
   &__discount-size {
     display: block;
-    padding: 0.125em 0.1em;
-    margin-right: 0.25em;
+    padding: 0.125rem;
+    margin-right: 0.25rem;
     background: red;
     color: white;
   }
@@ -62,11 +29,11 @@
   }
 
   &__schedule {
-    font-size: 0.75em;
+    font-size: 0.75rem;
   }
 
   &__icons .icon {
-    font-size: 1em;
+    font-size: 1rem;
   }
 
   &__amount {
@@ -75,20 +42,15 @@
     align-items: center;
     justify-content: space-between;
     line-height: 1;
-    font-size: 1.3em;
+    font-size: 1.25rem;
   }
 
   &__current {
+    margin-left: 0.5rem;
   }
 
   &__current-currency {
     font-weight: lighter;
-    padding: 0 2px;
-  }
-}
-
-@media screen and (max-width: 460px) {
-  .variant-line {
-    font-size: var(--variant-line-font-size, small);
+    padding: 0 .125rem;
   }
 }

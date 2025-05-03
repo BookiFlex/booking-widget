@@ -1,50 +1,34 @@
 <template>
-  <div class="variant-line">
-    <div class="variant-line__content">
-      <div class="price-block">
-        <div v-if="discount" class="price-block__discount">
+  <div class="price-block">
+    <div v-if="discount" class="price-block__discount">
           <span class="price-block__discount-size">
             <span>-{{ discount }}</span>
             <span class="price-block__percent">%</span>
           </span>
-          <span class="price-block__old"
-            ><span class="amount" v-html="formatMoney(originalSellingPrice, 'currency')"
-          /></span>
-        </div>
-
-        <div class="price-block__amount">
-          <div class="price-block__icons">
-            <slot name="icons" />
-          </div>
-          <div class="price-block__separator"></div>
-          <span v-if="sellingPrice" class="price-block__current">
-            <span
-              class="price-block__current-amount"
-              v-html="formatMoney(sellingPrice, 'price-block__current-currency')"
-            />
-          </span>
-
-          <span v-if="sellingPrice === 0">Free</span>
-
-          <div v-if="sellingPrice && details" class="price-block__details" />
-        </div>
-
-        <div class="price-block__schedule">
-          <slot name="schedule" />
-        </div>
-      </div>
-
-      <slot />
+      <span class="price-block__old">
+        <span class="amount" v-html="originalPrice"></span>
+      </span>
     </div>
 
-    <div class="variant-line__footer">
-      <slot name="action" />
+    <div class="price-block__amount">
+      <div class="price-block__icons">
+        <slot name="icons" />
+      </div>
+      <span v-if="sellingPrice" class="price-block__current">
+        <span class="price-block__current-amount" v-html="price"></span>
+      </span>
+      <span v-else-if="sellingPrice === 0">Free</span>
+      <div v-if="sellingPrice && details" class="price-block__details" />
+    </div>
+
+    <div class="price-block__schedule">
+      <slot name="schedule" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import { computed, defineProps } from 'vue'
 import { htmlFormatMoney } from '../util/money.js'
 
 const props = defineProps({
@@ -69,6 +53,14 @@ const props = defineProps({
     default: null,
     required: false,
   },
+})
+
+const originalPrice = computed(() => {
+  return formatMoney(props.originalSellingPrice, 'currency')
+})
+
+const price = computed(() => {
+  return formatMoney(props.sellingPrice, 'price-block__current-currency')
 })
 
 const formatMoney = (money, className = '', showFraction = true) => {

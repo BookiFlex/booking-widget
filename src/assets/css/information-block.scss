@@ -1,6 +1,6 @@
 .information-block-grid {
   display: grid;
-  grid-row-gap: 1.25em;
+  grid-row-gap: 1.25rem;
 }
 
 .information-block {
@@ -9,28 +9,25 @@
 
   &__info__details {
     display: flex;
-    font-size: 0.8em;
-    color: rgba(34, 34, 34, 0.6);
-    margin-top: 1em;
+    margin-top: 1rem;
     background-color: #f9f9fa;
     border-radius: 5px;
-    padding: 1em 1.25em;
+    padding: 1rem 1.25rem;
 
     .icon {
-      margin-right: 0.5em;
+      margin-right: 0.5rem;
     }
   }
 
   &__content {
-    padding: 1em 1.25em;
+    padding: 1rem 1.25rem;
 
     ul {
       margin: 0;
-      padding-left: 1.5em;
-      font-size: 0.9em;
+      padding-left: 1.5rem;
 
       li {
-        margin-bottom: 0.5em;
+        margin-bottom: 0.5rem;
         list-style: disc;
       }
     }
@@ -38,8 +35,7 @@
     dl {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0.2em;
-      font-size: 0.9em;
+      gap: 0.25rem;
       align-items: center;
 
       dt {
@@ -54,22 +50,19 @@
     }
 
     a {
-      color: orangered;
-      padding: 0 0.3em;
+      padding: 0 0.25rem;
     }
   }
 
   &__info__details {
     display: flex;
-    font-size: 0.8em;
-    color: rgba(34, 34, 34, 0.6);
-    margin-top: 1em;
+    margin-top: 1rem;
     background-color: #f9f9fa;
     border-radius: 5px;
-    padding: 1em 1.25em;
+    padding: 1rem 1.25rem;
 
     .icon {
-      margin-right: 0.5em;
+      margin-right: 0.5rem;
     }
   }
 
@@ -84,21 +77,17 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    font-size: 1.25em;
-    font-weight: bold;
     margin: 0;
-    padding: 1em 1.25em;
+    padding: 1rem 1.25rem;
     border-radius: 10px 10px 0 0;
 
     &-additional {
-      font-size: 0.8em;
       color: gray;
       font-weight: normal;
     }
 
     &.dense {
-      font-size: 1.2em;
-      padding: 0.5em 1.25em;
+      padding: 0.5rem 1.25rem;
     }
   }
 }
@@ -106,16 +95,13 @@
 @media screen and (max-width: 768px) {
   .information-block {
     &__header {
-      font-size: 1.2em;
       flex-direction: column;
       align-items: flex-start;
 
       &.dense {
-        font-size: 1.1em;
       }
 
       &-additional {
-        font-size: 0.65em;
       }
     }
   }

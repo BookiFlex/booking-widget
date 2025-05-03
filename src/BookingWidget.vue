@@ -134,9 +134,9 @@ const onConfirmCartHandler = async (data) => {
 </script>
 
 <template>
-  <main id="app" class="bflex-app">
+  <main id="bflex-booking-widget" class="booking-widget">
     <div class="wrapper">
-      <section class="bflex-app__content">
+      <section class="booking-widget__content">
         <SearchPage
           v-if="activePage === SEARCH_PAGE"
           :dateRange="dateRange"
@@ -156,5 +156,6 @@ const onConfirmCartHandler = async (data) => {
 </template>
 
 <style lang="scss">
-@forward './assets/css/index.scss';
+@use 'scss-reset/total';
+@use './assets/css/index.scss';
 </style>

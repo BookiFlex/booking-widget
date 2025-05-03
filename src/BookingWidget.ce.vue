@@ -48,7 +48,5 @@ onUnmounted(() => {
 </template>
 
 <style lang="scss">
-@forward "floating-vue/dist/style.css";
-@forward "glightbox/dist/css/glightbox.css";
-@forward './assets/css/index.scss';
+@use './assets/css/index.scss';
 </style>
