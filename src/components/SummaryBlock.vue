@@ -1,6 +1,5 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue'
-import Button from './ui/Button.vue'
 import Icon from '@/components/ui/Icon.vue'
 
 defineProps({
@@ -37,10 +36,10 @@ const emit = defineEmits(['onAccommodationSummaryClick'])
           <Icon @click.stop="emit('onAccommodationSummaryClick')" class="accommodation-summary-trigger" name="Info" small></Icon>
         </div>
       </div>
-      <Button type="submit" variant="success" fill>
+      <button class="button" type="submit">
         Booking
         <Icon name="ArrowForward" style="margin-left: 0.5em" small></Icon>
-      </Button>
+      </button>
     </div>
   </div>
 </template>

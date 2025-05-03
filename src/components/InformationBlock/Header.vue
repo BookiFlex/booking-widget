@@ -9,7 +9,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <header class="information-block__header" :class="{ dense: props.dense }">
+  <header :class="{ dense: props.dense }">
     <span><slot name="default"></slot></span>
     <span class="information-block__header-additional"><slot name="additional"></slot></span>
   </header>

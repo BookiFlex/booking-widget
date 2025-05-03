@@ -1,12 +1,22 @@
-.agreements-list-items {
-  margin-top: 1em;
-  font-size: 0.9em;
+.agreement-rules-list {
+  &__rules {
+    li {
+      padding-left: 0.25rem;
+    }
+    li:before {
+      display: inline-block;
+      content: '—';
+      margin-right: 0.25rem;
+    }
+  }
 
-  &__item {
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 0.6em;
-    cursor: pointer;
+  &__agreements {
+    &-item {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+    }
   }
 
   &__combined-agreement {
@@ -16,7 +26,7 @@
 
     &:after {
       display: inline-block;
-      padding-right: 0.5em;
+      padding-right: 0;
       content: ', ';
       text-decoration: none;
     }

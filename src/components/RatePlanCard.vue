@@ -2,11 +2,10 @@
 import { ref, defineProps, defineEmits, computed } from 'vue'
 import Tooltip from './ui/Tooltip.vue'
 import RatePlanVariant from './RatePlanVariant.vue'
-import Loader from './ui/Loader.vue'
+import CycleLoader from './ui/CycleLoader.vue'
 import { prepareText } from '../util/text.js'
 import Icon from '@/components/ui/Icon.vue'
 import ScenarioIcon from '@/components/ScenarioIcon.vue'
-import Button from '@/components/ui/Button.vue'
 
 const props = defineProps({
   /**
@@ -88,7 +87,7 @@ const emitVariantChosen = (value) => {
 <template>
   <div class="rate-plan-card">
     <div class="rate-plan-card--blocked" v-if="isBlocked">
-      <Loader variant="pulse" color="red" center />
+      <CycleLoader variant="pulse" color="red" center />
     </div>
 
     <div class="rate-plan-card__wrapper">
@@ -173,7 +172,7 @@ const emitVariantChosen = (value) => {
                 />
               </template>
 
-              <Button @click="() => emitVariantChosen(occupancyVariant)" variant="success" fill> Book now </Button>
+              <button class="button" @click="() => emitVariantChosen(occupancyVariant)"> Book now </button>
             </RatePlanVariant>
           </template>
         </div>

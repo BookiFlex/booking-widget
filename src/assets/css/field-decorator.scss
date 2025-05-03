@@ -7,14 +7,14 @@
     border: 1px solid rgba(34, 34, 34, 0.2);
     border-radius: 5px;
     background-color: white;
-    padding: 0.3em 0.5em;
+    padding: 0.25rem 0.5rem;
     display: flex;
     flex-direction: column;
   }
 
   &__label {
-    font-size: 0.8em;
-    margin-bottom: 0.3em;
+    font-size: 0.875em;
+    margin-bottom: 0.25em;
     line-height: 1;
     color: rgba(34, 34, 34, 0.4);
   }
@@ -33,7 +33,8 @@
       background: white;
       width: 100%;
       height: 100%;
-      font-size: 0.9em;
+      font-size: 0.875rem;
+      padding: 0.25rem 0;
     }
 
     textarea {
@@ -42,10 +43,10 @@
   }
 
   &__hint {
-    height: 20px;
+    height: 1.25rem;
     color: #3d3d3d;
     text-align: right;
-    font-size: 12px;
+    font-size: 0.725rem;
     overflow: hidden;
   }
 }

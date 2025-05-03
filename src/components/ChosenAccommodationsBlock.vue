@@ -71,15 +71,13 @@ onMounted(() => {
 <template>
   <Skeleton v-if="loading" is-result></Skeleton>
 
-  <InformationBlock v-else>
-    <slot>
-      <Header>Accommodations</Header>
-    </slot>
+  <InformationBlock v-else class="accommodation-list">
+    <Header>Accommodations</Header>
     <Divider></Divider>
 
     <template v-for="(item, id, index) in items" :key="index">
       <Content>
-        <dl class="accommodation-list__items">
+        <dl class="text-sm">
           <dt>
             <span class="icon-text">
               <Icon class="icon-text__icon" name="DateRange"></Icon>
@@ -100,9 +98,9 @@ onMounted(() => {
       </Content>
       <Divider></Divider>
       <Content>
-        <dl class="accommodation-list__items">
-          <dt class="accommodation-description">
-            <div class="accommodation-type">
+        <dl class="accommodation-list__item">
+          <dt>
+            <h3>
               {{ item.accommodationType.name }}
               <span style="font-size: 0.9em; opacity: 0.7" v-if="item.quantity > 1"
                 >x{{ item.quantity }}</span
@@ -113,9 +111,9 @@ onMounted(() => {
                 style="font-weight: normal; opacity: 0.6"
                 >delete</small
               >
-            </div>
-            <div class="rate-plan">{{ item.ratePlan.name }}</div>
-            <div class="cancellation-policy">{{ item.cancellationPolicy.name }}</div>
+            </h3>
+            <div class="text-sm" style="line-height: 1.25; font-weight: lighter">{{ item.ratePlan.name }}<br />
+              <abbr>{{ item.cancellationPolicy.name }}</abbr></div>
           </dt>
           <dd>
             <span style="opacity: 0.7" v-if="item.quantity > 1">{{ item.quantity }} x</span>
@@ -147,8 +145,8 @@ onMounted(() => {
     </template>
 
     <Content>
-      <dl class="accommodation-list__items">
-        <dt>Общая стоимость</dt>
+      <dl class="accommodation-list__total">
+        <dt>Общая стоимость:</dt>
         <dd>
           <strong
             ><span>{{ summary.total }}</span> {{ currency }}</strong
@@ -158,7 +156,7 @@ onMounted(() => {
     </Content>
     <Divider></Divider>
     <Content>
-      <dl class="accommodation-list__items">
+      <dl class="accommodation-list__payment-rules">
         <dt style="color: orangered">Предоплата:</dt>
         <dd style="color: orangered">{{ payment.prepayment }} {{ currency }}</dd>
         <dt>К оплате на месте:</dt>

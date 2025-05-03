@@ -36,7 +36,7 @@ watch(
 </script>
 
 <template>
-  <InformationBlock>
+  <InformationBlock class="customer-request-block">
     <Header>Customer request</Header>
     <Divider></Divider>
     <Content>
@@ -50,13 +50,13 @@ watch(
       </FieldDecorator>
     </Content>
     <Divider></Divider>
-    <Header dense>
-      Check-in/out time
-      <template v-slot:additional
-      >Check-in time from: {{ arrivalPolicy.checkInTime }}; Check-out time to:
-        {{ arrivalPolicy.checkOutTime }}</template
-      >
-    </Header>
+    <Content>
+      <dl class="text-sm">
+        <dt>Check-in/out time:</dt>
+        <dd>Check-in time from: {{ arrivalPolicy.checkInTime }}; Check-out time to:
+          {{ arrivalPolicy.checkOutTime }}</dd>
+      </dl>
+    </Content>
     <Divider></Divider>
     <Content>
       <FieldDecorator label="Your arrival time" style="width: 50%">

@@ -156,6 +156,5 @@ const onConfirmCartHandler = async (data) => {
 </template>
 
 <style lang="scss">
-@use 'scss-reset/total';
 @use './assets/css/index.scss';
 </style>

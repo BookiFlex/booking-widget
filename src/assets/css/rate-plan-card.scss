@@ -88,7 +88,7 @@
       'actions';
     align-content: space-between;
     min-width: 300px;
-    margin-right: 0.5em;
+    margin-right: 0.5rem;
     border-radius: var(--main-border-radius, 10px);
     border: 1px solid var(--main-border-color, #e0e0e0);
 
@@ -98,10 +98,7 @@
   }
 
   .rate-plan__offers {
-    font-size: 0.9em;
-
     &-item .icon {
-      font-size: 1.4em;
     }
   }
 }

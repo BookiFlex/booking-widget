@@ -67,7 +67,6 @@ small,
   font-size: 0.875rem; /* 14px */
 }
 
-/* 4. Кнопки и элементы управления */
 .button {
   display: inline-flex;
   align-items: center;
@@ -80,6 +79,7 @@ small,
   border: none;
   cursor: pointer;
   text-decoration: none;
+  text-wrap: nowrap;
 }
 
 .button:hover {
@@ -122,6 +122,22 @@ abbr,
 
 strong {
   font-weight: bold;
+}
+
+ul {
+  margin: 0;
+
+  li {
+    display: block;
+    margin-bottom: 0.5rem;
+    list-style: disc;
+
+    &:before {
+      content: '';
+      display: inline-flex;
+      margin-right: 0.250rem;
+    }
+  }
 }
 
 #bflex-booking-widget {

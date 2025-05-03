@@ -5,7 +5,7 @@ import InformationBlock from '@/components/InformationBlock/InformationBlock.vue
 import Content from '@/components/InformationBlock/Content.vue'
 import Header from '@/components/InformationBlock/Header.vue'
 import Divider from '@/components/InformationBlock/Divider.vue'
-import Details from '@/components/InformationBlock/Details.vue'
+import Details from '@/components/ui/Details.vue'
 
 const props = defineProps({
   modelValue: {
@@ -115,7 +115,7 @@ watch(
           />
         </FieldDecorator>
       </section>
-      <Details>
+      <Details icon="Info">
         Подтверждение бронирования придет на электронную почту. Владелец места может связаться с
         вами по телефону для уточнения деталей.
       </Details>

@@ -1,13 +1,16 @@
+//@use 'scss-reset/total';
+
 @forward "glightbox/dist/css/glightbox.css";
 @forward "floating-vue/dist/style.css";
 
 @forward "booking-widget";
 
+@forward "details";
 @forward "accommodation-card";
 @forward "accommodation-offer-block";
 @forward "accommodation-rules-block";
 @forward "accommodation-type-card";
-@forward "button";
+//@forward "button";
 @forward "checkbox";
 @forward "contact-information-block";
 @forward "field-decorator";

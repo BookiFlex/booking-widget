@@ -14,8 +14,8 @@ defineProps({
 </script>
 
 <template>
-  <div class="information-block__info__details">
-    <Icon v-if="!hideIcon" :name="icon" small></Icon>
+  <div class="details">
+    <Icon v-if="!hideIcon" :name="icon"></Icon>
     <slot name="default"></slot>
   </div>
 </template>

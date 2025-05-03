@@ -43,12 +43,11 @@ const spinnerDelay3 = computed(() => ({ animationDelay: '0.36s' }));
 </script>
 
 <template>
-  <div class="vs-loader">
+  <div class="cycle-loader">
     <div :style="[spinnerStyle, spinnerDelay1]"></div>
     <div :style="[spinnerStyle, spinnerDelay2]"></div>
     <div :style="[spinnerStyle, spinnerDelay3]"></div>
   </div>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>
