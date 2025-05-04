@@ -134,8 +134,8 @@ const onConfirmCartHandler = async (data) => {
 </script>
 
 <template>
-  <main id="bflex-booking-widget" class="booking-widget">
-    <div class="wrapper">
+  <main id="bflex-booking-widget" class="">
+    <div class="booking-widget">
       <section class="booking-widget__content">
         <SearchPage
           v-if="activePage === SEARCH_PAGE"

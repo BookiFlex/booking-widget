@@ -92,7 +92,7 @@ const emitVariantChosen = (value) => {
 
     <div class="rate-plan-card__wrapper">
       <div class="rate-plan-card__description">
-        <h2 @click="isDescriptionOpen = !isDescriptionOpen" class="cursor-pointer">
+        <h2 @click="isDescriptionOpen = !isDescriptionOpen" class="rate-plan-card__title cursor-pointer">
           {{ data.name }}
           <Icon :name="isDescriptionOpen ? 'ExpandLess' : 'ExpandMore'"></Icon>
         </h2>

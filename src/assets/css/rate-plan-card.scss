@@ -20,6 +20,11 @@
     z-index: 1;
   }
 
+  &__title {
+    display: inline-flex;
+    align-items: center;
+  }
+
   &__wrapper {
     grid-area: description;
     padding: 0;

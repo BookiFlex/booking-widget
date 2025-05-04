@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps, ref } from 'vue'
-import Gallery from './ui/Gallery.vue'
+import ImageGallery from './ui/ImageGallery.vue'
 
 defineProps({
   /**
@@ -42,7 +42,7 @@ const openGallery = () => {
 <template>
   <article class="accommodation-type-card">
     <section @click="openGallery" class="accommodation-type-card__img">
-      <Gallery v-model="isOpen" :images="data.gallery">
+      <ImageGallery v-model="isOpen" :images="data.gallery">
         <img
           v-if="data.thumbnail && data.thumbnail.url"
           @click="openGallery"
@@ -50,7 +50,7 @@ const openGallery = () => {
           :alt="data.thumbnail.name"
         />
         <span v-else>Thumbnail</span>
-      </Gallery>
+      </ImageGallery>
     </section>
 
     <section class="accommodation-type-card__body">

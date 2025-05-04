@@ -14,7 +14,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="details">
+  <div class="details-info">
     <Icon v-if="!hideIcon" :name="icon"></Icon>
     <slot name="default"></slot>
   </div>

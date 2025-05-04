@@ -31,7 +31,7 @@ defineProps({
 </script>
 
 <template>
-  <Tooltip :disabled="disabled" :placement="placement" :container="false" v-bind="$attrs">
+  <Tooltip :disabled="disabled" :placement="placement" container="#bflex-booking-widget" v-bind="$attrs">
     <slot />
     <template #popper>
       <slot name="popper" />
