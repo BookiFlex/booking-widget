@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, defineEmits, onMounted, computed, inject } from 'vue'
+import { ref, defineEmits, onMounted, computed, inject } from 'vue'
 import { loadCart, changePaymentType } from '../api/api.js'
 import { lengthOfStay } from '../util/date.js'
 import ContactInformationBlock from '../components/ContactInformationBlock.vue'
@@ -8,28 +8,6 @@ import SummaryBlock from '../components/SummaryBlock.vue'
 import CustomerRequestBlock from '@/components/CustomerRequestBlock.vue'
 import AccommodationRulesBlock from '@/components/AccommodationRulesBlock.vue'
 import InformationBlockGrid from '@/components/InformationBlock/InformationBlockGrid.vue'
-
-defineProps({
-  cart: {
-    type: Object,
-    default: () => ({
-      id: '123',
-      appliedPromoCode: false,
-      currency: 'EUR',
-      language: 'en',
-      paymentTypes: [],
-      requests: [],
-      agreements: [],
-      summary: {
-        subtotal: '100.00',
-        taxes: '20.00',
-        fees: '0.00',
-        discounts: '0.00',
-        total: '120.00',
-      },
-    }),
-  },
-})
 
 const data = ref({
   customerInfo: {
@@ -54,7 +32,6 @@ const settings = inject('settings')
 
 const onSubmit = (event) => {
   event.preventDefault()
-  console.log('Form submitted')
   if (confirmForm.value.reportValidity()) {
     emit('confirmCart', {
       customer: {
@@ -68,15 +45,27 @@ const onSubmit = (event) => {
 
 const loading = ref(true)
 const cart = ref(null)
+const { setError } = inject('globalError')
+
 onMounted(async () => {
-  const result = await loadCart()
-  cart.value = result.cart
-  loading.value = false
+  loading.value = true
+  try {
+    const result = await loadCart()
+    cart.value = result.cart
+  } catch (error) {
+    setError(error)
+  } finally {
+    loading.value = false
+  }
 })
 
 const onChangePaymentType = async (data) => {
-  const result = await changePaymentType(data)
-  cart.value = result.cart
+  try {
+    const result = await changePaymentType(data)
+    cart.value = result.cart
+  } catch (error) {
+    setError(error)
+  }
 }
 
 const accommodationUnits = computed(() => {

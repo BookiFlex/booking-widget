@@ -20,15 +20,22 @@ const settings = inject('settings')
 const reservation = ref(null)
 const loading = ref(false)
 
+const { setError } = inject('globalError')
+
 const loadReservationCallback = async () => {
   if (!props.sid) {
     return
   }
 
   loading.value = true
-  const result = await loadReservation({ sid: props.sid })
-  reservation.value = result.reservations
-  loading.value = false
+  try {
+    const result = await loadReservation({ sid: props.sid })
+    reservation.value = result.reservations
+  } catch (error) {
+    setError(error)
+  } finally {
+    loading.value = false
+  }
 }
 
 watch(() => props.sid, loadReservationCallback)

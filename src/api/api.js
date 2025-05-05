@@ -5,30 +5,57 @@
  * @throws {Error} - Throws an error with the API error message on failure
  */
 const handleResponse = async (response) => {
-  if (response.status === 500) {
-    const errorMessage = 'Problem with server'
-    const errorCode = 'server_error'
-    const error = new Error(errorMessage)
-    error.code = errorCode
+  let data = null
+
+  // Попытка распарсить JSON — даже при ошибочных статусах
+  try {
+    data = await response.json()
+  } catch (parseError) {
+    // Если невозможно распарсить — возможно, это HTML или пустой ответ
+    const error = new Error('Invalid JSON in response')
+    error.code = 'invalid_json'
     error.status = response.status
+    error.options.cause = parseError
     throw error
   }
 
-  const data = await response.json()
-
-  // Success case - return the result directly
+  // Успешный ответ
   if (response.ok && data.status === 'success') {
     return data.result
   }
 
-  // Error case - throw an error with details from the response
+  // API вернул валидный JSON, но с ошибкой
   const errorMessage = data.message || 'Unknown API error'
   const errorCode = data.code || 'api_error'
+
   const error = new Error(errorMessage)
   error.code = errorCode
   error.data = data.data
   error.status = response.status
   throw error
+}
+
+const init = async () => {
+  const endpoint = '/wp-json/bflex/v1/cart/init'
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ request: {} }),
+    })
+
+    return await handleResponse(response)
+  } catch (error) {
+    if (error instanceof TypeError && !error.status) {
+      // Ошибки типа: сеть недоступна, CORS-блокировка, таймаут
+      console.error('Network error:', error.message)
+    } else {
+      console.error(`API error (${error.code}):`, error.message)
+    }
+  }
 }
 
 const loadOffers = async (start, end, promoCode) => {
@@ -46,25 +73,6 @@ const loadOffers = async (start, end, promoCode) => {
     return await handleResponse(response)
   } catch (error) {
     console.error('Failed to load offers:', error)
-    throw error
-  }
-}
-
-const init = async () => {
-  const endpoint = '/wp-json/bflex/v1/cart/init'
-
-  try {
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ request: {} }),
-    })
-
-    return await handleResponse(response)
-  } catch (error) {
-    console.error('Failed to initialize cart:', error)
     throw error
   }
 }
@@ -105,7 +113,6 @@ const loadCart = async () => {
  * @returns {Promise<void>}
  */
 const updateCart = async (data) => {
-  console.debug('Booking offer', data)
   const endpoint = '/wp-json/bflex/v1/cart'
 
   try {

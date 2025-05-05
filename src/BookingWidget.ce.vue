@@ -1,6 +1,7 @@
 <script setup>
 import { defineProps, nextTick, onMounted, onUnmounted, ref, toRaw } from 'vue'
 import BookingWidget from './BookingWidget.vue'
+import ErrorProvider from '@/components/ErrorProvider.vue'
 
 const props = defineProps({
   start: {
@@ -44,7 +45,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <BookingWidget :date-range="toRaw(searchParams.dateRange)" :promo-code="searchParams.promoCode" />
+  <ErrorProvider>
+    <BookingWidget :date-range="toRaw(searchParams.dateRange)" :promo-code="searchParams.promoCode" />
+  </ErrorProvider>
 </template>
 
 <style lang="scss">

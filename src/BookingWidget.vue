@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, provide, defineProps, onUnmounted, watch } from 'vue'
+import { ref, onMounted, provide, defineProps, onUnmounted, watch, inject } from 'vue'
 import { updateCart, confirmCart, init } from './api/api.js'
 import { SEARCH_PAGE, CONFIRMATION_PAGE, RESULT_PAGE } from './constants.js'
 import SearchPage from '@/pages/SearchPage.vue'
@@ -48,25 +48,32 @@ const settings = ref({
 provide('settings', settings)
 
 watch(() => props.dateRange, (value, prevValue) => {
-  if (value.start && value.end) {
-    if (!prevValue || !prevValue.start || !prevValue.end || prevValue.start !== value.start || prevValue.end !== value.end) {
-      window.dispatchEvent(new CustomEvent('bflex:booking-widget:changed', { detail: props.dateRange }))
-    }
+  if (!value.start || !value.end) {
+    return
+  }
+
+  if (!prevValue || !prevValue.start || !prevValue.end || prevValue.start !== value.start || prevValue.end !== value.end) {
+    window.dispatchEvent(new CustomEvent('bflex:booking-widget:changed', { detail: props.dateRange }))
   }
 }, {
   immediate: true,
 })
 
+const { setError } = inject('globalError')
+
 onMounted(async () => {
   window.dispatchEvent(new CustomEvent('bflex:booking-widget:ready'))
 
   loading.value = true
-
-  const { inProgress, settings: appSettings } = await init()
-  settings.value = appSettings
-  loading.value = false
-
-  activePage.value = inProgress ? CONFIRMATION_PAGE : SEARCH_PAGE
+  try {
+    const { inProgress, settings: appSettings } = await init()
+    settings.value = appSettings
+    activePage.value = inProgress ? CONFIRMATION_PAGE : SEARCH_PAGE
+  } catch (error) {
+    setError(error)
+  } finally {
+    loading.value = false
+  }
 })
 
 onUnmounted(() => {
@@ -81,19 +88,24 @@ const onAddToCartHandler = async ({
   adults,
 }) => {
   loading.value = true
-  const result = await updateCart({
-    checkInDate,
-    checkOutDate,
-    accommodationType,
-    ratePlan,
-    adults,
-    children: [],
-    quantity: 1,
-  })
-  cart.value = result.cart
 
-  loading.value = false
-  activePage.value = CONFIRMATION_PAGE
+  try {
+    const result = await updateCart({
+      checkInDate,
+      checkOutDate,
+      accommodationType,
+      ratePlan,
+      adults,
+      children: [],
+      quantity: 1,
+    })
+    cart.value = result.cart
+    activePage.value = CONFIRMATION_PAGE
+  } catch (error) {
+    setError(error)
+  } finally {
+    loading.value = false
+  }
 }
 const onDeleteFromCartHandler = async ({
   checkInDate,
@@ -105,51 +117,62 @@ const onDeleteFromCartHandler = async ({
   quantity,
 }) => {
   loading.value = true
-  const result = await updateCart({
-    checkInDate,
-    checkOutDate,
-    accommodationType,
-    ratePlan,
-    adults,
-    children,
-    quantity,
-  })
-  cart.value = result.cart
 
-  loading.value = false
-  if (cart.value.requests.length === 0) {
-    activePage.value = SEARCH_PAGE
+  try {
+    const result = await updateCart({
+      checkInDate,
+      checkOutDate,
+      accommodationType,
+      ratePlan,
+      adults,
+      children,
+      quantity,
+    })
+    cart.value = result.cart
+    if (cart.value.requests.length === 0) {
+      activePage.value = SEARCH_PAGE
+    }
+  } catch (error) {
+    setError(error)
+  } finally {
+    loading.value = false
   }
 }
 const onConfirmCartHandler = async (data) => {
   loading.value = true
-  const result = await confirmCart(data)
-  loading.value = false
 
-  if (result && result.reservations) {
-    sid.value = result.reservations[0]
-    activePage.value = RESULT_PAGE
+  try {
+    const result = await confirmCart(data)
+
+    if (result && result.reservations) {
+      sid.value = result.reservations[0]
+      activePage.value = RESULT_PAGE
+    }
+  } catch (error) {
+    setError(error)
+  } finally {
+    loading.value = false
   }
 }
 </script>
 
 <template>
-  <main id="bflex-booking-widget" class="">
+  <main id="bflex-booking-widget">
     <div class="booking-widget">
       <section class="booking-widget__content">
-        <SearchPage
-          v-if="activePage === SEARCH_PAGE"
-          :dateRange="dateRange"
-          :promoCode="promoCode"
-          :loading="loading"
-          @addToCart="onAddToCartHandler"
-        ></SearchPage>
-        <ConfirmationPage
-          v-if="activePage === CONFIRMATION_PAGE"
-          @deleteFromCart="onDeleteFromCartHandler"
-          @confirmCart="onConfirmCartHandler"
-        ></ConfirmationPage>
-        <ResultPage v-if="activePage === RESULT_PAGE" :sid="sid"></ResultPage>
+          <SearchPage
+            v-if="activePage === SEARCH_PAGE"
+            :dateRange="dateRange"
+            :promoCode="promoCode"
+            :loading="loading"
+            @addToCart="onAddToCartHandler"
+          ></SearchPage>
+          <ConfirmationPage
+            v-if="activePage === CONFIRMATION_PAGE"
+            @deleteFromCart="onDeleteFromCartHandler"
+            @confirmCart="onConfirmCartHandler"
+          ></ConfirmationPage>
+          <ResultPage v-if="activePage === RESULT_PAGE" :sid="sid"></ResultPage>
       </section>
     </div>
   </main>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineEmits, defineProps, computed, watch } from 'vue'
+import { ref, defineEmits, defineProps, computed, watch, inject } from 'vue'
 import Skeleton from '../components/Skeleton/Skeleton.vue'
 import { lengthOfStay as lengthOfStayFn } from '../util/date.js'
 import { loadOffers } from '../api/api.js'
@@ -33,6 +33,7 @@ const lengthOfStay = computed(() => {
 
 const accommodationOffers = ref([])
 const loadingAccommodationOffers = ref(false)
+const { setError } = inject('globalError')
 
 watch(() => props.dateRange, async (value) => {
   if (!value.start || !value.end) {
@@ -40,10 +41,14 @@ watch(() => props.dateRange, async (value) => {
   }
 
   loadingAccommodationOffers.value = true
-  const result = await loadOffers(value.start, value.end, props.promoCode)
-
-  accommodationOffers.value = result.searchResults
-  loadingAccommodationOffers.value = false
+  try {
+    const result = await loadOffers(value.start, value.end, props.promoCode)
+    accommodationOffers.value = result.searchResults
+  } catch (error) {
+    setError(error)
+  } finally {
+    loadingAccommodationOffers.value = false
+  }
 }, {
   deep: true,
   immediate: true,
