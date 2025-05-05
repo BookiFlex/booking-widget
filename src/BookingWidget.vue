@@ -160,15 +160,13 @@ const onConfirmCartHandler = async (data) => {
   <main id="bflex-booking-widget">
     <div class="booking-widget">
       <section class="booking-widget__content">
-          <SearchPage
-            v-if="activePage === SEARCH_PAGE"
+          <SearchPage v-if="activePage === SEARCH_PAGE"
             :dateRange="dateRange"
             :promoCode="promoCode"
             :loading="loading"
             @addToCart="onAddToCartHandler"
           ></SearchPage>
-          <ConfirmationPage
-            v-if="activePage === CONFIRMATION_PAGE"
+          <ConfirmationPage v-if="activePage === CONFIRMATION_PAGE"
             @deleteFromCart="onDeleteFromCartHandler"
             @confirmCart="onConfirmCartHandler"
           ></ConfirmationPage>

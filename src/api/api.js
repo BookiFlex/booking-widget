@@ -15,7 +15,6 @@ const handleResponse = async (response) => {
     const error = new Error('Invalid JSON in response')
     error.code = 'invalid_json'
     error.status = response.status
-    error.options.cause = parseError
     throw error
   }
 
