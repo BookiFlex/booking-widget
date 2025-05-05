@@ -5,7 +5,7 @@ import { Tooltip } from 'floating-vue'
 defineProps({
   trigger: {
     type: [String, Array],
-    default: ['click', 'touch'],
+    default: () => ['click', 'touch'],
   },
   distance: {
     type: Number,

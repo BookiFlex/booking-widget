@@ -3,8 +3,8 @@ import { onMounted, onBeforeUnmount, watch, defineProps, defineEmits } from 'vue
 import GLightbox from 'glightbox'
 
 const props = defineProps({
-  images: Array, // Список изображений [{ src: "...", title: "...", description: "..." }]
-  modelValue: Boolean, // Открыто/закрыто состояние
+  images: Array, // List of images [{ src: "...", title: "...", description: "..." }]
+  modelValue: Boolean, // Open/close state
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -54,7 +54,6 @@ onBeforeUnmount(() => {
 
 <template>
   <slot></slot>
-  <!-- Позволяет вставить кастомные кнопки или превью -->
 </template>
 
 <style lang="scss">

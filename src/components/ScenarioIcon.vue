@@ -1,3 +1,23 @@
+<script setup>
+import { defineProps } from 'vue'
+import Icon from '@/components/ui/Icon.vue'
+defineProps({
+  kind: {
+    type: String,
+    required: true,
+  },
+  main: {
+    type: Number,
+    required: true,
+  },
+  extraBed: {
+    type: Boolean,
+    default: false,
+  },
+})
+</script>
+
+
 <template>
   <div v-if="kind === 'adults'" class="icons">
     <Icon v-show="main === 2" title="Main bed(s)" name="Person"></Icon>
@@ -19,25 +39,6 @@
     <Icon name="PeopleOutline"></Icon>
   </div>
 </template>
-
-<script setup>
-import { defineProps } from 'vue'
-import Icon from '@/components/ui/Icon.vue'
-defineProps({
-  kind: {
-    type: String,
-    required: true,
-  },
-  main: {
-    type: Number,
-    required: true,
-  },
-  extraBed: {
-    type: Boolean,
-    default: false,
-  },
-})
-</script>
 
 <style lang="scss">
 </style>
