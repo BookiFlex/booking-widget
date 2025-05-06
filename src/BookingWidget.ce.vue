@@ -1,7 +1,8 @@
 <script setup>
-import { defineProps, nextTick, onMounted, onUnmounted, ref, toRaw } from 'vue'
+import { defineProps, nextTick, onBeforeMount, onMounted, onUnmounted, ref, toRaw, getCurrentInstance } from 'vue'
 import BookingWidget from './BookingWidget.vue'
 import ErrorProvider from '@/components/ErrorProvider.vue'
+import i18n from '@/i18n.js'
 
 const props = defineProps({
   start: {
@@ -41,6 +42,15 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('bflex:search-bar:search', handleSearch)
+})
+
+// Монтируем вручную, потому что provide/inject тут не сработает
+onBeforeMount(() => {
+  const app = getCurrentInstance()?.appContext.app
+  if (app && !app.__i18n_installed) {
+    app.use(i18n)
+    app.__i18n_installed = true
+  }
 })
 </script>
 

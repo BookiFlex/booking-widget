@@ -1,5 +1,6 @@
 <script setup>
 import { ref, defineProps, defineEmits, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import Tooltip from './ui/Tooltip.vue'
 import RatePlanVariant from './RatePlanVariant.vue'
 import CycleLoader from './ui/CycleLoader.vue'
@@ -62,6 +63,7 @@ const props = defineProps({
     default: false,
   },
 })
+const { t } = useI18n()
 
 const prepareCancellationDescription = (description) => {
   if (!description || !Array.isArray(description)) {
@@ -126,19 +128,19 @@ const emitVariantChosen = (value) => {
             :title="data.feed.description"
           >
             <Icon name="Restaurant"></Icon>
-            <span>{{ data.feed.name || '' }}</span>
+            <span>{{ data.feed.name ? t(`ratePlan.boardType.${data.feed.name}`) : '' }}</span>
           </div>
 
           <div class="rate-plan-card__offers-item">
             <Icon name="CreditCard"></Icon>
             <span
-              ><strong style="margin-right: .375rem">Payments:</strong>
+              ><strong style="margin-right: .375rem">{{ t('ratePlan.payments') }}:</strong>
               <template v-for="(paymentType, idx) in data.paymentTypes" :key="paymentType.name">
                 <Tooltip class="inline">
                   <abbr>{{ paymentType.name }}</abbr>
                   <template #popper>{{ paymentType.description }}</template>
                 </Tooltip>
-                <strong v-if="data.paymentTypes.length - 1 !== idx" style="margin: 0 .375rem">OR</strong>
+                <strong v-if="data.paymentTypes.length - 1 !== idx" style="margin: 0 .375rem">{{ t('ratePlan.or') }}</strong>
               </template>
             </span>
           </div>
@@ -161,7 +163,7 @@ const emitVariantChosen = (value) => {
     <div class="rate-plan-card__actions">
       <slot>
         <div class="rate-plan-card__variants">
-          <span class="length-of-stay">{{ lengthOfStay }} ночи</span>
+          <span class="length-of-stay">{{ t('ratePlan.los', lengthOfStay) }}</span>
           <template v-for="(occupancyVariant, index) in data.variations || []" :key="index">
             <RatePlanVariant :price="occupancyVariant.price">
               <template #icons>
@@ -172,7 +174,7 @@ const emitVariantChosen = (value) => {
                 />
               </template>
 
-              <button class="button" @click="() => emitVariantChosen(occupancyVariant)"> Book now </button>
+              <button class="button" @click="() => emitVariantChosen(occupancyVariant)">{{ t('ratePlan.action') }}</button>
             </RatePlanVariant>
           </template>
         </div>

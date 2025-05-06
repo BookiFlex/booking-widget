@@ -1,5 +1,6 @@
 <script setup>
 import { reactive, watch, defineProps, defineEmits } from 'vue'
+import { useI18n } from 'vue-i18n'
 import FieldDecorator from './ui/FieldDecorator.vue'
 import InformationBlock from '@/components/InformationBlock/InformationBlock.vue'
 import Content from '@/components/InformationBlock/Content.vue'
@@ -18,6 +19,7 @@ const props = defineProps({
     }),
   },
 })
+const { t } = useI18n()
 
 const emit = defineEmits(['update:modelValue'])
 const customer = reactive({ ...props.modelValue })
@@ -46,12 +48,12 @@ watch(
 
 <template>
   <InformationBlock>
-    <Header>Contact information</Header>
+    <Header>{{ t('contactInformation.title') }}</Header>
     <Divider></Divider>
     <Content>
       <section id="customer-data-form" class="customer-data-form">
         <FieldDecorator
-          label="First name"
+          :label="t('contactInformation.firstName')"
           required
           :hint="errors.firstName"
           :class="{ 'form-group--error': errors.firstName }"
@@ -68,7 +70,7 @@ watch(
         </FieldDecorator>
 
         <FieldDecorator
-          label="Last name"
+          :label="t('contactInformation.lastName')"
           required
           :hint="errors.lastName"
           :class="{ 'form-group--error': errors.lastName }"
@@ -85,7 +87,7 @@ watch(
         </FieldDecorator>
 
         <FieldDecorator
-          label="Email"
+          :label="t('contactInformation.email')"
           required
           :hint="errors.email"
           :class="{ 'form-group--error': errors.email }"
@@ -101,7 +103,7 @@ watch(
         </FieldDecorator>
 
         <FieldDecorator
-          label="Phone"
+          :label="t('contactInformation.phoneNumber')"
           :hint="errors.phone"
           :class="{ 'form-group--error': errors.phone }"
         >
@@ -116,8 +118,7 @@ watch(
         </FieldDecorator>
       </section>
       <DetailsInfo icon="Info">
-        Подтверждение бронирования придет на электронную почту. Владелец места может связаться с
-        вами по телефону для уточнения деталей.
+        {{ t('contactInformation.confirmationInfo') }}
       </DetailsInfo>
     </Content>
   </InformationBlock>

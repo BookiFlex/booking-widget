@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps, onMounted, ref, watch, inject } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { loadReservation } from '../api/api.js'
 import ChosenAccommodationsBlock from '../components/ChosenAccommodationsBlock.vue'
 import InformationBlock from '../components/InformationBlock/InformationBlock.vue'
@@ -15,6 +16,7 @@ const props = defineProps({
     default: '',
   },
 })
+const { t } = useI18n()
 
 const settings = inject('settings')
 const reservation = ref(null)
@@ -44,8 +46,8 @@ onMounted(loadReservationCallback)
 
 <template>
   <section v-if="reservation" class="reservation-result">
-    <div class="reservation-result__title">Ваше бронирование оформлено!</div>
-    <div class="reservation-result__description">Ожидайте подтверждение от отеля</div>
+    <div class="reservation-result__title">{{ t('reservation.title') }}</div>
+    <div class="reservation-result__description">{{ t('reservation.description') }}</div>
 
     <Skeleton v-if="loading"></Skeleton>
     <ChosenAccommodationsBlock
@@ -57,7 +59,7 @@ onMounted(loadReservationCallback)
     ></ChosenAccommodationsBlock>
 
     <InformationBlock v-if="reservation.note">
-      <Header>Your comment</Header>
+      <Header>{{ t('reservation.customerRequest') }}</Header>
       <Divider></Divider>
       <Content>{{ reservation.note }}</Content>
     </InformationBlock>
@@ -66,7 +68,7 @@ onMounted(loadReservationCallback)
       style="width: 150px; height: 3px; margin: 0 auto; margin-bottom: 1em; background: gray"
     ></div>
     <InformationBlock>
-      <Header>Hotel information</Header>
+      <Header>{{ t('reservation.hotelInfo.title') }}</Header>
       <Divider></Divider>
       <Content>
         <div class="hotel-information">
@@ -85,7 +87,7 @@ onMounted(loadReservationCallback)
           <span class="icon-text">
             <span class="icon-text__icon material-icons">email</span>
             <span class="icon-text__text"
-              >Email: <a href="#">{{ settings.hotelInfo.email }}</a></span
+              >{{ t('reservation.hotelInfo.email') }}: <a href="#">{{ settings.hotelInfo.email }}</a></span
             >
           </span>
         </div>

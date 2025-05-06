@@ -1,8 +1,10 @@
 <script setup>
 import { provide, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import InformationBlock from '@/components/InformationBlock/InformationBlock.vue'
 import Content from '@/components/InformationBlock/Content.vue'
 
+const { t } = useI18n()
 const error = ref(null)
 
 const setError = (err) => {
@@ -23,10 +25,18 @@ const reload = () => {
   <slot v-if="!error" />
   <InformationBlock v-else>
     <Content>
-      <section style="display: flex; flex-direction: column; min-height: 300px; justify-content: center; align-items: center;">
-        <h1>Sorry, something went wrong</h1>
-        <p>We couldn't load the data. Please try refreshing the page or come back later.</p>
-        <button class="button" @click="reload">Reload</button>
+      <section
+        style="
+          display: flex;
+          flex-direction: column;
+          min-height: 300px;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <h1>{{ t('globalError.title') }}</h1>
+        <p>{{ t('globalError.description') }}</p>
+        <button class="button" @click="reload">{{ t('globalError.reload') }}</button>
       </section>
     </Content>
   </InformationBlock>

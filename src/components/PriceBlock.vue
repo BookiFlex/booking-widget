@@ -1,5 +1,6 @@
 <script setup>
 import { computed, defineProps } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { htmlFormatMoney } from '../util/money.js'
 
 const props = defineProps({
@@ -25,6 +26,7 @@ const props = defineProps({
     required: false,
   },
 })
+const { t } = useI18n()
 
 const originalPrice = computed(() => {
   return formatMoney(props.originalSellingPrice, 'currency')
@@ -58,7 +60,7 @@ const formatMoney = (money, className = '', showFraction = true) => {
       <span v-if="sellingPrice" class="price-block__current">
         <span class="price-block__current-amount" v-html="price"></span>
       </span>
-      <span v-else-if="sellingPrice === 0">Free</span>
+      <span v-else-if="sellingPrice === 0">{{ t('price.free') }}</span>
       <div v-if="sellingPrice && details" class="price-block__details" />
     </div>
 

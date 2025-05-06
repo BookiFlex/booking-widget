@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps, ref, onMounted, defineEmits } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { formatDateRange } from '../util/date.js'
 import Divider from './InformationBlock/Divider.vue'
 import Content from './InformationBlock/Content.vue'
@@ -43,6 +44,7 @@ const props = defineProps({
     default: false,
   }
 })
+const { t } = useI18n()
 const emit = defineEmits(['changePaymentType', 'deleteAccommodationRequest'])
 
 const onChangeActivePaymentType = (request, paymentType) => {
@@ -72,7 +74,7 @@ onMounted(() => {
   <Skeleton v-if="loading" is-result></Skeleton>
 
   <InformationBlock v-else class="accommodation-list">
-    <Header>Accommodations</Header>
+    <Header>{{ t('chosenAccommodation.title') }}</Header>
     <Divider></Divider>
 
     <template v-for="(item, id, index) in items" :key="index">
@@ -90,7 +92,7 @@ onMounted(() => {
             <span class="icon-text">
               <Icon class="icon-text__icon" name="Persons"></Icon>
               <span class="icon-text__text"
-                >{{ item.adults }} взрослых, {{ item.children.length }} ребенок</span
+                >{{ t('chosenAccommodation.adults', item.adults) }}, {{ t('chosenAccommodation.children', item.children.length) }}</span
               >
             </span>
           </dd>
@@ -121,7 +123,7 @@ onMounted(() => {
           </dd>
         </dl>
         <div v-if="!dummy" class="payment-type">
-          <div class="payment-type__label">Буду оплачивать:</div>
+          <div class="payment-type__label">{{ t('chosenAccommodation.willPay') }}:</div>
           <div class="payment-type__variants">
             <label
               v-for="paymentType in item.availablePaymentTypes"
@@ -146,7 +148,7 @@ onMounted(() => {
 
     <Content>
       <dl class="accommodation-list__total">
-        <dt>Общая стоимость:</dt>
+        <dt>{{ t('chosenAccommodation.totalAmount') }}:</dt>
         <dd>
           <strong
             ><span>{{ summary.total }}</span> {{ currency }}</strong
@@ -157,9 +159,9 @@ onMounted(() => {
     <Divider></Divider>
     <Content>
       <dl class="accommodation-list__payment-rules">
-        <dt style="color: orangered">Предоплата:</dt>
+        <dt style="color: orangered">{{ t('chosenAccommodation.prepaymentAmount') }}:</dt>
         <dd style="color: orangered">{{ payment.prepayment }} {{ currency }}</dd>
-        <dt>К оплате на месте:</dt>
+        <dt>{{ t('chosenAccommodation.onArrivalAmount') }}:</dt>
         <dd>
           <span>{{ payment.onArrival }}</span> {{ currency }}
         </dd>

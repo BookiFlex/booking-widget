@@ -28,9 +28,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <ErrorProvider>
-    <BookingWidget :date-range="toRaw(searchParams.dateRange)" :promo-code="searchParams.promoCode" />
-  </ErrorProvider>
+    <ErrorProvider>
+      <BookingWidget :date-range="toRaw(searchParams.dateRange)" :promo-code="searchParams.promoCode" />
+    </ErrorProvider>
 </template>
 
 <style scoped lang="scss"></style>

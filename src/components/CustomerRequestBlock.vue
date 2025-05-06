@@ -1,5 +1,6 @@
 <script setup>
 import { defineEmits, defineProps, reactive, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import FieldDecorator from '@/components/ui/FieldDecorator.vue'
 import InformationBlock from '@/components/InformationBlock/InformationBlock.vue'
 import Content from '@/components/InformationBlock/Content.vue'
@@ -22,6 +23,7 @@ const props = defineProps({
     })
   }
 })
+const { t } = useI18n()
 
 const emit = defineEmits(['update:modelValue'])
 const data = reactive({ ...props.modelValue })
@@ -37,10 +39,10 @@ watch(
 
 <template>
   <InformationBlock class="customer-request-block">
-    <Header>Customer request</Header>
+    <Header>{{ t('customerRequest.title') }}</Header>
     <Divider></Divider>
     <Content>
-      <FieldDecorator label="Comment">
+      <FieldDecorator :label="t('customerRequest.comment')">
           <textarea
             v-model="data.comment"
             name="comment"
@@ -52,19 +54,19 @@ watch(
     <Divider></Divider>
     <Content>
       <dl class="text-sm">
-        <dt>Check-in/out time:</dt>
-        <dd>Check-in time from: {{ arrivalPolicy.checkInTime }}; Check-out time to:
+        <dt>{{ t('customerRequest.checkInOutTime') }}:</dt>
+        <dd>{{ t('customerRequest.checkInTimeFrom') }}: {{ arrivalPolicy.checkInTime }}; {{ t('customerRequest.checkOutTimeUntil') }}:
           {{ arrivalPolicy.checkOutTime }}</dd>
       </dl>
     </Content>
     <Divider></Divider>
     <Content>
-      <FieldDecorator label="Your arrival time" style="width: 50%">
+      <FieldDecorator :label="t('customerRequest.arrivalTime')" style="width: 50%">
         <select
           name="arrivalTime"
           v-model="data.arrivalTime"
         >
-          <option value="none" selected>Еще не знаю</option>
+          <option value="none" selected>{{ t('customerRequest.noneTime') }}</option>
           <option value="14:00">{{ arrivalPolicy.checkOutTime }}</option>
           <option value="15:00">{{ arrivalPolicy.checkOutTime }}</option>
         </select>

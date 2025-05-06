@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import ImageGallery from './ui/ImageGallery.vue'
 
 defineProps({
@@ -33,6 +34,8 @@ defineProps({
   },
 })
 
+const { t } = useI18n()
+
 const isOpen = ref(false)
 const openGallery = () => {
   isOpen.value = true
@@ -49,7 +52,7 @@ const openGallery = () => {
           :src="data.thumbnail.url"
           :alt="data.thumbnail.name"
         />
-        <span v-else>Thumbnail</span>
+        <span v-else>{{ t('accommodationType.thumbnail') }}</span>
       </ImageGallery>
     </section>
 

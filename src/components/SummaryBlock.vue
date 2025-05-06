@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue'
+import { useI18n } from 'vue-i18n'
 import Icon from '@/components/ui/Icon.vue'
 
 defineProps({
@@ -20,6 +21,7 @@ defineProps({
     default: 0,
   },
 })
+const { t } = useI18n()
 
 const emit = defineEmits(['onAccommodationSummaryClick'])
 </script>
@@ -32,12 +34,12 @@ const emit = defineEmits(['onAccommodationSummaryClick'])
           <span>{{ totalAmount }}</span> {{ currency }}
         </div>
         <div class="summary-block__content-info__text">
-          {{ accommodationUnits }} номер, {{ lengthOfStay }} ночи
+          {{ t('summary.room', accommodationUnits) }}, {{ t('summary.los', lengthOfStay) }}
           <Icon @click.stop="emit('onAccommodationSummaryClick')" class="accommodation-summary-trigger" name="Info" small></Icon>
         </div>
       </div>
       <button class="button" type="submit">
-        Booking
+        {{ t('summary.continue') }}
         <Icon name="ArrowForward" style="margin-left: 0.5em" small></Icon>
       </button>
     </div>

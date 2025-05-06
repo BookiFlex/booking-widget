@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps } from 'vue'
+import { useI18n } from 'vue-i18n'
 import Icon from '@/components/ui/Icon.vue'
 defineProps({
   kind: {
@@ -15,25 +16,25 @@ defineProps({
     default: false,
   },
 })
+const { t } = useI18n()
 </script>
-
 
 <template>
   <div v-if="kind === 'adults'" class="icons">
-    <Icon v-show="main === 2" title="Main bed(s)" name="Person"></Icon>
+    <Icon v-show="main === 2" :title="t('ratePlan.scenario.mainBeds')" name="Person"></Icon>
     <i v-show="main > 2"
-      ><Icon name="Person" title="Main bed(s)"></Icon>{{ main }}</i
+      ><Icon name="Person" :title="t('ratePlan.scenario.mainBeds')"></Icon>{{ main }}</i
     >
-    <Icon name="Person" title="Main bed(s)"></Icon>
+    <Icon name="Person" :title="t('ratePlan.scenario.mainBeds')"></Icon>
     <template v-if="extraBed">
       <Icon name="Add">add</Icon>
-      <Icon name="PersonOutline" title="Extra bed(s)"></Icon>
+      <Icon name="PersonOutline" :title="t('ratePlan.scenario.extraBeds')"></Icon>
     </template>
   </div>
 
-  <span v-else-if="kind === 'child'" class="scenario-text">Adults + children</span>
+  <span v-else-if="kind === 'child'" class="scenario-text">{{ t('ratePlan.scenario.family') }}</span>
 
-  <div v-else class="icons" title="Main bed(s) + Extra bed">
+  <div v-else class="icons" :title="t('ratePlan.scenario.mainExtraBeds')">
     <Icon name="People"></Icon>
     <Icon name="Add"></Icon>
     <Icon name="PeopleOutline"></Icon>
