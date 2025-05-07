@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, provide, defineProps, onUnmounted, watch, inject } from 'vue'
 import { updateCart, confirmCart, init } from './api/api.js'
+import i18n from './i18n'
 import { SEARCH_PAGE, CONFIRMATION_PAGE, RESULT_PAGE } from './constants.js'
 import SearchPage from '@/pages/SearchPage.vue'
 import ConfirmationPage from '@/pages/ConfirmationPage.vue'
@@ -68,6 +69,13 @@ onMounted(async () => {
   try {
     const { inProgress, settings: appSettings } = await init()
     settings.value = appSettings
+    const { widget } = appSettings
+
+    if (widget && widget.locale && widget.l10n) {
+      i18n.global.locale.value = widget.locale
+      i18n.global.setLocaleMessage(widget.locale, widget.l10n)
+    }
+
     activePage.value = inProgress ? CONFIRMATION_PAGE : SEARCH_PAGE
   } catch (error) {
     setError(error)

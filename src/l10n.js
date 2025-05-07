@@ -76,6 +76,19 @@ export default {
         mainExtraBeds: "Main bed(s) + Extra bed(s)",
       }
     },
+    cancellationPolicy: {
+      free: "Free cancellation",
+      paid: "Paid cancellation",
+      beforeFree: "Free cancellation is possible before {date}",
+      afterPenaltyStart: "If the cancellation is made after {date}, a penalty of ",
+      penalty: {
+        days: "{days} days of the booking cost",
+        fixed: "{fixedPenalty}",
+        percent: "{penaltyPercentage}% of the booking cost",
+        percentAndFixed: "{penaltyPercentage}% of the booking cost + {fixedPenalty}",
+        daysAndFixed: "{days} days of the booking cost + {fixedPenalty}"
+      }
+    },
     summary: {
       continue: "Continue",
       room: "Room",

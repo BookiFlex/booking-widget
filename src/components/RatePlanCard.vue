@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import Tooltip from './ui/Tooltip.vue'
 import RatePlanVariant from './RatePlanVariant.vue'
 import CycleLoader from './ui/CycleLoader.vue'
-import { prepareText } from '../util/text.js'
+import { prepareText, useFormattedCancellationPolicy } from '../util/text.js'
 import Icon from '@/components/ui/Icon.vue'
 import ScenarioIcon from '@/components/ScenarioIcon.vue'
 
@@ -84,6 +84,8 @@ const emit = defineEmits(['variant-chosen'])
 const emitVariantChosen = (value) => {
   emit('variant-chosen', value)
 }
+
+const { formatDescription } = useFormattedCancellationPolicy()
 </script>
 
 <template>
@@ -110,7 +112,7 @@ const emitVariantChosen = (value) => {
                 <abbr>{{ data.cancellationPolicy.name || '' }}</abbr>
                 <template #popper>
                   <p
-                    v-for="(item, index) in prepareCancellationDescription(
+                    v-for="(item, index) in formatDescription(
                       data.cancellationPolicy.description,
                     )"
                     :key="index"
