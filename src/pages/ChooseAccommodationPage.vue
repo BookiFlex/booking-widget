@@ -2,9 +2,10 @@
 import { ref, defineEmits, defineProps, computed, watch, inject } from 'vue'
 import Skeleton from '../components/Skeleton/Skeleton.vue'
 import { lengthOfStay as lengthOfStayFn } from '../util/date.js'
-import { loadOffers } from '../api/api.js'
+import { loadOffers, updateCart } from '../api/api.js'
 import AccommodationOfferBlock from '@/components/AccommodationOfferBlock.vue'
 import InformationBlockGrid from '@/components/InformationBlock/InformationBlockGrid.vue'
+import { CHOOSE_ACCOMMODATION } from '@/constants.js'
 
 const props = defineProps({
   dateRange: {
@@ -17,10 +18,6 @@ const props = defineProps({
   promoCode: {
     type: String,
     default: null,
-  },
-  loading: {
-    type: Boolean,
-    default: false,
   },
 })
 
@@ -54,21 +51,34 @@ watch(() => props.dateRange, async (value) => {
   immediate: true,
 })
 
-const emit = defineEmits(['addToCart'])
-const onAccommodationOfferChosen = ({ accommodationOffer, ratePlan, variant }) => {
-  emit('addToCart', {
-    checkInDate: props.dateRange.start,
-    checkOutDate: props.dateRange.end,
-    accommodationType: accommodationOffer.accommodationType.id,
-    ratePlan: ratePlan.id,
-    adults: variant.occupancyOptions.main + (variant.occupancyOptions.extraBed ? 1 : 0),
-  })
+const emit = defineEmits(['released'])
+
+const addingToCart = ref(false)
+const onAddToCart = async ({ accommodationOffer, ratePlan, variant }) => {
+  addingToCart.value = true
+
+  try {
+    const result = await updateCart({
+      checkInDate: props.dateRange.start,
+      checkOutDate: props.dateRange.end,
+      accommodationType: accommodationOffer.accommodationType.id,
+      ratePlan: ratePlan.id,
+      adults: variant.occupancyOptions.main + (variant.occupancyOptions.extraBed ? 1 : 0),
+      children: [],
+      quantity: 1,
+    })
+    emit('released', { action: CHOOSE_ACCOMMODATION, cart: result.cart })
+  } catch (error) {
+    setError(error)
+  } finally {
+    addingToCart.value = false
+  }
 }
 </script>
 
 <template>
   <InformationBlockGrid>
-    <template v-if="loading || loadingAccommodationOffers">
+    <template v-if="addingToCart || loadingAccommodationOffers">
       <Skeleton v-for="i in 3" :key="i"></Skeleton>
     </template>
     <template v-else>
@@ -77,7 +87,7 @@ const onAccommodationOfferChosen = ({ accommodationOffer, ratePlan, variant }) =
         :accommodation-offer="accommodationOffer"
         :length-of-stay="lengthOfStay"
         :key="accommodationOffer.accommodationType.id"
-        @accommodationOfferChosen="onAccommodationOfferChosen"
+        @accommodationOfferChosen="onAddToCart"
       ></AccommodationOfferBlock>
     </template>
   </InformationBlockGrid>

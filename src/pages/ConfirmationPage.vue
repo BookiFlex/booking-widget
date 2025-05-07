@@ -1,6 +1,6 @@
 <script setup>
 import { ref, defineEmits, onMounted, computed, inject } from 'vue'
-import { loadCart, changePaymentType } from '../api/api.js'
+import { loadCart, changePaymentType, updateCart, confirmCart } from '../api/api.js'
 import { lengthOfStay } from '../util/date.js'
 import ContactInformationBlock from '../components/ContactInformationBlock.vue'
 import ChosenAccommodationsBlock from '../components/ChosenAccommodationsBlock.vue'
@@ -8,6 +8,7 @@ import SummaryBlock from '../components/SummaryBlock.vue'
 import CustomerRequestBlock from '@/components/CustomerRequestBlock.vue'
 import AccommodationRulesBlock from '@/components/AccommodationRulesBlock.vue'
 import InformationBlockGrid from '@/components/InformationBlock/InformationBlockGrid.vue'
+import { BOOKING_CONFIRMATION, EMPTY_CART } from '@/constants.js'
 
 const data = ref({
   customerInfo: {
@@ -22,24 +23,56 @@ const data = ref({
   },
   agreementList: [],
 })
-const emit = defineEmits(['deleteFromCart', 'confirmCart'])
-const onDeleteAccommodationRequest = (data) => {
-  emit('deleteFromCart', data)
+const emit = defineEmits(['released'])
+const onDeleteAccommodationRequest = async ({ checkInDate, checkOutDate, accommodationType, ratePlan, adults, children, quantity }) => {
+  loading.value = true
+
+  try {
+    const result = await updateCart({
+      checkInDate,
+      checkOutDate,
+      accommodationType,
+      ratePlan,
+      adults,
+      children,
+      quantity,
+    })
+    cart.value = result.cart
+    if (result.cart.requests.length === 0) {
+      emit('released', { action: EMPTY_CART, result })
+    }
+  } catch (error) {
+    setError(error)
+  } finally {
+    loading.value = false
+  }
 }
 
 const confirmForm = ref(null)
 const settings = inject('settings')
 
-const onSubmit = (event) => {
+const onSubmit = async (event) => {
   event.preventDefault()
   if (confirmForm.value.reportValidity()) {
-    emit('confirmCart', {
-      customer: {
-        ...data.value.customerInfo,
-      },
-      comment: data.value.comment,
-      arrivalTime: data.value.arrivalTime,
-    })
+    loading.value = true
+
+    try {
+      const result = await confirmCart({
+        customer: {
+          ...data.value.customerInfo,
+        },
+        comment: data.value.comment,
+        arrivalTime: data.value.arrivalTime,
+      })
+
+      if (result && result.reservations) {
+        emit('released', { action: BOOKING_CONFIRMATION, result })
+      }
+    } catch (error) {
+      setError(error)
+    } finally {
+      loading.value = false
+    }
   }
 }
 

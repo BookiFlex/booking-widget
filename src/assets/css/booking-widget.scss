@@ -2,9 +2,13 @@
 .booking-widget {
   font-family: var(--font-base, 'Roboto'), sans-serif;
   font-size: var(--base-font, 16px); /* 1rem = 16px */
+  color: #696969;
   line-height: 1.5;
   box-sizing: border-box;
-  color: #696969;
+  display: flex;
+  flex-direction: column;
+  max-width: 960px;
+  margin: 0 auto;
 }
 
 *, *::before, *::after {
@@ -14,11 +18,6 @@
 }
 
 .booking-widget {
-  display: flex;
-  flex-direction: column;
-  max-width: 960px;
-  margin: 0 auto;
-
   &__content {
     position: relative;
     min-height: 450px;
@@ -142,6 +141,8 @@ ul {
 
 #bflex-booking-widget {
   position: relative;
+  container-type: inline-size;
+  container-name: widget;
 
   .icon-text {
     display: inline-flex;
@@ -157,4 +158,24 @@ ul {
       line-height: 1;
     }
   }
+}
+
+@container widget (max-width: 960px) {
+  /* Desktop */
+}
+
+@container widget (max-width: 768px) {
+  /* Tablet */
+}
+
+@container widget (max-width: 480px) {
+  /* Smartphone */
+  .booking-widget {
+    font-size: var(--base-font, 14px); /* 1rem = 16px */
+    line-height: 1.4;
+  }
+}
+
+@container widget (max-width: 360px) {
+  /* Small smartphone */
 }

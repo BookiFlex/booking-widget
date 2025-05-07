@@ -1,5 +1,6 @@
-const RESULT_PAGE = 'result'
-const SEARCH_PAGE = 'search'
-const CONFIRMATION_PAGE = 'confirmation'
+const CHOOSE_ACCOMMODATION = 'choose_accommodation'
+const EMPTY_CART = 'empty_cart'
+const BOOKING_CONFIRMATION = 'booking_confirmation'
+const RESERVATION_DETAILS = 'reservation_details'
 
-export { RESULT_PAGE, CONFIRMATION_PAGE, SEARCH_PAGE }
+export { RESERVATION_DETAILS, BOOKING_CONFIRMATION, CHOOSE_ACCOMMODATION, EMPTY_CART }

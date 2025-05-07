@@ -1,11 +1,11 @@
 <script setup>
 import { ref, onMounted, provide, defineProps, onUnmounted, watch, inject } from 'vue'
-import { updateCart, confirmCart, init } from './api/api.js'
+import { init } from './api/api.js'
 import i18n from './i18n'
-import { SEARCH_PAGE, CONFIRMATION_PAGE, RESULT_PAGE } from './constants.js'
-import SearchPage from '@/pages/SearchPage.vue'
-import ConfirmationPage from '@/pages/ConfirmationPage.vue'
-import ResultPage from '@/pages/ResultPage.vue'
+import { CHOOSE_ACCOMMODATION, BOOKING_CONFIRMATION, EMPTY_CART, RESERVATION_DETAILS } from './constants.js'
+import ChooseAccommodationPage from '@/pages/ChooseAccommodationPage.vue'
+import BookingConfirmationPage from '@/pages/ConfirmationPage.vue'
+import ReservationDetailsPage from '@/pages/ResultPage.vue'
 
 const props = defineProps({
   dateRange: {
@@ -17,22 +17,17 @@ const props = defineProps({
   },
   promoCode: {
     type: String,
-    default: null
+    default: null,
   },
   accommodationTypes: {
     type: Array,
-    default: () => []
+    default: () => [],
   },
   ratePlans: {
     type: Array,
-    default: () => []
-  }
+    default: () => [],
+  },
 })
-
-const activePage = ref(null)
-const loading = ref(false)
-const cart = ref(null)
-const sid = ref('')
 
 const settings = ref({
   hotelRules: {
@@ -48,17 +43,46 @@ const settings = ref({
 })
 provide('settings', settings)
 
-watch(() => props.dateRange, (value, prevValue) => {
-  if (!value.start || !value.end) {
-    return
-  }
+const pages = [
+  CHOOSE_ACCOMMODATION,
+  BOOKING_CONFIRMATION,
+  RESERVATION_DETAILS,
+]
+const activePage = ref(null)
 
-  if (!prevValue || !prevValue.start || !prevValue.end || prevValue.start !== value.start || prevValue.end !== value.end) {
-    window.dispatchEvent(new CustomEvent('bflex:booking-widget:changed', { detail: props.dateRange }))
+const nextPage = (action) => {
+  const index = pages.indexOf(action)
+  if (index >= 0 && index < pages.length - 1) {
+    activePage.value = pages[index + 1]
   }
-}, {
-  immediate: true,
-})
+}
+
+const loading = ref(false)
+const sid = ref('')
+
+watch(
+  () => props.dateRange,
+  (value, prevValue) => {
+    if (!value.start || !value.end) {
+      return
+    }
+
+    if (
+      !prevValue ||
+      !prevValue.start ||
+      !prevValue.end ||
+      prevValue.start !== value.start ||
+      prevValue.end !== value.end
+    ) {
+      window.dispatchEvent(
+        new CustomEvent('bflex:booking-widget:changed', { detail: props.dateRange }),
+      )
+    }
+  },
+  {
+    immediate: true,
+  },
+)
 
 const { setError } = inject('globalError')
 
@@ -76,7 +100,7 @@ onMounted(async () => {
       i18n.global.setLocaleMessage(widget.locale, widget.l10n)
     }
 
-    activePage.value = inProgress ? CONFIRMATION_PAGE : SEARCH_PAGE
+    activePage.value = inProgress ? BOOKING_CONFIRMATION : CHOOSE_ACCOMMODATION
   } catch (error) {
     setError(error)
   } finally {
@@ -88,78 +112,14 @@ onUnmounted(() => {
   window.dispatchEvent(new CustomEvent('bflex:booking-widget:removed'))
 })
 
-const onAddToCartHandler = async ({
-  checkInDate,
-  checkOutDate,
-  accommodationType,
-  ratePlan,
-  adults,
-}) => {
-  loading.value = true
-
-  try {
-    const result = await updateCart({
-      checkInDate,
-      checkOutDate,
-      accommodationType,
-      ratePlan,
-      adults,
-      children: [],
-      quantity: 1,
-    })
-    cart.value = result.cart
-    activePage.value = CONFIRMATION_PAGE
-  } catch (error) {
-    setError(error)
-  } finally {
-    loading.value = false
-  }
-}
-const onDeleteFromCartHandler = async ({
-  checkInDate,
-  checkOutDate,
-  accommodationType,
-  ratePlan,
-  adults,
-  children,
-  quantity,
-}) => {
-  loading.value = true
-
-  try {
-    const result = await updateCart({
-      checkInDate,
-      checkOutDate,
-      accommodationType,
-      ratePlan,
-      adults,
-      children,
-      quantity,
-    })
-    cart.value = result.cart
-    if (cart.value.requests.length === 0) {
-      activePage.value = SEARCH_PAGE
-    }
-  } catch (error) {
-    setError(error)
-  } finally {
-    loading.value = false
-  }
-}
-const onConfirmCartHandler = async (data) => {
-  loading.value = true
-
-  try {
-    const result = await confirmCart(data)
-
-    if (result && result.reservations) {
-      sid.value = result.reservations[0]
-      activePage.value = RESULT_PAGE
-    }
-  } catch (error) {
-    setError(error)
-  } finally {
-    loading.value = false
+const onReleasedAction = ({ action, result }) => {
+  if (action === EMPTY_CART) {
+    activePage.value = CHOOSE_ACCOMMODATION
+  } else if (action === BOOKING_CONFIRMATION) {
+    sid.value = result.reservations[0]
+    nextPage(action)
+  } else {
+    nextPage(action)
   }
 }
 </script>
@@ -168,17 +128,21 @@ const onConfirmCartHandler = async (data) => {
   <main id="bflex-booking-widget">
     <div class="booking-widget">
       <section class="booking-widget__content">
-          <SearchPage v-if="activePage === SEARCH_PAGE"
-            :dateRange="dateRange"
-            :promoCode="promoCode"
-            :loading="loading"
-            @addToCart="onAddToCartHandler"
-          ></SearchPage>
-          <ConfirmationPage v-if="activePage === CONFIRMATION_PAGE"
-            @deleteFromCart="onDeleteFromCartHandler"
-            @confirmCart="onConfirmCartHandler"
-          ></ConfirmationPage>
-          <ResultPage v-if="activePage === RESULT_PAGE" :sid="sid"></ResultPage>
+        <ChooseAccommodationPage
+          v-if="activePage === CHOOSE_ACCOMMODATION"
+          :dateRange="dateRange"
+          :promoCode="promoCode"
+          @released="onReleasedAction"
+        ></ChooseAccommodationPage>
+        <BookingConfirmationPage
+          v-else-if="activePage === BOOKING_CONFIRMATION"
+          @released="onReleasedAction"
+        ></BookingConfirmationPage>
+        <ReservationDetailsPage
+          v-else-if="activePage === RESERVATION_DETAILS"
+          :sid="sid"
+          @released="onReleasedAction"
+        ></ReservationDetailsPage>
       </section>
     </div>
   </main>
