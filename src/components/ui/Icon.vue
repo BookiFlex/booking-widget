@@ -3,7 +3,7 @@
     :is="iconComponent"
     v-bind="$attrs"
     class="icon"
-    :class="small ? 'icon--small' : 'icon'"
+    :class="small ? 'icon--small' : ''"
   />
 </template>
 
@@ -23,14 +23,4 @@ const iconComponent = computed(() => icons[props.name] || null)
 </script>
 
 <style lang="scss">
-.icon {
-  width: 24px;
-  height: 24px;
-  fill: currentColor;
-
-  &--small {
-    width: 16px;
-    height: 16px;
-  }
-}
 </style>
