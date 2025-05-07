@@ -1,6 +1,7 @@
 <script setup>
 import { defineEmits, defineProps, reactive, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { timeRangeGenerator } from '@/util/date.js'
 import FieldDecorator from '@/components/ui/FieldDecorator.vue'
 import InformationBlock from '@/components/InformationBlock/InformationBlock.vue'
 import Content from '@/components/InformationBlock/Content.vue'
@@ -27,6 +28,7 @@ const { t } = useI18n()
 
 const emit = defineEmits(['update:modelValue'])
 const data = reactive({ ...props.modelValue })
+const timeSlots = timeRangeGenerator("00:00", "23:00")
 
 watch(
   data,
@@ -67,8 +69,7 @@ watch(
           v-model="data.arrivalTime"
         >
           <option value="none" selected>{{ t('customerRequest.noneTime') }}</option>
-          <option value="14:00">{{ arrivalPolicy.checkOutTime }}</option>
-          <option value="15:00">{{ arrivalPolicy.checkOutTime }}</option>
+          <option v-for="time in timeSlots" :value="time" :key="time">{{ time }}</option>
         </select>
       </FieldDecorator>
     </Content>

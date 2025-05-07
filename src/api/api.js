@@ -1,29 +1,36 @@
+const ENDPOINTS = {
+  INIT: 'bflex/v1/cart/init',
+  OFFERS: 'bflex/v1/offers',
+  CART: 'bflex/v1/cart',
+  CHANGE_PAYMENT_TYPE: 'bflex/v1/cart/paymentType',
+  CONFIRM_CART: 'bflex/v1/cart/confirm',
+  LOAD_RESERVATION: 'bflex/v1/account/reservation'
+}
+
 /**
  * Handles API responses according to the standard format
  * @param {Response} response - Fetch Response object
  * @returns {Promise<*>} - The result data on success
  * @throws {Error} - Throws an error with the API error message on failure
  */
-const handleResponse = async (response) => {
+async function handleResponse(response) {
   let data = null
 
-  // Попытка распарсить JSON — даже при ошибочных статусах
+  // Try to parse JSON
   try {
     data = await response.json()
-  } catch (parseError) {
-    // Если невозможно распарсить — возможно, это HTML или пустой ответ
+    // eslint-disable-next-line no-unused-vars
+  } catch (_) {
     const error = new Error('Invalid JSON in response')
     error.code = 'invalid_json'
     error.status = response.status
     throw error
   }
 
-  // Успешный ответ
   if (response.ok && data.status === 'success') {
     return data.result
   }
 
-  // API вернул валидный JSON, но с ошибкой
   const errorMessage = data.message || 'Unknown API error'
   const errorCode = data.code || 'api_error'
 
@@ -34,8 +41,43 @@ const handleResponse = async (response) => {
   throw error
 }
 
+/**
+ * Return WP RestAPI url
+ * @returns {Promise<*|string>}
+ */
+async function detectRestApiRelativeUrl() {
+  if (window.BookiFlex?.restUrl) {
+    return toRelativeUrl(window.BookiFlex.restUrl);
+  }
+
+  const apiLink = document.querySelector('link[rel="https://api.w.org/"]');
+  if (apiLink?.href) {
+    return toRelativeUrl(apiLink.href);
+  }
+
+  try {
+    const res = await fetch('/wp-json/', { method: 'HEAD' });
+    if (res.ok) return '/wp-json/';
+    // eslint-disable-next-line no-unused-vars
+  } catch (_) {
+    //
+  }
+
+  return '/index.php?rest_route=/';
+}
+
+function toRelativeUrl(absoluteUrl) {
+  try {
+    const url = new URL(absoluteUrl, location.href);
+    return url.pathname + url.search; // for ex.: /wp-json/ or /index.php?rest_route=/
+    // eslint-disable-next-line no-unused-vars
+  } catch (_) {
+    return absoluteUrl; // fallback, если URL кривой
+  }
+}
+
 const init = async () => {
-  const endpoint = '/wp-json/bflex/v1/cart/init'
+  const endpoint = await detectRestApiRelativeUrl() + ENDPOINTS.INIT
 
   try {
     const response = await fetch(endpoint, {
@@ -48,18 +90,14 @@ const init = async () => {
 
     return await handleResponse(response)
   } catch (error) {
-    if (error instanceof TypeError && !error.status) {
-      // Ошибки типа: сеть недоступна, CORS-блокировка, таймаут
-      console.error('Network error:', error.message)
-    } else {
-      console.error(`API error (${error.code}):`, error.message)
-    }
+    console.error('Error in init app', error);
+    throw error
   }
 }
 
 const loadOffers = async (start, end, promoCode) => {
   console.debug('Loading data', start, end, promoCode)
-  const endpoint = '/wp-json/bflex/v1/offers?'
+  const endpoint = await detectRestApiRelativeUrl() + ENDPOINTS.OFFERS + '?'
 
   if (!start || !end) {
     throw new Error('Invalid dates')
@@ -78,7 +116,7 @@ const loadOffers = async (start, end, promoCode) => {
 
 const loadCart = async () => {
   console.debug('Loading cart')
-  const endpoint = '/wp-json/bflex/v1/cart'
+  const endpoint = await detectRestApiRelativeUrl() + ENDPOINTS.CART
 
   try {
     const response = await fetch(endpoint, {
@@ -112,7 +150,7 @@ const loadCart = async () => {
  * @returns {Promise<void>}
  */
 const updateCart = async (data) => {
-  const endpoint = '/wp-json/bflex/v1/cart'
+  const endpoint = await detectRestApiRelativeUrl() + ENDPOINTS.CART
 
   try {
     const response = await fetch(endpoint, {
@@ -139,7 +177,7 @@ const updateCart = async (data) => {
  * @returns {Promise<void>}
  */
 const changePaymentType = async (data) => {
-  const endpoint = '/wp-json/bflex/v1/cart/paymentType'
+  const endpoint = await detectRestApiRelativeUrl() + ENDPOINTS.CHANGE_PAYMENT_TYPE
 
   try {
     const response = await fetch(endpoint, {
@@ -170,7 +208,7 @@ const changePaymentType = async (data) => {
  */
 const confirmCart = async (data) => {
   console.debug('Confirming booking', data)
-  const endpoint = '/wp-json/bflex/v1/cart/confirm'
+  const endpoint = await detectRestApiRelativeUrl() + ENDPOINTS.CONFIRM_CART
 
   try {
     const response = await fetch(endpoint, {
@@ -194,7 +232,7 @@ const confirmCart = async (data) => {
  * @returns {Promise<Object>}
  */
 const loadReservation = async (data) => {
-  const endpoint = '/wp-json/bflex/v1/account/reservation'
+  const endpoint = await detectRestApiRelativeUrl() + ENDPOINTS.LOAD_RESERVATION
 
   try {
     const response = await fetch(endpoint, {

@@ -15,7 +15,7 @@ const props = defineProps({
    *   description: string,
    *   cancellationPolicy: {
    *     name: string,
-   *     description: string
+   *     consequences: string
    *   },
    *   paymentTypes: Array<{
    *     name: string,
@@ -65,17 +65,6 @@ const props = defineProps({
 })
 const { t } = useI18n()
 
-const prepareCancellationDescription = (description) => {
-  if (!description || !Array.isArray(description)) {
-    return ''
-  }
-  let text = []
-  description.forEach((item) => {
-    text.push(prepareText(item))
-  })
-  return text
-}
-
 const isDescriptionOpen = ref(false)
 
 const hasFeedOffer = computed(() => props.data.feed?.name !== 'ROOM_ONLY')
@@ -108,12 +97,12 @@ const { formatDescription } = useFormattedCancellationPolicy()
         <div class="rate-plan-card__offers">
           <div class="rate-plan-card__offers-item">
             <Icon name="Restore"></Icon>
-            <Tooltip class="inline" trigger="touch">
+            <Tooltip class="inline">
                 <abbr>{{ data.cancellationPolicy.name || '' }}</abbr>
                 <template #popper>
                   <p
                     v-for="(item, index) in formatDescription(
-                      data.cancellationPolicy.description,
+                      data.cancellationPolicy.consequences,
                     )"
                     :key="index"
                   >

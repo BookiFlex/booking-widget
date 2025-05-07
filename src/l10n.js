@@ -15,7 +15,8 @@ export default {
       "willPay": "I will pay by",
       "totalAmount": "Total amount",
       "prepaymentAmount": "Pay now",
-      "onArrivalAmount": "Amount to be paid on arrival"
+      "onArrivalAmount": "Amount to be paid on arrival",
+      "delete": "Delete",
     },
     contactInformation: {
       title: "Contact Information",

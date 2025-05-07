@@ -8,6 +8,8 @@ import InformationBlock from './InformationBlock/InformationBlock.vue'
 import Header from './InformationBlock/Header.vue'
 import Skeleton from '@/components/Skeleton/Skeleton.vue'
 import Icon from '@/components/ui/Icon.vue'
+import { useFormattedCancellationPolicy } from '@/util/text.js'
+import Tooltip from '@/components/ui/Tooltip.vue'
 
 const props = defineProps({
   dummy: {
@@ -46,6 +48,8 @@ const props = defineProps({
 })
 const { t } = useI18n()
 const emit = defineEmits(['changePaymentType', 'deleteAccommodationRequest'])
+
+const { formatDescription } = useFormattedCancellationPolicy()
 
 const onChangeActivePaymentType = (request, paymentType) => {
   emit('changePaymentType', { request, paymentType })
@@ -107,17 +111,29 @@ onMounted(() => {
               <span style="font-size: 0.9em; opacity: 0.7" v-if="item.quantity > 1"
                 >x{{ item.quantity }}</span
               >
-              <small
-                v-if="!dummy"
-                @click="() => onDeleteAccommodation(item)"
-                style="font-weight: normal; opacity: 0.6"
-                >delete</small
-              >
             </h3>
             <div class="text-sm" style="line-height: 1.25; font-weight: lighter">{{ item.ratePlan.name }}<br />
-              <abbr>{{ item.cancellationPolicy.name }}</abbr></div>
+              <Tooltip class="inline">
+                <abbr>{{ item.cancellationPolicy.name || '' }}</abbr>
+                <template #popper>
+                  <p
+                    v-for="(i, index) in formatDescription(
+                      item.cancellationPolicy.consequences,
+                    )"
+                    :key="index"
+                  >
+                    {{ i }}
+                  </p>
+                </template>
+              </Tooltip></div>
           </dt>
           <dd>
+            <div
+              v-if="!dummy"
+              @click="() => onDeleteAccommodation(item)"
+              class="accommodation-list__item-delete text-sm cursor-pointer"
+            >{{ t('chosenAccommodation.delete') }}</div
+            >
             <span style="opacity: 0.7" v-if="item.quantity > 1">{{ item.quantity }} x</span>
             {{ item.summary.total }} {{ currency }}
           </dd>

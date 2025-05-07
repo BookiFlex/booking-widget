@@ -1,6 +1,15 @@
 .accommodation-list {
   &__item {
     margin-bottom: 0.5rem;
+
+    &-delete {
+      margin-bottom: 0.5rem;
+      color: #a1a1a1;
+
+      &:hover {
+        color: #1b1b1f;
+      }
+    }
   }
 
   &__total {

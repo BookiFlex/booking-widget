@@ -50,4 +50,29 @@ function getStartEndDates() {
   };
 }
 
-export { formatDateRange, lengthOfStay, getStartEndDates }
+function timeRangeGenerator(start, end, step = 60) {
+  const result = [];
+
+  const [startHour, startMinute] = start.split(':').map(Number);
+  const [endHour, endMinute] = end.split(':').map(Number);
+
+  const startDate = new Date();
+  startDate.setHours(startHour, startMinute, 0, 0);
+
+  const endDate = new Date();
+  endDate.setHours(endHour, endMinute, 0, 0);
+
+  const current = new Date(startDate);
+
+  while (current <= endDate) {
+    const hours = current.getHours().toString().padStart(2, '0');
+    const minutes = current.getMinutes().toString().padStart(2, '0');
+    result.push(`${hours}:${minutes}`);
+    current.setMinutes(current.getMinutes() + step);
+  }
+
+  return result;
+}
+
+
+export { formatDateRange, lengthOfStay, getStartEndDates, timeRangeGenerator }
