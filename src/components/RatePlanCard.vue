@@ -3,10 +3,10 @@ import { ref, defineProps, defineEmits, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Tooltip from './ui/Tooltip.vue'
 import RatePlanVariant from './RatePlanVariant.vue'
-import CycleLoader from './ui/CycleLoader.vue'
-import { prepareText, useFormattedCancellationPolicy } from '../util/text.js'
+import { useFormattedCancellationPolicy } from '../util/text.js'
 import Icon from '@/components/ui/Icon.vue'
 import ScenarioIcon from '@/components/ScenarioIcon.vue'
+import Button from '@/components/ui/Button.vue'
 
 const props = defineProps({
   /**
@@ -58,7 +58,7 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
-  isBlocked: {
+  disabled: {
     type: Boolean,
     default: false,
   },
@@ -66,11 +66,17 @@ const props = defineProps({
 const { t } = useI18n()
 
 const isDescriptionOpen = ref(false)
+const loading = ref({})
 
 const hasFeedOffer = computed(() => props.data.feed?.name !== 'ROOM_ONLY')
 
 const emit = defineEmits(['variant-chosen'])
-const emitVariantChosen = (value) => {
+const emitVariantChosen = (value, index) => {
+  if (loading.value[index]) {
+    return
+  }
+
+  loading.value[index] = true
   emit('variant-chosen', value)
 }
 
@@ -79,10 +85,6 @@ const { formatDescription } = useFormattedCancellationPolicy()
 
 <template>
   <div class="rate-plan-card">
-    <div class="rate-plan-card--blocked" v-if="isBlocked">
-      <CycleLoader variant="pulse" color="red" center />
-    </div>
-
     <div class="rate-plan-card__wrapper">
       <div class="rate-plan-card__description">
         <h2 @click="isDescriptionOpen = !isDescriptionOpen" class="rate-plan-card__title cursor-pointer">
@@ -165,7 +167,7 @@ const { formatDescription } = useFormattedCancellationPolicy()
                 />
               </template>
 
-              <button class="button" @click="() => emitVariantChosen(occupancyVariant)">{{ t('ratePlan.action') }}</button>
+              <Button :loading="loading[index]" :disabled="disabled && !loading[index]" @click="() => emitVariantChosen(occupancyVariant, index)">{{ t('ratePlan.action') }}</Button>
             </RatePlanVariant>
           </template>
         </div>

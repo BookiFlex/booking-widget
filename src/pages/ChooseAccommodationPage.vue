@@ -78,7 +78,7 @@ const onAddToCart = async ({ accommodationOffer, ratePlan, variant }) => {
 
 <template>
   <InformationBlockGrid>
-    <template v-if="addingToCart || loadingAccommodationOffers">
+    <template v-if="loadingAccommodationOffers">
       <Skeleton v-for="i in 3" :key="i"></Skeleton>
     </template>
     <template v-else>
@@ -86,6 +86,7 @@ const onAddToCart = async ({ accommodationOffer, ratePlan, variant }) => {
         v-for="accommodationOffer in accommodationOffers"
         :accommodation-offer="accommodationOffer"
         :length-of-stay="lengthOfStay"
+        :loading="addingToCart"
         :key="accommodationOffer.accommodationType.id"
         @accommodationOfferChosen="onAddToCart"
       ></AccommodationOfferBlock>

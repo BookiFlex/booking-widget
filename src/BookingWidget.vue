@@ -6,6 +6,8 @@ import { CHOOSE_ACCOMMODATION, BOOKING_CONFIRMATION, EMPTY_CART, RESERVATION_DET
 import ChooseAccommodationPage from '@/pages/ChooseAccommodationPage.vue'
 import BookingConfirmationPage from '@/pages/ConfirmationPage.vue'
 import ReservationDetailsPage from '@/pages/ResultPage.vue'
+import Skeleton from '@/components/Skeleton/Skeleton.vue'
+import InformationBlockGrid from '@/components/InformationBlock/InformationBlockGrid.vue'
 
 const props = defineProps({
   dateRange: {
@@ -104,7 +106,9 @@ onMounted(async () => {
   } catch (error) {
     setError(error)
   } finally {
-    loading.value = false
+    setTimeout(() => {
+      loading.value = false
+    }, 1000)
   }
 })
 
@@ -128,6 +132,11 @@ const onReleasedAction = ({ action, result }) => {
   <main id="bflex-booking-widget">
     <div class="booking-widget">
       <section class="booking-widget__content">
+        <InformationBlockGrid>
+        <template v-if="loading">
+          <Skeleton v-for="i in 3" :key="i"></Skeleton>
+        </template>
+          </InformationBlockGrid>
         <ChooseAccommodationPage
           v-if="activePage === CHOOSE_ACCOMMODATION"
           :dateRange="dateRange"

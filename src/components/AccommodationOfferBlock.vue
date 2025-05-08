@@ -6,14 +6,8 @@ import RatePlanCard from '@/components/RatePlanCard.vue'
 import Divider from '@/components/InformationBlock/Divider.vue'
 
 defineProps({
-  accommodationOffer: {
-    type: Object,
-    required: true,
-  },
-  lengthOfStay: {
-    type: Number,
-    required: true,
-  },
+  accommodationOffer: { type: Object, required: true },
+  lengthOfStay: { type: Number, required: true },
   loading: { type: Boolean, default: false },
 })
 
@@ -39,7 +33,7 @@ const onVariantChosen = (accommodationOffer, ratePlan, variant) => {
           <RatePlanCard
             :data="ratePlan"
             :length-of-stay="lengthOfStay"
-            :isBlocked="loading"
+            :disabled="loading"
             @variantChosen="(variant) => onVariantChosen(accommodationOffer, ratePlan, variant)"
           >
           </RatePlanCard>

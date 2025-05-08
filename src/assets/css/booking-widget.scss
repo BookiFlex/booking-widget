@@ -85,6 +85,11 @@ small,
   background: #0062cc;
 }
 
+.button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
 /* 5. Отступы */
 .section {
   padding: 1.5rem;
