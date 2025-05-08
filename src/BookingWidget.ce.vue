@@ -1,5 +1,11 @@
 <script setup>
-import { defineProps, nextTick, onBeforeMount, onMounted, onUnmounted, ref, toRaw, getCurrentInstance } from 'vue'
+import {
+  defineProps,
+  onBeforeMount,
+  ref,
+  getCurrentInstance,
+  watch
+} from 'vue'
 import BookingWidget from './BookingWidget.vue'
 import BflexErrorProvider from '@/components/BflexErrorProvider.vue'
 import i18n from '@/i18n.js'
@@ -7,41 +13,38 @@ import i18n from '@/i18n.js'
 const props = defineProps({
   start: {
     type: String,
-    default: null,
+    default: '',
   },
   end: {
     type: String,
-    default: null,
+    default: '',
   },
-})
-
-const searchParams = ref({
-  dateRange: {
-    start: props.start,
-    end: props.end,
+  promoCode: {
+    type: String,
+    default: '',
   },
-  promoCode: null
+  accommodationTypes: {
+    type: String,
+    default: '',
+  },
+  ratePlans: {
+    type: String,
+    default: '',
+  }
 })
 
-const onSearchHandler = ({ start, end, promoCode: code }) => {
-  searchParams.value.dateRange = { start, end }
-  searchParams.value.promoCode = code
-}
-
-const handleSearch = (e) => {
-  console.log('bflex:search-bar:search (got)', e.detail)
-  nextTick(() => {
-    onSearchHandler(e.detail)
-  })
-  e.stopPropagation()
-}
-
-onMounted(() => {
-  window.addEventListener('bflex:search-bar:search', handleSearch)
+const preparedParams = ref({
+  accommodationTypes: [],
+  ratePlans: [],
 })
 
-onUnmounted(() => {
-  window.removeEventListener('bflex:search-bar:search', handleSearch)
+watch(() => ({ accommodationTypes: props.accommodationTypes, ratePlans: props.ratePlans }), (value) => {
+  if (value.accommodationTypes.length || value.ratePlans.length) {
+    preparedParams.value = {
+      accommodationTypes: value.accommodationTypes.split(','),
+      ratePlans: value.accommodationTypes.split(','),
+    }
+  }
 })
 
 // Монтируем вручную, потому что provide/inject тут не сработает
@@ -56,7 +59,13 @@ onBeforeMount(() => {
 
 <template>
   <BflexErrorProvider>
-    <BookingWidget :date-range="toRaw(searchParams.dateRange)" :promo-code="searchParams.promoCode" />
+    <BookingWidget
+      :start="start"
+      :end="end"
+      :promo-code="promoCode"
+      :accommodation-types="preparedParams.accommodationTypes"
+      :ratePlans="preparedParams.ratePlans"
+    />
   </BflexErrorProvider>
 </template>
 

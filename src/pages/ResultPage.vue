@@ -59,6 +59,7 @@ onMounted(loadReservationCallback)
         :items="reservation.reservations"
         :summary="reservation.summary"
         :payment="reservation.payment"
+        :locale="settings.widget.locale"
         dummy
       ></BflexChosenAccommodationsCard>
 

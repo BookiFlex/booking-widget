@@ -1,35 +1,40 @@
 <script setup>
 import BookingWidget from './BookingWidget.vue'
-import { onMounted, ref, toRaw } from 'vue'
 import BflexErrorProvider from '@/components/BflexErrorProvider.vue'
 
-const searchParams = ref({
-  dateRange: {
-    start: null,
-    end: null,
+defineProps({
+  start: {
+    type: String,
+    default: '',
   },
-  promoCode: null
-})
-
-const onSearchHandler = ({ start, end, promoCode: code }) => {
-  searchParams.value.dateRange = { start, end }
-  searchParams.value.promoCode = code
-}
-
-onMounted(() => {
-  window.addEventListener('bflex:search-bar:search', (e) => {
-    onSearchHandler(e.detail)
-  })
-
-  setTimeout(() => {
-    window.dispatchEvent(new CustomEvent('bflex:search-bar:search', { detail: { start: '2025-07-01', end: '2025-07-05' } }))
-  }, 1000)
+  end: {
+    type: String,
+    default: '',
+  },
+  promoCode: {
+    type: String,
+    default: '',
+  },
+  accommodationTypes: {
+    type: Array,
+    default: () => [],
+  },
+  ratePlans: {
+    type: Array,
+    default: () => [],
+  }
 })
 </script>
 
 <template>
     <BflexErrorProvider>
-      <BookingWidget :date-range="toRaw(searchParams.dateRange)" :promo-code="searchParams.promoCode" />
+      <BookingWidget
+        :start="start"
+        :end="end"
+        :promo-code="promoCode"
+        :accommodation-types="accommodationTypes"
+        :ratePlans="ratePlans"
+      />
     </BflexErrorProvider>
 </template>
 

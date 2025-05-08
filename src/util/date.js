@@ -1,5 +1,5 @@
 function formatDateRange(startDate, endDate, locale = 'en-GB') {
-  const optionsSameMonth = { day: 'numeric' }
+  // const optionsSameMonth = { day: 'numeric' }
   const optionsDifferentMonth = { day: 'numeric', month: 'short' }
   const optionsDifferentYear = { day: 'numeric', month: 'short', year: 'numeric' }
 
@@ -10,11 +10,11 @@ function formatDateRange(startDate, endDate, locale = 'en-GB') {
   const sameYear = start.getFullYear() === end.getFullYear()
 
   if (sameMonth) {
-    return `${start.toLocaleDateString(locale, optionsSameMonth)}-${end.toLocaleDateString(locale, optionsDifferentMonth)} ${end.getFullYear()}`
+    return `${start.toLocaleDateString(locale, optionsDifferentMonth)} — ${end.toLocaleDateString(locale, optionsDifferentMonth)} ${end.getFullYear()}`
   } else if (sameYear) {
-    return `${start.toLocaleDateString(locale, optionsDifferentMonth)} - ${end.toLocaleDateString(locale, optionsDifferentMonth)} ${end.getFullYear()}`
+    return `${start.toLocaleDateString(locale, optionsDifferentMonth)} — ${end.toLocaleDateString(locale, optionsDifferentMonth)} ${end.getFullYear()}`
   } else {
-    return `${start.toLocaleDateString(locale, optionsDifferentYear)} - ${end.toLocaleDateString(locale, optionsDifferentYear)}`
+    return `${start.toLocaleDateString(locale, optionsDifferentYear)} — ${end.toLocaleDateString(locale, optionsDifferentYear)}`
   }
 }
 

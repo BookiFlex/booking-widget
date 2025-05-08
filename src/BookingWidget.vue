@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, provide, defineProps, onUnmounted, watch, inject } from 'vue'
+import { ref, onMounted, provide, defineProps, onUnmounted, watch, inject, toRaw } from 'vue'
 import { init } from './api/api.js'
 import i18n from './i18n'
 import { CHOOSE_ACCOMMODATION, BOOKING_CONFIRMATION, EMPTY_CART, RESERVATION_DETAILS } from './constants.js'
@@ -10,12 +10,13 @@ import BflexSkeletonLoader from '@/components/ui/BflexSkeletonLoader.vue'
 import BflexGridGap from '@/components/InformationBlock/BflexGridGap.vue'
 
 const props = defineProps({
-  dateRange: {
-    type: Object,
-    default: () => ({
-      start: null,
-      end: null,
-    }),
+  start: {
+    type: String,
+    default: '',
+  },
+  end: {
+    type: String,
+    default: '',
   },
   promoCode: {
     type: String,
@@ -51,7 +52,6 @@ const pages = [
   RESERVATION_DETAILS,
 ]
 const activePage = ref(null)
-
 const nextPage = (action) => {
   const index = pages.indexOf(action)
   if (index >= 0 && index < pages.length - 1) {
@@ -62,8 +62,23 @@ const nextPage = (action) => {
 const loading = ref(false)
 const sid = ref('')
 
+const searchParams = ref({
+  start: props.start,
+  end: props.end,
+  promoCode: props.promoCode,
+})
+
+// changed by params
+watch(() => ({ start: props.start, end: props.end, promoCode: props.promoCode }), () => {
+  searchParams.value = {
+    start: props.start,
+    end: props.end,
+    promoCode: props.promoCode,
+  }
+})
+
 watch(
-  () => props.dateRange,
+  searchParams,
   (value, prevValue) => {
     if (!value.start || !value.end) {
       return
@@ -77,19 +92,28 @@ watch(
       prevValue.end !== value.end
     ) {
       window.dispatchEvent(
-        new CustomEvent('bflex:booking-widget:changed', { detail: props.dateRange }),
+        new CustomEvent('bflex:booking-widget:changed', { detail: toRaw(searchParams.value) }),
       )
     }
   },
   {
     immediate: true,
+    deep: true
   },
 )
 
 const { setError } = inject('globalError')
 
+// changed by custom event from outside
+const onSearchParamsChanged = (e) => {
+  const { start, end, promoCode } = e.detail
+  searchParams.value = { start, end, promoCode }
+  e.stopPropagation()
+}
+
 onMounted(async () => {
   window.dispatchEvent(new CustomEvent('bflex:booking-widget:ready'))
+  window.addEventListener('bflex:search-bar:search', onSearchParamsChanged)
 
   loading.value = true
   try {
@@ -106,6 +130,7 @@ onMounted(async () => {
   } catch (error) {
     setError(error)
   } finally {
+    // sync loaders with next page
     setTimeout(() => {
       loading.value = false
     }, 1000)
@@ -114,6 +139,7 @@ onMounted(async () => {
 
 onUnmounted(() => {
   window.dispatchEvent(new CustomEvent('bflex:booking-widget:removed'))
+  window.removeEventListener('bflex:search-bar:search', onSearchParamsChanged)
 })
 
 const onReleasedAction = ({ action, result }) => {
@@ -132,14 +158,14 @@ const onReleasedAction = ({ action, result }) => {
   <main id="bflex-booking-widget">
     <div class="booking-widget">
       <section class="booking-widget__content">
-          <template v-if="loading">
-            <BflexGridGap>
-              <BflexSkeletonLoader v-for="i in 3" :key="i"></BflexSkeletonLoader>
-            </BflexGridGap>
-          </template>
+        <template v-if="loading">
+          <BflexGridGap>
+            <BflexSkeletonLoader v-for="i in 3" :key="i"></BflexSkeletonLoader>
+          </BflexGridGap>
+        </template>
         <ChooseAccommodationPage
           v-if="activePage === CHOOSE_ACCOMMODATION"
-          :dateRange="dateRange"
+          :dateRange="searchParams"
           :promoCode="promoCode"
           @released="onReleasedAction"
         ></ChooseAccommodationPage>

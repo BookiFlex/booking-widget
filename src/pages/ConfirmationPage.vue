@@ -134,6 +134,7 @@ const lengthOfStayOfFirstRequest = computed(() => {
           :loading="loading"
           :cart="cart"
           :currency="cart.currency"
+          :locale="settings.widget.locale"
           :payment="cart.payment"
           :summary="cart.summary"
           :items="cart.requests"

@@ -20,6 +20,10 @@ const props = defineProps({
     type: String,
     default: 'EUR',
   },
+  locale: {
+    type: String,
+    default: 'en',
+  },
   payment: {
     type: Object,
     default: () => ({
@@ -86,7 +90,7 @@ onMounted(() => {
         <dl class="text-sm">
           <dt>
             <BflexIconText icon="DateRange">{{
-                formatDateRange(item.checkInDate, item.checkOutDate, 'ru-RU')
+                formatDateRange(item.checkInDate, item.checkOutDate, locale)
               }}</BflexIconText>
           </dt>
           <dd>

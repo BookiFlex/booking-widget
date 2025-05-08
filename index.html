@@ -17,5 +17,13 @@
       var BookiFlex = {"restUrl":"http:\/\/localhost:8888\/wp-json\/","nonce":"f186e7d391","debug":"1","i18n":{"editPrices":"Edit prices","update":"Update"},"widget":[],"searchBar":{"l10n":{"search":"Search","check-in-out-date":"CheckIn\\Out","promo-code":"Promo codes"}}};
     </script>
     <script type="module" src="/src/main.js"></script>
+    <script>
+      window.addEventListener('bflex:booking-widget:changed', (e) => {
+        console.info('Booking widget changed', e.detail)
+      })
+      // setTimeout(() => {
+      //   window.dispatchEvent(new CustomEvent('bflex:search-bar:search', { detail: { start: '2025-07-01', end: '2025-07-05' } }))
+      // }, 1000)
+    </script>
   </body>
 </html>
