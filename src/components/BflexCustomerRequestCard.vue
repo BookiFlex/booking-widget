@@ -2,11 +2,11 @@
 import { defineEmits, defineProps, reactive, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { timeRangeGenerator } from '@/util/date.js'
-import FieldDecorator from '@/components/ui/FieldDecorator.vue'
-import InformationBlock from '@/components/InformationBlock/InformationBlock.vue'
-import Content from '@/components/InformationBlock/Content.vue'
-import Header from '@/components/InformationBlock/Header.vue'
-import Divider from '@/components/InformationBlock/Divider.vue'
+import BflexFieldDecorator from '@/components/ui/BflexFieldDecorator.vue'
+import BflexInformationBlock from '@/components/InformationBlock/BflexInformationBlock.vue'
+import BflexContent from '@/components/InformationBlock/BflexContent.vue'
+import BflexHeader from '@/components/InformationBlock/BflexHeader.vue'
+import BflexDivider from '@/components/InformationBlock/BflexDivider.vue'
 
 const props = defineProps({
   modelValue: {
@@ -40,30 +40,30 @@ watch(
 </script>
 
 <template>
-  <InformationBlock class="customer-request-block">
-    <Header>{{ t('customerRequest.title') }}</Header>
-    <Divider></Divider>
-    <Content>
-      <FieldDecorator :label="t('customerRequest.comment')">
+  <BflexInformationBlock class="customer-request-block">
+    <BflexHeader>{{ t('customerRequest.title') }}</BflexHeader>
+    <BflexDivider></BflexDivider>
+    <BflexContent>
+      <BflexFieldDecorator :label="t('customerRequest.comment')">
           <textarea
             v-model="data.comment"
             name="comment"
             rows="3"
             maxlength="500"
           ></textarea>
-      </FieldDecorator>
-    </Content>
-    <Divider></Divider>
-    <Content>
+      </BflexFieldDecorator>
+    </BflexContent>
+    <BflexDivider></BflexDivider>
+    <BflexContent>
       <dl class="text-sm">
         <dt>{{ t('customerRequest.checkInOutTime') }}:</dt>
         <dd>{{ t('customerRequest.checkInTimeFrom') }}: {{ arrivalPolicy.checkInTime }}; {{ t('customerRequest.checkOutTimeUntil') }}:
           {{ arrivalPolicy.checkOutTime }}</dd>
       </dl>
-    </Content>
-    <Divider></Divider>
-    <Content>
-      <FieldDecorator :label="t('customerRequest.arrivalTime')" style="width: 50%">
+    </BflexContent>
+    <BflexDivider></BflexDivider>
+    <BflexContent>
+      <BflexFieldDecorator :label="t('customerRequest.arrivalTime')" style="width: 50%">
         <select
           name="arrivalTime"
           v-model="data.arrivalTime"
@@ -71,9 +71,9 @@ watch(
           <option value="none" selected>{{ t('customerRequest.noneTime') }}</option>
           <option v-for="time in timeSlots" :value="time" :key="time">{{ time }}</option>
         </select>
-      </FieldDecorator>
-    </Content>
-  </InformationBlock>
+      </BflexFieldDecorator>
+    </BflexContent>
+  </BflexInformationBlock>
 </template>
 
 <style scoped lang="scss">

@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps } from 'vue'
-import Icon from '@/components/ui/Icon.vue'
+import BflexIcon from '@/components/ui/BflexIcon.vue'
 defineProps({
   icon: {
     type: String,
@@ -15,7 +15,7 @@ defineProps({
 
 <template>
   <div class="details-info">
-    <div class="details-info__icon"><Icon v-if="!hideIcon" :name="icon"></Icon></div>
+    <div class="details-info__icon"><BflexIcon v-if="!hideIcon" :name="icon"></BflexIcon></div>
     <slot name="default"></slot>
   </div>
 </template>

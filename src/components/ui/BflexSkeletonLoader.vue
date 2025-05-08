@@ -1,5 +1,5 @@
 <template>
-  <InformationBlock class="accommodation-skeleton" :class="{ 'accommodation-result': isResult }">
+  <BflexInformationBlock class="accommodation-skeleton" :class="{ 'accommodation-result': isResult }">
     <!-- Card Header with Thumbnail and Info -->
     <div class="header">
       <!-- Thumbnail Skeleton -->
@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <Divider></Divider>
+    <BflexDivider></BflexDivider>
 
     <!-- Card Footer with Pricing Options -->
     <div class="footer">
@@ -33,7 +33,7 @@
         <div class="option-value"></div>
       </div>
 
-      <Divider></Divider>
+      <BflexDivider></BflexDivider>
 
       <!-- Room Options - 2 rows -->
       <div v-for="i in 2" :key="i" class="room-option">
@@ -48,12 +48,12 @@
         </div>
       </div>
     </div>
-  </InformationBlock>
+  </BflexInformationBlock>
 </template>
 
 <script setup>
-import InformationBlock from '../InformationBlock/InformationBlock.vue'
-import Divider from '../InformationBlock/Divider.vue'
+import BflexInformationBlock from '../InformationBlock/BflexInformationBlock.vue'
+import BflexDivider from '../InformationBlock/BflexDivider.vue'
 import { defineProps } from 'vue'
 defineProps({
   isResult: {

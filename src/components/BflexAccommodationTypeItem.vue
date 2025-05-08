@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import ImageGallery from './ui/ImageGallery.vue'
+import BflexImageGallery from './ui/BflexImageGallery.vue'
 
 defineProps({
   /**
@@ -45,7 +45,7 @@ const openGallery = () => {
 <template>
   <article class="accommodation-type-card">
     <section @click="openGallery" class="accommodation-type-card__img">
-      <ImageGallery v-model="isOpen" :images="data.gallery">
+      <BflexImageGallery v-model="isOpen" :images="data.gallery">
         <img
           v-if="data.thumbnail && data.thumbnail.url"
           @click="openGallery"
@@ -53,7 +53,7 @@ const openGallery = () => {
           :alt="data.thumbnail.name"
         />
         <span v-else>{{ t('accommodationType.thumbnail') }}</span>
-      </ImageGallery>
+      </BflexImageGallery>
     </section>
 
     <section class="accommodation-type-card__body">

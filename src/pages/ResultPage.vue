@@ -2,12 +2,12 @@
 import { defineProps, onMounted, ref, watch, inject } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { loadReservation } from '../api/api.js'
-import ChosenAccommodationsBlock from '../components/ChosenAccommodationsBlock.vue'
-import InformationBlock from '../components/InformationBlock/InformationBlock.vue'
-import Header from '../components/InformationBlock/Header.vue'
-import Divider from '../components/InformationBlock/Divider.vue'
-import Content from '../components/InformationBlock/Content.vue'
-import Skeleton from '../components/Skeleton/Skeleton.vue'
+import BflexChosenAccommodationsCard from '../components/BflexChosenAccommodationsCard.vue'
+import BflexInformationBlock from '../components/InformationBlock/BflexInformationBlock.vue'
+import BflexHeader from '../components/InformationBlock/BflexHeader.vue'
+import BflexDivider from '../components/InformationBlock/BflexDivider.vue'
+import BflexContent from '../components/InformationBlock/BflexContent.vue'
+import BflexSkeletonLoader from '../components/ui/BflexSkeletonLoader.vue'
 
 const props = defineProps({
   sid: {
@@ -49,28 +49,28 @@ onMounted(loadReservationCallback)
     <div class="reservation-result__title">{{ t('reservation.title') }}</div>
     <div class="reservation-result__description">{{ t('reservation.description') }}</div>
 
-    <Skeleton v-if="loading"></Skeleton>
-    <ChosenAccommodationsBlock
+    <BflexSkeletonLoader v-if="loading"></BflexSkeletonLoader>
+    <BflexChosenAccommodationsCard
       v-else
       :items="reservation.reservations"
       :summary="reservation.summary"
       :payment="reservation.payment"
       dummy
-    ></ChosenAccommodationsBlock>
+    ></BflexChosenAccommodationsCard>
 
-    <InformationBlock v-if="reservation.note">
-      <Header>{{ t('reservation.customerRequest') }}</Header>
-      <Divider></Divider>
-      <Content>{{ reservation.note }}</Content>
-    </InformationBlock>
+    <BflexInformationBlock v-if="reservation.note">
+      <BflexHeader>{{ t('reservation.customerRequest') }}</BflexHeader>
+      <BflexDivider></BflexDivider>
+      <BflexContent>{{ reservation.note }}</BflexContent>
+    </BflexInformationBlock>
 
     <div
       style="width: 150px; height: 3px; margin: 0 auto; margin-bottom: 1em; background: gray"
     ></div>
-    <InformationBlock>
-      <Header>{{ t('reservation.hotelInfo.title') }}</Header>
-      <Divider></Divider>
-      <Content>
+    <BflexInformationBlock>
+      <BflexHeader>{{ t('reservation.hotelInfo.title') }}</BflexHeader>
+      <BflexDivider></BflexDivider>
+      <BflexContent>
         <div class="hotel-information">
           <span class="icon-text">
             <span class="icon-text__icon material-icons">hotel</span>
@@ -91,8 +91,8 @@ onMounted(loadReservationCallback)
             >
           </span>
         </div>
-      </Content>
-    </InformationBlock>
+      </BflexContent>
+    </BflexInformationBlock>
   </section>
 </template>
 

@@ -2,12 +2,12 @@
 import { ref, defineEmits, onMounted, computed, inject } from 'vue'
 import { loadCart, changePaymentType, updateCart, confirmCart } from '../api/api.js'
 import { lengthOfStay } from '../util/date.js'
-import ContactInformationBlock from '../components/ContactInformationBlock.vue'
-import ChosenAccommodationsBlock from '../components/ChosenAccommodationsBlock.vue'
-import SummaryBlock from '../components/SummaryBlock.vue'
-import CustomerRequestBlock from '@/components/CustomerRequestBlock.vue'
-import AccommodationRulesBlock from '@/components/AccommodationRulesBlock.vue'
-import InformationBlockGrid from '@/components/InformationBlock/InformationBlockGrid.vue'
+import BflexContactInformationCard from '../components/BflexContactInformationCard.vue'
+import BflexChosenAccommodationsCard from '../components/BflexChosenAccommodationsCard.vue'
+import BflexSummaryPanel from '../components/BflexSummaryPanel.vue'
+import BflexCustomerRequestCard from '@/components/BflexCustomerRequestCard.vue'
+import BflexAccommodationRulesCard from '@/components/BflexAccommodationRulesCard.vue'
+import BflexGridGap from '@/components/InformationBlock/BflexGridGap.vue'
 import { BOOKING_CONFIRMATION, EMPTY_CART } from '@/constants.js'
 
 const data = ref({
@@ -126,10 +126,10 @@ const lengthOfStayOfFirstRequest = computed(() => {
 
 <template>
     <form @submit="onSubmit" ref="confirmForm">
-      <InformationBlockGrid>
-        <ContactInformationBlock v-model="data.customerInfo" />
+      <BflexGridGap>
+        <BflexContactInformationCard v-model="data.customerInfo" />
 
-        <ChosenAccommodationsBlock
+        <BflexChosenAccommodationsCard
           v-if="cart"
           :loading="loading"
           :cart="cart"
@@ -139,22 +139,22 @@ const lengthOfStayOfFirstRequest = computed(() => {
           :items="cart.requests"
           @changePaymentType="onChangePaymentType"
           @deleteAccommodationRequest="onDeleteAccommodationRequest"
-        ></ChosenAccommodationsBlock>
+        ></BflexChosenAccommodationsCard>
 
-        <CustomerRequestBlock v-model="data.customerRequest"></CustomerRequestBlock>
-        <AccommodationRulesBlock
+        <BflexCustomerRequestCard v-model="data.customerRequest"></BflexCustomerRequestCard>
+        <BflexAccommodationRulesCard
           :agreements="settings.hotelRules.agreements"
           :rules="settings.hotelRules.rules"
-        ></AccommodationRulesBlock>
+        ></BflexAccommodationRulesCard>
 
-        <SummaryBlock
+        <BflexSummaryPanel
           v-if="!loading && cart"
           :total-amount="cart.summary.total"
           :currency="cart.currency"
           :accommodation-units="accommodationUnits"
           :length-of-stay="lengthOfStayOfFirstRequest"
-        ></SummaryBlock>
-      </InformationBlockGrid>
+        ></BflexSummaryPanel>
+      </BflexGridGap>
     </form>
 </template>
 

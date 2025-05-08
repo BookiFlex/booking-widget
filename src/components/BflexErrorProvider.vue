@@ -1,8 +1,8 @@
 <script setup>
 import { provide, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import InformationBlock from '@/components/InformationBlock/InformationBlock.vue'
-import Content from '@/components/InformationBlock/Content.vue'
+import BflexInformationBlock from '@/components/InformationBlock/BflexInformationBlock.vue'
+import BflexContent from '@/components/InformationBlock/BflexContent.vue'
 
 const { t } = useI18n()
 const error = ref(null)
@@ -23,8 +23,8 @@ const reload = () => {
 
 <template>
   <slot v-if="!error" />
-  <InformationBlock v-else>
-    <Content>
+  <BflexInformationBlock v-else>
+    <BflexContent>
       <section
         style="
           display: flex;
@@ -38,8 +38,8 @@ const reload = () => {
         <p>{{ t('globalError.description') }}</p>
         <button class="button" @click="reload">{{ t('globalError.reload') }}</button>
       </section>
-    </Content>
-  </InformationBlock>
+    </BflexContent>
+  </BflexInformationBlock>
 </template>
 
 <style scoped lang="scss"></style>

@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, nextTick, onBeforeMount, onMounted, onUnmounted, ref, toRaw, getCurrentInstance } from 'vue'
 import BookingWidget from './BookingWidget.vue'
-import ErrorProvider from '@/components/ErrorProvider.vue'
+import BflexErrorProvider from '@/components/BflexErrorProvider.vue'
 import i18n from '@/i18n.js'
 
 const props = defineProps({
@@ -55,9 +55,9 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <ErrorProvider>
+  <BflexErrorProvider>
     <BookingWidget :date-range="toRaw(searchParams.dateRange)" :promo-code="searchParams.promoCode" />
-  </ErrorProvider>
+  </BflexErrorProvider>
 </template>
 
 <style lang="scss">

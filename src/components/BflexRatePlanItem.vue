@@ -1,12 +1,12 @@
 <script setup>
 import { ref, defineProps, defineEmits, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import Tooltip from './ui/Tooltip.vue'
-import RatePlanVariant from './RatePlanVariant.vue'
+import BflexTooltip from './ui/BflexTooltip.vue'
+import BflexRatePlanVariant from './BflexRatePlanVariant.vue'
 import { useFormattedCancellationPolicy } from '../util/text.js'
-import Icon from '@/components/ui/Icon.vue'
-import ScenarioIcon from '@/components/ScenarioIcon.vue'
-import Button from '@/components/ui/Button.vue'
+import BflexIcon from '@/components/ui/BflexIcon.vue'
+import BflexScenarioIcon from '@/components/BflexScenarioIcon.vue'
+import BflexButton from '@/components/ui/BflexButton.vue'
 
 const props = defineProps({
   /**
@@ -89,7 +89,7 @@ const { formatDescription } = useFormattedCancellationPolicy()
       <div class="rate-plan-card__description">
         <h2 @click="isDescriptionOpen = !isDescriptionOpen" class="rate-plan-card__title cursor-pointer">
           {{ data.name }}
-          <Icon :name="isDescriptionOpen ? 'ExpandLess' : 'ExpandMore'"></Icon>
+          <BflexIcon :name="isDescriptionOpen ? 'ExpandLess' : 'ExpandMore'"></BflexIcon>
         </h2>
 
         <blockquote v-show="isDescriptionOpen">
@@ -98,8 +98,8 @@ const { formatDescription } = useFormattedCancellationPolicy()
 
         <div class="rate-plan-card__offers">
           <div class="rate-plan-card__offers-item">
-            <Icon name="Restore"></Icon>
-            <Tooltip class="inline">
+            <BflexIcon name="Restore"></BflexIcon>
+            <BflexTooltip class="inline">
                 <abbr>{{ data.cancellationPolicy.name || '' }}</abbr>
                 <template #popper>
                   <p
@@ -111,7 +111,7 @@ const { formatDescription } = useFormattedCancellationPolicy()
                     {{ item }}
                   </p>
                 </template>
-            </Tooltip>
+            </BflexTooltip>
           </div>
 
           <div
@@ -120,19 +120,19 @@ const { formatDescription } = useFormattedCancellationPolicy()
             :class="{ 'feed-offer': hasFeedOffer }"
             :title="data.feed.description"
           >
-            <Icon name="Restaurant"></Icon>
+            <BflexIcon name="Restaurant"></BflexIcon>
             <span>{{ data.feed.name ? t(`ratePlan.boardType.${data.feed.name}`) : '' }}</span>
           </div>
 
           <div class="rate-plan-card__offers-item">
-            <Icon name="CreditCard"></Icon>
+            <BflexIcon name="CreditCard"></BflexIcon>
             <span
               ><strong style="margin-right: .375rem">{{ t('ratePlan.payments') }}:</strong>
               <template v-for="(paymentType, idx) in data.paymentTypes" :key="paymentType.name">
-                <Tooltip class="inline">
+                <BflexTooltip class="inline">
                   <abbr>{{ paymentType.name }}</abbr>
                   <template #popper>{{ paymentType.description }}</template>
-                </Tooltip>
+                </BflexTooltip>
                 <strong v-if="data.paymentTypes.length - 1 !== idx" style="margin: 0 .375rem">{{ t('ratePlan.or') }}</strong>
               </template>
             </span>
@@ -145,7 +145,7 @@ const { formatDescription } = useFormattedCancellationPolicy()
               class="rate-plan-card__offers-item extra-offer"
               :style="{ color: extra.color }"
             >
-              <Icon name="Check">credit_card</Icon>
+              <BflexIcon name="Check">credit_card</BflexIcon>
               <span>{{ extra.name }}</span>
             </div>
           </template>
@@ -158,17 +158,17 @@ const { formatDescription } = useFormattedCancellationPolicy()
         <div class="rate-plan-card__variants">
           <span class="length-of-stay">{{ t('ratePlan.los', lengthOfStay) }}</span>
           <template v-for="(occupancyVariant, index) in data.variations || []" :key="index">
-            <RatePlanVariant :price="occupancyVariant.price">
+            <BflexRatePlanVariant :price="occupancyVariant.price">
               <template #icons>
-                <ScenarioIcon
+                <BflexScenarioIcon
                   :kind="occupancyVariant.occupancyOptions.kind"
                   :main="occupancyVariant.occupancyOptions.main"
                   :extra-bed="occupancyVariant.occupancyOptions.extraBed"
                 />
               </template>
 
-              <Button :loading="loading[index]" :disabled="disabled && !loading[index]" @click="() => emitVariantChosen(occupancyVariant, index)">{{ t('ratePlan.action') }}</Button>
-            </RatePlanVariant>
+              <BflexButton :loading="loading[index]" :disabled="disabled && !loading[index]" @click="() => emitVariantChosen(occupancyVariant, index)">{{ t('ratePlan.action') }}</BflexButton>
+            </BflexRatePlanVariant>
           </template>
         </div>
       </slot>

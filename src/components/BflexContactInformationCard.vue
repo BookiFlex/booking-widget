@@ -1,12 +1,12 @@
 <script setup>
 import { reactive, watch, defineProps, defineEmits } from 'vue'
 import { useI18n } from 'vue-i18n'
-import FieldDecorator from './ui/FieldDecorator.vue'
-import InformationBlock from '@/components/InformationBlock/InformationBlock.vue'
-import Content from '@/components/InformationBlock/Content.vue'
-import Header from '@/components/InformationBlock/Header.vue'
-import Divider from '@/components/InformationBlock/Divider.vue'
-import DetailsInfo from '@/components/ui/DetailsInfo.vue'
+import BflexFieldDecorator from './ui/BflexFieldDecorator.vue'
+import BflexInformationBlock from '@/components/InformationBlock/BflexInformationBlock.vue'
+import BflexContent from '@/components/InformationBlock/BflexContent.vue'
+import BflexHeader from '@/components/InformationBlock/BflexHeader.vue'
+import BflexDivider from '@/components/InformationBlock/BflexDivider.vue'
+import BflexDetailsInfo from '@/components/ui/BflexDetailsInfo.vue'
 
 const props = defineProps({
   modelValue: {
@@ -47,12 +47,12 @@ watch(
 </script>
 
 <template>
-  <InformationBlock>
-    <Header>{{ t('contactInformation.title') }}</Header>
-    <Divider></Divider>
-    <Content>
+  <BflexInformationBlock>
+    <BflexHeader>{{ t('contactInformation.title') }}</BflexHeader>
+    <BflexDivider></BflexDivider>
+    <BflexContent>
       <section id="customer-data-form" class="customer-data-form">
-        <FieldDecorator
+        <BflexFieldDecorator
           :label="t('contactInformation.firstName')"
           required
           :hint="errors.firstName"
@@ -67,9 +67,9 @@ watch(
             required
             @input="checkValidity($event)"
           />
-        </FieldDecorator>
+        </BflexFieldDecorator>
 
-        <FieldDecorator
+        <BflexFieldDecorator
           :label="t('contactInformation.lastName')"
           required
           :hint="errors.lastName"
@@ -84,9 +84,9 @@ watch(
             required
             @input="checkValidity($event)"
           />
-        </FieldDecorator>
+        </BflexFieldDecorator>
 
-        <FieldDecorator
+        <BflexFieldDecorator
           :label="t('contactInformation.email')"
           required
           :hint="errors.email"
@@ -100,9 +100,9 @@ watch(
             required
             @input="checkValidity($event)"
           />
-        </FieldDecorator>
+        </BflexFieldDecorator>
 
-        <FieldDecorator
+        <BflexFieldDecorator
           :label="t('contactInformation.phoneNumber')"
           :hint="errors.phone"
           :class="{ 'form-group--error': errors.phone }"
@@ -115,13 +115,13 @@ watch(
             maxlength="100"
             @input="checkValidity($event)"
           />
-        </FieldDecorator>
+        </BflexFieldDecorator>
       </section>
-      <DetailsInfo icon="Info">
+      <BflexDetailsInfo icon="Info">
         {{ t('contactInformation.confirmationInfo') }}
-      </DetailsInfo>
-    </Content>
-  </InformationBlock>
+      </BflexDetailsInfo>
+    </BflexContent>
+  </BflexInformationBlock>
 </template>
 
 <style lang="scss">

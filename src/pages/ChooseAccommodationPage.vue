@@ -1,10 +1,10 @@
 <script setup>
 import { ref, defineEmits, defineProps, computed, watch, inject } from 'vue'
-import Skeleton from '../components/Skeleton/Skeleton.vue'
+import BflexSkeletonLoader from '../components/ui/BflexSkeletonLoader.vue'
 import { lengthOfStay as lengthOfStayFn } from '../util/date.js'
 import { loadOffers, updateCart } from '../api/api.js'
-import AccommodationOfferBlock from '@/components/AccommodationOfferBlock.vue'
-import InformationBlockGrid from '@/components/InformationBlock/InformationBlockGrid.vue'
+import BflexAccommodationOfferCard from '@/components/BflexAccommodationOfferCard.vue'
+import BflexGridGap from '@/components/InformationBlock/BflexGridGap.vue'
 import { CHOOSE_ACCOMMODATION } from '@/constants.js'
 
 const props = defineProps({
@@ -77,21 +77,21 @@ const onAddToCart = async ({ accommodationOffer, ratePlan, variant }) => {
 </script>
 
 <template>
-  <InformationBlockGrid>
+  <BflexGridGap>
     <template v-if="loadingAccommodationOffers">
-      <Skeleton v-for="i in 3" :key="i"></Skeleton>
+      <BflexSkeletonLoader v-for="i in 3" :key="i"></BflexSkeletonLoader>
     </template>
     <template v-else>
-      <AccommodationOfferBlock
+      <BflexAccommodationOfferCard
         v-for="accommodationOffer in accommodationOffers"
         :accommodation-offer="accommodationOffer"
         :length-of-stay="lengthOfStay"
         :loading="addingToCart"
         :key="accommodationOffer.accommodationType.id"
         @accommodationOfferChosen="onAddToCart"
-      ></AccommodationOfferBlock>
+      ></BflexAccommodationOfferCard>
     </template>
-  </InformationBlockGrid>
+  </BflexGridGap>
 </template>
 
 <style lang="scss">

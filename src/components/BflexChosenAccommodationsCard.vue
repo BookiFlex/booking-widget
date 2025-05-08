@@ -2,14 +2,14 @@
 import { defineProps, ref, onMounted, defineEmits } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { formatDateRange } from '../util/date.js'
-import Divider from './InformationBlock/Divider.vue'
-import Content from './InformationBlock/Content.vue'
-import InformationBlock from './InformationBlock/InformationBlock.vue'
-import Header from './InformationBlock/Header.vue'
-import Skeleton from '@/components/Skeleton/Skeleton.vue'
-import Icon from '@/components/ui/Icon.vue'
+import BflexDivider from './InformationBlock/BflexDivider.vue'
+import BflexContent from './InformationBlock/BflexContent.vue'
+import BflexInformationBlock from './InformationBlock/BflexInformationBlock.vue'
+import BflexHeader from './InformationBlock/BflexHeader.vue'
+import BflexSkeletonLoader from '@/components/ui/BflexSkeletonLoader.vue'
+import BflexIcon from '@/components/ui/BflexIcon.vue'
 import { useFormattedCancellationPolicy } from '@/util/text.js'
-import Tooltip from '@/components/ui/Tooltip.vue'
+import BflexTooltip from '@/components/ui/BflexTooltip.vue'
 
 const props = defineProps({
   dummy: {
@@ -75,18 +75,18 @@ onMounted(() => {
 </script>
 
 <template>
-  <Skeleton v-if="loading" is-result></Skeleton>
+  <BflexSkeletonLoader v-if="loading" is-result></BflexSkeletonLoader>
 
-  <InformationBlock v-else class="accommodation-list">
-    <Header>{{ t('chosenAccommodation.title') }}</Header>
-    <Divider></Divider>
+  <BflexInformationBlock v-else class="accommodation-list">
+    <BflexHeader>{{ t('chosenAccommodation.title') }}</BflexHeader>
+    <BflexDivider></BflexDivider>
 
     <template v-for="(item, id, index) in items" :key="index">
-      <Content>
+      <BflexContent>
         <dl class="text-sm">
           <dt>
             <span class="icon-text">
-              <Icon class="icon-text__icon" name="DateRange"></Icon>
+              <BflexIcon class="icon-text__icon" name="DateRange"></BflexIcon>
               <span class="icon-text__text">{{
                 formatDateRange(item.checkInDate, item.checkOutDate, 'ru-RU')
               }}</span>
@@ -94,16 +94,16 @@ onMounted(() => {
           </dt>
           <dd>
             <span class="icon-text">
-              <Icon class="icon-text__icon" name="Persons"></Icon>
+              <BflexIcon class="icon-text__icon" name="Persons"></BflexIcon>
               <span class="icon-text__text"
                 >{{ t('chosenAccommodation.adults', item.adults) }}, {{ t('chosenAccommodation.children', item.children.length) }}</span
               >
             </span>
           </dd>
         </dl>
-      </Content>
-      <Divider></Divider>
-      <Content>
+      </BflexContent>
+      <BflexDivider></BflexDivider>
+      <BflexContent>
         <dl class="accommodation-list__item">
           <dt>
             <h3>
@@ -113,7 +113,7 @@ onMounted(() => {
               >
             </h3>
             <div class="text-sm" style="line-height: 1.25; font-weight: lighter">{{ item.ratePlan.name }}<br />
-              <Tooltip class="inline">
+              <BflexTooltip class="inline">
                 <abbr>{{ item.cancellationPolicy.name || '' }}</abbr>
                 <template #popper>
                   <p
@@ -125,7 +125,7 @@ onMounted(() => {
                     {{ i }}
                   </p>
                 </template>
-              </Tooltip></div>
+              </BflexTooltip></div>
           </dt>
           <dd>
             <div
@@ -158,11 +158,11 @@ onMounted(() => {
             </label>
           </div>
         </div>
-      </Content>
-      <Divider></Divider>
+      </BflexContent>
+      <BflexDivider></BflexDivider>
     </template>
 
-    <Content>
+    <BflexContent>
       <dl class="accommodation-list__total">
         <dt>{{ t('chosenAccommodation.totalAmount') }}:</dt>
         <dd>
@@ -171,9 +171,9 @@ onMounted(() => {
           >
         </dd>
       </dl>
-    </Content>
-    <Divider></Divider>
-    <Content>
+    </BflexContent>
+    <BflexDivider></BflexDivider>
+    <BflexContent>
       <dl class="accommodation-list__payment-rules">
         <dt style="color: orangered">{{ t('chosenAccommodation.prepaymentAmount') }}:</dt>
         <dd style="color: orangered">{{ payment.prepayment }} {{ currency }}</dd>
@@ -182,8 +182,8 @@ onMounted(() => {
           <span>{{ payment.onArrival }}</span> {{ currency }}
         </dd>
       </dl>
-    </Content>
-  </InformationBlock>
+    </BflexContent>
+  </BflexInformationBlock>
 </template>
 
 <style lang="scss">

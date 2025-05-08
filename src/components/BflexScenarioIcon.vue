@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps } from 'vue'
 import { useI18n } from 'vue-i18n'
-import Icon from '@/components/ui/Icon.vue'
+import BflexIcon from '@/components/ui/BflexIcon.vue'
 defineProps({
   kind: {
     type: String,
@@ -21,23 +21,23 @@ const { t } = useI18n()
 
 <template>
   <div v-if="kind === 'adults'" class="icons">
-    <Icon v-show="main === 2" :title="t('ratePlan.scenario.mainBeds')" name="Person"></Icon>
+    <BflexIcon v-show="main === 2" :title="t('ratePlan.scenario.mainBeds')" name="Person"></BflexIcon>
     <i v-show="main > 2"
-      ><Icon name="Person" :title="t('ratePlan.scenario.mainBeds')"></Icon>{{ main }}</i
+      ><BflexIcon name="Person" :title="t('ratePlan.scenario.mainBeds')"></BflexIcon>{{ main }}</i
     >
-    <Icon name="Person" :title="t('ratePlan.scenario.mainBeds')"></Icon>
+    <BflexIcon name="Person" :title="t('ratePlan.scenario.mainBeds')"></BflexIcon>
     <template v-if="extraBed">
-      <Icon name="Add">add</Icon>
-      <Icon name="PersonOutline" :title="t('ratePlan.scenario.extraBeds')"></Icon>
+      <BflexIcon name="Add">add</BflexIcon>
+      <BflexIcon name="PersonOutline" :title="t('ratePlan.scenario.extraBeds')"></BflexIcon>
     </template>
   </div>
 
   <span v-else-if="kind === 'child'" class="scenario-text">{{ t('ratePlan.scenario.family') }}</span>
 
   <div v-else class="icons" :title="t('ratePlan.scenario.mainExtraBeds')">
-    <Icon name="People"></Icon>
-    <Icon name="Add"></Icon>
-    <Icon name="PeopleOutline"></Icon>
+    <BflexIcon name="People"></BflexIcon>
+    <BflexIcon name="Add"></BflexIcon>
+    <BflexIcon name="PeopleOutline"></BflexIcon>
   </div>
 </template>
 

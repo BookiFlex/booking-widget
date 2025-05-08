@@ -1,5 +1,5 @@
 <script setup>
-import PriceBlock from './PriceBlock.vue'
+import BflexPriceBlock from './BflexPriceBlock.vue'
 
 defineProps({
   /**
@@ -26,14 +26,14 @@ defineProps({
 <template>
   <div class="variant-line">
     <div class="variant-line__content">
-      <PriceBlock :selling-price="price.sellingPrice"
+      <BflexPriceBlock :selling-price="price.sellingPrice"
                   :original-selling-price="price.originalSellingPrice"
                   :discount="price.discount || null"
                   :currency="price.currency">
         <template #icons>
           <slot name="icons" />
         </template>
-      </PriceBlock>
+      </BflexPriceBlock>
 
       <div class="variant-line__actions">
         <slot />

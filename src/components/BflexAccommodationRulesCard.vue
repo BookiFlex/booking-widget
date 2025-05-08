@@ -1,11 +1,11 @@
 <script setup>
 import { computed, defineProps, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import InformationBlock from '@/components/InformationBlock/InformationBlock.vue'
-import Content from '@/components/InformationBlock/Content.vue'
-import Header from '@/components/InformationBlock/Header.vue'
-import CheckBox from '@/components/ui/CheckBox.vue'
-import Divider from '@/components/InformationBlock/Divider.vue'
+import BflexInformationBlock from '@/components/InformationBlock/BflexInformationBlock.vue'
+import BflexContent from '@/components/InformationBlock/BflexContent.vue'
+import BflexHeader from '@/components/InformationBlock/BflexHeader.vue'
+import BflexCheckbox from '@/components/ui/BflexCheckbox.vue'
+import BflexDivider from '@/components/InformationBlock/BflexDivider.vue'
 
 const props = defineProps({
   agreements: {
@@ -29,21 +29,21 @@ const agreementsChecked = ref(props.agreements.map(() => false));
 </script>
 
 <template>
-  <InformationBlock class="agreement-rules-list">
-    <Header>{{ t('accommodationRules.title') }}</Header>
+  <BflexInformationBlock class="agreement-rules-list">
+    <BflexHeader>{{ t('accommodationRules.title') }}</BflexHeader>
     <template v-if="rules.length > 0">
-      <Divider></Divider>
-      <Content>
+      <BflexDivider></BflexDivider>
+      <BflexContent>
         <ul class="agreement-rules-list__rules">
           <li v-for="(rule, idx) in rules" :key="idx">{{ rule.text }}</li>
         </ul>
-      </Content>
+      </BflexContent>
     </template>
-    <Divider></Divider>
-    <Content>
+    <BflexDivider></BflexDivider>
+    <BflexContent>
       <div class="agreement-rules-list__agreements">
         <div v-if="combinedAgreements.length > 0" class="agreement-rules-list__agreements-item">
-          <CheckBox v-model="combinedAgreementsChecked" required>
+          <BflexCheckbox v-model="combinedAgreementsChecked" required>
             <span>{{ t('accommodationRules.agreementSentence') }}
               <a
                 class="agreement-rules-list__combined-agreement"
@@ -53,19 +53,19 @@ const agreementsChecked = ref(props.agreements.map(() => false));
                 :key="index"
               >{{ agreement.anchor }}</a
               >.</span>
-          </CheckBox>
+          </BflexCheckbox>
         </div>
       <template v-for="(agreement, index) in agreements" :key="index">
           <div v-if="agreement.combined === false" class="agreement-rules-list__agreements-item">
-            <CheckBox v-model="agreementsChecked[index]" :required="agreement.required"><span
+            <BflexCheckbox v-model="agreementsChecked[index]" :required="agreement.required"><span
             >{{ t('accommodationRules.agreementSentenceShort') }}
                 <a target="_blank" :href="agreement.url">{{ agreement.anchor }}</a></span
-            ></CheckBox>
+            ></BflexCheckbox>
           </div>
         </template>
       </div>
-    </Content>
-  </InformationBlock>
+    </BflexContent>
+  </BflexInformationBlock>
 </template>
 
 <style lang="scss">

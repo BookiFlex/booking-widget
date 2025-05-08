@@ -3,12 +3,12 @@ defineProps({
   loading: { type: Boolean, default: false },
   disabled: { type: Boolean, default: false },
 })
-import CycleLoader from '@/components/ui/CycleLoader.vue'
+import BflexCycleLoader from '@/components/ui/BflexCycleLoader.vue'
 </script>
 
 <template>
   <button class="button" :disabled="disabled">
-    <CycleLoader v-if="loading" size="10px" color="#fff"></CycleLoader>
+    <BflexCycleLoader v-if="loading" size="10px" color="#fff"></BflexCycleLoader>
     <slot v-else />
   </button>
 </template>

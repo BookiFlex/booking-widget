@@ -1,9 +1,9 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue'
-import InformationBlock from '@/components/InformationBlock/InformationBlock.vue'
-import AccommodationTypeCard from '@/components/AccommodationTypeCard.vue'
-import RatePlanCard from '@/components/RatePlanCard.vue'
-import Divider from '@/components/InformationBlock/Divider.vue'
+import BflexInformationBlock from '@/components/InformationBlock/BflexInformationBlock.vue'
+import BflexAccommodationTypeItem from '@/components/BflexAccommodationTypeItem.vue'
+import BflexRatePlanItem from '@/components/BflexRatePlanItem.vue'
+import BflexDivider from '@/components/InformationBlock/BflexDivider.vue'
 
 defineProps({
   accommodationOffer: { type: Object, required: true },
@@ -23,24 +23,24 @@ const onVariantChosen = (accommodationOffer, ratePlan, variant) => {
 </script>
 
 <template>
-  <InformationBlock class="accommodation-offer">
-    <AccommodationTypeCard :data="accommodationOffer.accommodationType"></AccommodationTypeCard>
+  <BflexInformationBlock class="accommodation-offer">
+    <BflexAccommodationTypeItem :data="accommodationOffer.accommodationType"></BflexAccommodationTypeItem>
 
     <div class="rate-plan-list__wrapper">
       <div class="rate-plan-list" :class="{'rate-plan-list--single': accommodationOffer.ratePlans.length <= 1}">
         <template v-for="ratePlan in accommodationOffer.ratePlans" :key="ratePlan.id">
-          <Divider></Divider>
-          <RatePlanCard
+          <BflexDivider></BflexDivider>
+          <BflexRatePlanItem
             :data="ratePlan"
             :length-of-stay="lengthOfStay"
             :disabled="loading"
             @variantChosen="(variant) => onVariantChosen(accommodationOffer, ratePlan, variant)"
           >
-          </RatePlanCard>
+          </BflexRatePlanItem>
         </template>
       </div>
     </div>
-  </InformationBlock>
+  </BflexInformationBlock>
 </template>
 
 <style lang="scss"></style>

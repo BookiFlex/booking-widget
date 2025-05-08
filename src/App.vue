@@ -1,7 +1,7 @@
 <script setup>
 import BookingWidget from './BookingWidget.vue'
 import { onMounted, ref, toRaw } from 'vue'
-import ErrorProvider from '@/components/ErrorProvider.vue'
+import BflexErrorProvider from '@/components/BflexErrorProvider.vue'
 
 const searchParams = ref({
   dateRange: {
@@ -28,9 +28,9 @@ onMounted(() => {
 </script>
 
 <template>
-    <ErrorProvider>
+    <BflexErrorProvider>
       <BookingWidget :date-range="toRaw(searchParams.dateRange)" :promo-code="searchParams.promoCode" />
-    </ErrorProvider>
+    </BflexErrorProvider>
 </template>
 
 <style scoped lang="scss"></style>
