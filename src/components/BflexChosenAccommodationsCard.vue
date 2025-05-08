@@ -151,7 +151,7 @@ onMounted(() => {
                 :name="`payment-type-${index}`"
                 :id="`payment-type-${index}-${item.ratePlan.id}-${paymentType.id}`"
                 :value="activePaymentTypes[id]"
-                :checked="activePaymentTypes[id] == paymentType.id"
+                :checked="+activePaymentTypes[id] === +paymentType.id"
                 @change="() => onChangeActivePaymentType(id, paymentType.id)"
               />
               {{ paymentType.name }}

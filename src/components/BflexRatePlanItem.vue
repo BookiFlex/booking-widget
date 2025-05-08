@@ -2,7 +2,7 @@
 import { ref, defineProps, defineEmits, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BflexTooltip from './ui/BflexTooltip.vue'
-import BflexRatePlanVariant from './BflexRatePlanVariant.vue'
+import BflexRatePlanVariantItem from './BflexRatePlanVariantItem.vue'
 import { useFormattedCancellationPolicy } from '../util/text.js'
 import BflexIcon from '@/components/ui/BflexIcon.vue'
 import BflexScenarioIcon from '@/components/BflexScenarioIcon.vue'
@@ -158,7 +158,7 @@ const { formatDescription } = useFormattedCancellationPolicy()
         <div class="rate-plan-card__variants">
           <span class="length-of-stay">{{ t('ratePlan.los', lengthOfStay) }}</span>
           <template v-for="(occupancyVariant, index) in data.variations || []" :key="index">
-            <BflexRatePlanVariant :price="occupancyVariant.price">
+            <BflexRatePlanVariantItem :price="occupancyVariant.price">
               <template #icons>
                 <BflexScenarioIcon
                   :kind="occupancyVariant.occupancyOptions.kind"
@@ -168,7 +168,7 @@ const { formatDescription } = useFormattedCancellationPolicy()
               </template>
 
               <BflexButton :loading="loading[index]" :disabled="disabled && !loading[index]" @click="() => emitVariantChosen(occupancyVariant, index)">{{ t('ratePlan.action') }}</BflexButton>
-            </BflexRatePlanVariant>
+            </BflexRatePlanVariantItem>
           </template>
         </div>
       </slot>
