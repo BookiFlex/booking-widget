@@ -6,16 +6,18 @@
   border-bottom-left-radius: var(--main-border-radius, 10px);
   border-bottom-right-radius: var(--main-border-radius, 10px);
 }
-@media screen and (max-width: 460px) {
+@container widget (max-width: 480px) {
   .accommodation-offer {
     overflow-x: hidden;
   }
+
+  .rate-plan-list__wrapper {
+    padding: 0.5rem;
+  }
   .rate-plan-list {
-    //border-left: 2px solid #00ca9d;
-    flex-direction: row;
     overflow-x: scroll;
-    width: 100%;
-    max-width: 100%;
-    //margin: 0.5em 0.3em 0.5em 0.3em;
+    scroll-snap-type: x mandatory;
+    flex-direction: row;
+    column-gap: 0.5rem;
   }
 }

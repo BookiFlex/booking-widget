@@ -32,20 +32,21 @@ const onVariantChosen = (accommodationOffer, ratePlan, variant) => {
   <InformationBlock class="accommodation-offer">
     <AccommodationTypeCard :data="accommodationOffer.accommodationType"></AccommodationTypeCard>
 
-    <div class="rate-plan-list">
-      <template v-for="ratePlan in accommodationOffer.ratePlans" :key="ratePlan.id">
-        <Divider></Divider>
-        <RatePlanCard
-          :data="ratePlan"
-          :length-of-stay="lengthOfStay"
-          :isBlocked="loading"
-          @variantChosen="(variant) => onVariantChosen(accommodationOffer, ratePlan, variant)"
-        >
-        </RatePlanCard>
-      </template>
+    <div class="rate-plan-list__wrapper">
+      <div class="rate-plan-list" :class="{'rate-plan-list--single': accommodationOffer.ratePlans.length <= 1}">
+        <template v-for="ratePlan in accommodationOffer.ratePlans" :key="ratePlan.id">
+          <Divider></Divider>
+          <RatePlanCard
+            :data="ratePlan"
+            :length-of-stay="lengthOfStay"
+            :isBlocked="loading"
+            @variantChosen="(variant) => onVariantChosen(accommodationOffer, ratePlan, variant)"
+          >
+          </RatePlanCard>
+        </template>
+      </div>
     </div>
   </InformationBlock>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

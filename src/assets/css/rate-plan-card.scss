@@ -85,15 +85,23 @@
   }
 }
 
-@media screen and (max-width: 460px) {
+@container widget (max-width: 480px) {
+  .rate-plan-list--single .rate-plan-card {
+    width: 100%;
+    flex: 0 0 100%;
+  }
   .rate-plan-card {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      'description'
-      'actions';
-    align-content: space-between;
-    min-width: 300px;
-    margin-right: 0.5rem;
+    display: flex;
+    flex: 0 0 90%;
+    flex-direction: column;
+    min-width: 90%;
+    scroll-snap-align: start;
+    //grid-template-columns: 1fr;
+    //grid-template-areas:
+    //  'description'
+    //  'actions';
+    //align-content: space-between;
+    //min-width: 300px;
     border-radius: var(--main-border-radius, 10px);
     border: 1px solid var(--main-border-color, #e0e0e0);
 
