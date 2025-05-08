@@ -1,5 +1,4 @@
 <script setup>
-import { formatDateRange } from '@/util/date.js'
 import BflexIcon from '@/components/ui/BflexIcon.vue'
 
 defineProps({

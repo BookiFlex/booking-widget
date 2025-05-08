@@ -3,7 +3,6 @@ import { useI18n } from 'vue-i18n'
 import BflexHeader from '@/components/InformationBlock/BflexHeader.vue'
 import BflexDivider from '@/components/InformationBlock/BflexDivider.vue'
 import BflexContent from '@/components/InformationBlock/BflexContent.vue'
-import BflexIcon from '@/components/ui/BflexIcon.vue'
 import BflexInformationBlock from '@/components/InformationBlock/BflexInformationBlock.vue'
 import BflexIconText from '@/components/ui/BflexIconText.vue'
 
