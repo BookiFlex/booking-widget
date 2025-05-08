@@ -127,34 +127,33 @@ const lengthOfStayOfFirstRequest = computed(() => {
 <template>
     <form @submit="onSubmit" ref="confirmForm">
       <InformationBlockGrid>
+        <ContactInformationBlock v-model="data.customerInfo" />
 
-      <ContactInformationBlock v-model="data.customerInfo" />
+        <ChosenAccommodationsBlock
+          v-if="cart"
+          :loading="loading"
+          :cart="cart"
+          :currency="cart.currency"
+          :payment="cart.payment"
+          :summary="cart.summary"
+          :items="cart.requests"
+          @changePaymentType="onChangePaymentType"
+          @deleteAccommodationRequest="onDeleteAccommodationRequest"
+        ></ChosenAccommodationsBlock>
 
-      <ChosenAccommodationsBlock
-        v-if="cart"
-        :loading="loading"
-        :cart="cart"
-        :currency="cart.currency"
-        :payment="cart.payment"
-        :summary="cart.summary"
-        :items="cart.requests"
-        @changePaymentType="onChangePaymentType"
-        @deleteAccommodationRequest="onDeleteAccommodationRequest"
-      ></ChosenAccommodationsBlock>
+        <CustomerRequestBlock v-model="data.customerRequest"></CustomerRequestBlock>
+        <AccommodationRulesBlock
+          :agreements="settings.hotelRules.agreements"
+          :rules="settings.hotelRules.rules"
+        ></AccommodationRulesBlock>
 
-      <CustomerRequestBlock v-model="data.customerRequest"></CustomerRequestBlock>
-      <AccommodationRulesBlock
-        :agreements="settings.hotelRules.agreements"
-        :rules="settings.hotelRules.rules"
-      ></AccommodationRulesBlock>
-
-      <SummaryBlock
-        v-if="!loading && cart"
-        :total-amount="cart.summary.total"
-        :currency="cart.currency"
-        :accommodation-units="accommodationUnits"
-        :length-of-stay="lengthOfStayOfFirstRequest"
-      ></SummaryBlock>
+        <SummaryBlock
+          v-if="!loading && cart"
+          :total-amount="cart.summary.total"
+          :currency="cart.currency"
+          :accommodation-units="accommodationUnits"
+          :length-of-stay="lengthOfStayOfFirstRequest"
+        ></SummaryBlock>
       </InformationBlockGrid>
     </form>
 </template>

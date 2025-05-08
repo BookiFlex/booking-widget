@@ -60,7 +60,7 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+@container  wisget (max-width: 480px) {
   .information-block {
     header {
       flex-direction: column;

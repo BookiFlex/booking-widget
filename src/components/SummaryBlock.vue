@@ -39,8 +39,7 @@ const emit = defineEmits(['onAccommodationSummaryClick'])
         </div>
       </div>
       <button class="button" type="submit">
-        {{ t('summary.continue') }}
-        <Icon name="ArrowForward" style="margin-left: 0.5em" small></Icon>
+        {{ t('summary.complete') }}
       </button>
     </div>
   </div>

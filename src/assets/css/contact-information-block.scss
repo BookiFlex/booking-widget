@@ -6,7 +6,7 @@
   padding: 1rem 0 0;
 }
 
-@media screen and (max-width: 460px) {
+@container widget (max-width: 480px) {
   .customer-data-form {
     grid-template-columns: 1fr;
   }

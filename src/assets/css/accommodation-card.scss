@@ -67,7 +67,7 @@
   }
 }
 
-@media screen and (max-width: 460px) {
+@container widget (max-width: 480px) {
   .accommodation-list {
     .payment-type {
       flex-direction: column;

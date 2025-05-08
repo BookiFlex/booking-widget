@@ -15,13 +15,10 @@
       display: flex;
       flex-direction: row;
       margin-bottom: 0.5rem;
-      cursor: pointer;
     }
   }
 
   &__combined-agreement {
-    color: orangered;
-    text-decoration: underline;
     padding: 0;
 
     &:after {

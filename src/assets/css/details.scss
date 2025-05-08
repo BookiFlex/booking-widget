@@ -4,8 +4,9 @@
   border-radius: 5px;
   padding: 1rem 1.25rem;
   font-size: .875rem;
+  column-gap: .5rem;
 
-  .icon {
-    margin-right: 0.5rem;
+  &--icon {
+    flex: 0 0 1rem;
   }
 }
