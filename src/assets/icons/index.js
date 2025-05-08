@@ -13,6 +13,10 @@ import PersonOutline from './person_outline.svg'
 import Persons from './persons.svg'
 import Restaurant from './restaurant.svg'
 import Restore from './restore.svg'
+import Email from './email.svg'
+import Home from './home.svg'
+import Hotel from './hotel.svg'
+import Phone from './phone.svg'
 
 export {
   Add,
@@ -29,5 +33,9 @@ export {
   Restore,
   PersonOutline,
   Persons,
-  People
+  People,
+  Phone,
+  Home,
+  Hotel,
+  Email,
 }

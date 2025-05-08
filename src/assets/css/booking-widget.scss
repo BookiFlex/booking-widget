@@ -158,21 +158,6 @@ ul {
   position: relative;
   container-type: inline-size;
   container-name: widget;
-
-  .icon-text {
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
-    column-gap: 0.25rem;
-
-    &__icon {
-      color: orangered;
-    }
-
-    &__text {
-      line-height: 1;
-    }
-  }
 }
 
 @container widget (max-width: 960px) {

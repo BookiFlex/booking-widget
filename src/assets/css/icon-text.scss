@@ -1,0 +1,19 @@
+.icon-text {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 0.375rem;
+
+  &__icon {
+    color: orangered;
+    flex: 0 0 1rem;
+
+    .icon {
+      width: 1.5rem;
+    }
+  }
+
+  &__text {
+    line-height: 1;
+  }
+}

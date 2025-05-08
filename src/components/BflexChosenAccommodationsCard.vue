@@ -10,6 +10,7 @@ import BflexSkeletonLoader from '@/components/ui/BflexSkeletonLoader.vue'
 import BflexIcon from '@/components/ui/BflexIcon.vue'
 import { useFormattedCancellationPolicy } from '@/util/text.js'
 import BflexTooltip from '@/components/ui/BflexTooltip.vue'
+import BflexIconText from '@/components/ui/BflexIconText.vue'
 
 const props = defineProps({
   dummy: {
@@ -85,20 +86,14 @@ onMounted(() => {
       <BflexContent>
         <dl class="text-sm">
           <dt>
-            <span class="icon-text">
-              <BflexIcon class="icon-text__icon" name="DateRange"></BflexIcon>
-              <span class="icon-text__text">{{
+            <BflexIconText icon="DateRange">{{
                 formatDateRange(item.checkInDate, item.checkOutDate, 'ru-RU')
-              }}</span>
-            </span>
+              }}</BflexIconText>
           </dt>
           <dd>
-            <span class="icon-text">
-              <BflexIcon class="icon-text__icon" name="Persons"></BflexIcon>
-              <span class="icon-text__text"
-                >{{ t('chosenAccommodation.adults', item.adults) }}, {{ t('chosenAccommodation.children', item.children.length) }}</span
-              >
-            </span>
+            <BflexIconText icon="Persons">
+              {{ t('chosenAccommodation.adults', item.adults) }}, {{ t('chosenAccommodation.children', item.children.length) }}
+            </BflexIconText>
           </dd>
         </dl>
       </BflexContent>
