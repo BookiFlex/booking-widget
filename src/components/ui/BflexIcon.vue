@@ -1,10 +1,5 @@
 <template>
-  <component
-    :is="iconComponent"
-    v-bind="$attrs"
-    class="icon"
-    :class="small ? 'icon--small' : ''"
-  />
+  <component :is="iconComponent" v-bind="$attrs" class="icon" :class="small ? 'icon--small' : ''" />
 </template>
 
 <script setup>
@@ -15,12 +10,11 @@ const props = defineProps({
   name: { type: String, required: true },
   small: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 
 const iconComponent = computed(() => icons[props.name] || null)
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

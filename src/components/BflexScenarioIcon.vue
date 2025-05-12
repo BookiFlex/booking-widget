@@ -21,7 +21,11 @@ const { t } = useI18n()
 
 <template>
   <div v-if="kind === 'adults'" class="icons">
-    <BflexIcon v-show="main === 2" :title="t('ratePlan.scenario.mainBeds')" name="Person"></BflexIcon>
+    <BflexIcon
+      v-show="main === 2"
+      :title="t('ratePlan.scenario.mainBeds')"
+      name="Person"
+    ></BflexIcon>
     <i v-show="main > 2"
       ><BflexIcon name="Person" :title="t('ratePlan.scenario.mainBeds')"></BflexIcon>{{ main }}</i
     >
@@ -32,7 +36,9 @@ const { t } = useI18n()
     </template>
   </div>
 
-  <span v-else-if="kind === 'child'" class="scenario-text">{{ t('ratePlan.scenario.family') }}</span>
+  <span v-else-if="kind === 'child'" class="scenario-text">{{
+    t('ratePlan.scenario.family')
+  }}</span>
 
   <div v-else class="icons" :title="t('ratePlan.scenario.mainExtraBeds')">
     <BflexIcon name="People"></BflexIcon>
@@ -41,5 +47,4 @@ const { t } = useI18n()
   </div>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

@@ -34,45 +34,44 @@ function lengthOfStay(startDate, endDate, unit = 'nights') {
 }
 
 function getStartEndDates() {
-  const now = new Date();
+  const now = new Date()
 
-  const startDate = new Date(now);
-  startDate.setDate(now.getDate() + 1);
+  const startDate = new Date(now)
+  startDate.setDate(now.getDate() + 1)
 
-  const endDate = new Date(now);
-  endDate.setDate(now.getDate() + 2);
+  const endDate = new Date(now)
+  endDate.setDate(now.getDate() + 2)
 
-  const formatDate = (date) => date.toISOString().split('T')[0];
+  const formatDate = (date) => date.toISOString().split('T')[0]
 
   return {
     start: formatDate(startDate),
-    end: formatDate(endDate)
-  };
+    end: formatDate(endDate),
+  }
 }
 
 function timeRangeGenerator(start, end, step = 60) {
-  const result = [];
+  const result = []
 
-  const [startHour, startMinute] = start.split(':').map(Number);
-  const [endHour, endMinute] = end.split(':').map(Number);
+  const [startHour, startMinute] = start.split(':').map(Number)
+  const [endHour, endMinute] = end.split(':').map(Number)
 
-  const startDate = new Date();
-  startDate.setHours(startHour, startMinute, 0, 0);
+  const startDate = new Date()
+  startDate.setHours(startHour, startMinute, 0, 0)
 
-  const endDate = new Date();
-  endDate.setHours(endHour, endMinute, 0, 0);
+  const endDate = new Date()
+  endDate.setHours(endHour, endMinute, 0, 0)
 
-  const current = new Date(startDate);
+  const current = new Date(startDate)
 
   while (current <= endDate) {
-    const hours = current.getHours().toString().padStart(2, '0');
-    const minutes = current.getMinutes().toString().padStart(2, '0');
-    result.push(`${hours}:${minutes}`);
-    current.setMinutes(current.getMinutes() + step);
+    const hours = current.getHours().toString().padStart(2, '0')
+    const minutes = current.getMinutes().toString().padStart(2, '0')
+    result.push(`${hours}:${minutes}`)
+    current.setMinutes(current.getMinutes() + step)
   }
 
-  return result;
+  return result
 }
-
 
 export { formatDateRange, lengthOfStay, getStartEndDates, timeRangeGenerator }

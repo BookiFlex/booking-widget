@@ -28,5 +28,4 @@ const isChecked = computed({
   </label>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

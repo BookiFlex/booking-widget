@@ -1,5 +1,8 @@
 <template>
-  <BflexInformationBlock class="accommodation-skeleton" :class="{ 'accommodation-result': isResult }">
+  <BflexInformationBlock
+    class="accommodation-skeleton"
+    :class="{ 'accommodation-result': isResult }"
+  >
     <!-- Card Header with Thumbnail and Info -->
     <div class="header">
       <!-- Thumbnail Skeleton -->
@@ -63,5 +66,4 @@ defineProps({
 })
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

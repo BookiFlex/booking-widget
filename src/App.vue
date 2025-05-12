@@ -22,20 +22,20 @@ defineProps({
   ratePlans: {
     type: Array,
     default: () => [],
-  }
+  },
 })
 </script>
 
 <template>
-    <BflexErrorProvider>
-      <BookingWidget
-        :start="start"
-        :end="end"
-        :promo-code="promoCode"
-        :accommodation-types="accommodationTypes"
-        :ratePlans="ratePlans"
-      />
-    </BflexErrorProvider>
+  <BflexErrorProvider>
+    <BookingWidget
+      :start="start"
+      :end="end"
+      :promo-code="promoCode"
+      :accommodation-types="accommodationTypes"
+      :ratePlans="ratePlans"
+    />
+  </BflexErrorProvider>
 </template>
 
 <style scoped lang="scss"></style>

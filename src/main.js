@@ -8,6 +8,9 @@ start.setDate(start.getDate() + 5)
 const end = new Date()
 end.setDate(start.getDate() + 3)
 
-createApp(BookingWidget, { start: start.toISOString().split('T')[0], end: end.toISOString().split('T')[0] })
+createApp(BookingWidget, {
+  start: start.toISOString().split('T')[0],
+  end: end.toISOString().split('T')[0],
+})
   .use(i18n)
   .mount('#app')

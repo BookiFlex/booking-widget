@@ -44,10 +44,10 @@ const formatMoney = (money, className = '', showFraction = true) => {
 <template>
   <div class="price-block">
     <div v-if="discount" class="price-block__discount">
-          <span class="price-block__discount-size">
-            <span>-{{ discount }}</span>
-            <span class="price-block__percent">%</span>
-          </span>
+      <span class="price-block__discount-size">
+        <span>-{{ discount }}</span>
+        <span class="price-block__percent">%</span>
+      </span>
       <span class="price-block__old">
         <span class="amount" v-html="originalPrice"></span>
       </span>
@@ -70,5 +70,4 @@ const formatMoney = (money, className = '', showFraction = true) => {
   </div>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

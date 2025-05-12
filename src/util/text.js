@@ -4,9 +4,9 @@ export function useFormattedCancellationPolicy() {
   const { t } = useI18n()
 
   function formatDescription(description) {
-    return description.map(ruleParts => {
+    return description.map((ruleParts) => {
       return ruleParts
-        .map(part => {
+        .map((part) => {
           const key = resolveKey(part.text)
           return t(key, part.params || {})
         })
@@ -25,11 +25,13 @@ function resolveKey(text) {
     'Free cancellation': 'cancellationPolicy.free',
     'Paid cancellation': 'cancellationPolicy.paid',
     'Free cancellation is possible before {date}': 'cancellationPolicy.beforeFree',
-    'If the cancellation is made after {date}, a penalty of ': 'cancellationPolicy.afterPenaltyStart',
+    'If the cancellation is made after {date}, a penalty of ':
+      'cancellationPolicy.afterPenaltyStart',
     '{days} days of the booking cost': 'cancellationPolicy.penalty.days',
     '{fixedPenalty}': 'cancellationPolicy.penalty.fixed',
     '{penaltyPercentage}% of the booking cost': 'cancellationPolicy.penalty.percent',
-    '{penaltyPercentage}% of the booking cost + {fixedPenalty}': 'cancellationPolicy.penalty.percentAndFixed',
+    '{penaltyPercentage}% of the booking cost + {fixedPenalty}':
+      'cancellationPolicy.penalty.percentAndFixed',
     '{days} days of the booking cost + {fixedPenalty}': 'cancellationPolicy.penalty.daysAndFixed',
   }
 

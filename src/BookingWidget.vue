@@ -2,7 +2,12 @@
 import { ref, onMounted, provide, defineProps, onUnmounted, watch, inject, toRaw } from 'vue'
 import { init } from './api/api.js'
 import i18n from './i18n'
-import { CHOOSE_ACCOMMODATION, BOOKING_CONFIRMATION, EMPTY_CART, RESERVATION_DETAILS } from './constants.js'
+import {
+  CHOOSE_ACCOMMODATION,
+  BOOKING_CONFIRMATION,
+  EMPTY_CART,
+  RESERVATION_DETAILS,
+} from './constants.js'
 import ChooseAccommodationPage from '@/pages/ChooseAccommodationPage.vue'
 import BookingConfirmationPage from '@/pages/ConfirmationPage.vue'
 import ReservationDetailsPage from '@/pages/ResultPage.vue'
@@ -46,11 +51,7 @@ const settings = ref({
 })
 provide('settings', settings)
 
-const pages = [
-  CHOOSE_ACCOMMODATION,
-  BOOKING_CONFIRMATION,
-  RESERVATION_DETAILS,
-]
+const pages = [CHOOSE_ACCOMMODATION, BOOKING_CONFIRMATION, RESERVATION_DETAILS]
 const activePage = ref(null)
 const nextPage = (action) => {
   const index = pages.indexOf(action)
@@ -69,13 +70,16 @@ const searchParams = ref({
 })
 
 // changed by params
-watch(() => ({ start: props.start, end: props.end, promoCode: props.promoCode }), () => {
-  searchParams.value = {
-    start: props.start,
-    end: props.end,
-    promoCode: props.promoCode,
-  }
-})
+watch(
+  () => ({ start: props.start, end: props.end, promoCode: props.promoCode }),
+  () => {
+    searchParams.value = {
+      start: props.start,
+      end: props.end,
+      promoCode: props.promoCode,
+    }
+  },
+)
 
 watch(
   searchParams,
@@ -98,7 +102,7 @@ watch(
   },
   {
     immediate: true,
-    deep: true
+    deep: true,
   },
 )
 

@@ -24,10 +24,15 @@ const onVariantChosen = (accommodationOffer, ratePlan, variant) => {
 
 <template>
   <BflexInformationBlock class="accommodation-offer">
-    <BflexAccommodationTypeItem :data="accommodationOffer.accommodationType"></BflexAccommodationTypeItem>
+    <BflexAccommodationTypeItem
+      :data="accommodationOffer.accommodationType"
+    ></BflexAccommodationTypeItem>
 
     <div class="rate-plan-list__wrapper">
-      <div class="rate-plan-list" :class="{'rate-plan-list--single': accommodationOffer.ratePlans.length <= 1}">
+      <div
+        class="rate-plan-list"
+        :class="{ 'rate-plan-list--single': accommodationOffer.ratePlans.length <= 1 }"
+      >
         <template v-for="ratePlan in accommodationOffer.ratePlans" :key="ratePlan.id">
           <BflexDivider></BflexDivider>
           <BflexRatePlanItem

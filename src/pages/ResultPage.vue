@@ -74,5 +74,4 @@ onMounted(loadReservationCallback)
   </BflexGridGap>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

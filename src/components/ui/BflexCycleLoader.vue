@@ -1,6 +1,6 @@
 <script setup>
-import { computed } from 'vue';
-import { toRefs } from 'vue';
+import { computed } from 'vue'
+import { toRefs } from 'vue'
 
 const props = defineProps({
   color: {
@@ -19,9 +19,9 @@ const props = defineProps({
     type: String,
     default: '100%',
   },
-});
+})
 
-const { color, size, margin, radius } = toRefs(props);
+const { color, size, margin, radius } = toRefs(props)
 
 const spinnerStyle = computed(() => ({
   backgroundColor: color.value,
@@ -35,11 +35,11 @@ const spinnerStyle = computed(() => ({
   animationIterationCount: 'infinite',
   animationTimingFunction: 'cubic-bezier(.2,.68,.18,1.08)',
   animationFillMode: 'both',
-}));
+}))
 
-const spinnerDelay1 = computed(() => ({ animationDelay: '0.12s' }));
-const spinnerDelay2 = computed(() => ({ animationDelay: '0.24s' }));
-const spinnerDelay3 = computed(() => ({ animationDelay: '0.36s' }));
+const spinnerDelay1 = computed(() => ({ animationDelay: '0.12s' }))
+const spinnerDelay2 = computed(() => ({ animationDelay: '0.24s' }))
+const spinnerDelay3 = computed(() => ({ animationDelay: '0.36s' }))
 </script>
 
 <template>

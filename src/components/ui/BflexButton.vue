@@ -13,5 +13,4 @@ import BflexCycleLoader from '@/components/ui/BflexCycleLoader.vue'
   </button>
 </template>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

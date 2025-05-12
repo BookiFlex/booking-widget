@@ -25,12 +25,12 @@ defineProps({
   data: {
     type: Object,
     default: () => ({
-        name: '',
-        description: '',
-        thumbnail: null,
-        gallery: [],
-        amenities: []
-    })
+      name: '',
+      description: '',
+      thumbnail: null,
+      gallery: [],
+      amenities: [],
+    }),
   },
 })
 
@@ -64,12 +64,13 @@ const openGallery = () => {
         </slot>
 
         <div class="amenities">
-          <span v-for="(amenity, index) in data.amenities" :key="index" class="amenities__item">{{ amenity.title }}</span>
+          <span v-for="(amenity, index) in data.amenities" :key="index" class="amenities__item">{{
+            amenity.title
+          }}</span>
         </div>
       </div>
     </section>
   </article>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

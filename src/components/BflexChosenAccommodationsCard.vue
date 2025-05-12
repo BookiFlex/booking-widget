@@ -48,7 +48,7 @@ const props = defineProps({
   loading: {
     type: Boolean,
     default: false,
-  }
+  },
 })
 const { t } = useI18n()
 const emit = defineEmits(['changePaymentType', 'deleteAccommodationRequest'])
@@ -90,12 +90,13 @@ onMounted(() => {
         <dl class="text-sm">
           <dt>
             <BflexIconText icon="DateRange">{{
-                formatDateRange(item.checkInDate, item.checkOutDate, locale)
-              }}</BflexIconText>
+              formatDateRange(item.checkInDate, item.checkOutDate, locale)
+            }}</BflexIconText>
           </dt>
           <dd>
             <BflexIconText icon="Persons">
-              {{ t('chosenAccommodation.adults', item.adults) }}, {{ t('chosenAccommodation.children', item.children.length) }}
+              {{ t('chosenAccommodation.adults', item.adults) }},
+              {{ t('chosenAccommodation.children', item.children.length) }}
             </BflexIconText>
           </dd>
         </dl>
@@ -110,28 +111,29 @@ onMounted(() => {
                 >x{{ item.quantity }}</span
               >
             </h3>
-            <div class="text-sm" style="line-height: 1.25; font-weight: lighter">{{ item.ratePlan.name }}<br />
+            <div class="text-sm" style="line-height: 1.25; font-weight: lighter">
+              {{ item.ratePlan.name }}<br />
               <BflexTooltip class="inline">
                 <abbr>{{ item.cancellationPolicy.name || '' }}</abbr>
                 <template #popper>
                   <p
-                    v-for="(i, index) in formatDescription(
-                      item.cancellationPolicy.consequences,
-                    )"
+                    v-for="(i, index) in formatDescription(item.cancellationPolicy.consequences)"
                     :key="index"
                   >
                     {{ i }}
                   </p>
                 </template>
-              </BflexTooltip></div>
+              </BflexTooltip>
+            </div>
           </dt>
           <dd>
             <div
               v-if="!dummy"
               @click="() => onDeleteAccommodation(item)"
               class="accommodation-list__item-delete text-sm cursor-pointer"
-            >{{ t('chosenAccommodation.delete') }}</div
             >
+              {{ t('chosenAccommodation.delete') }}
+            </div>
             <span style="opacity: 0.7" v-if="item.quantity > 1">{{ item.quantity }} x</span>
             {{ item.summary.total }} {{ currency }}
           </dd>
@@ -184,5 +186,4 @@ onMounted(() => {
   </BflexInformationBlock>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

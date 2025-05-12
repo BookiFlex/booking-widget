@@ -9,7 +9,7 @@ import BflexIconText from '@/components/ui/BflexIconText.vue'
 defineProps({
   hotelInfo: {
     type: Object,
-  }
+  },
 })
 
 const { t } = useI18n()
@@ -23,12 +23,15 @@ const { t } = useI18n()
       <div class="hotel-information">
         <BflexIconText icon="Hotel">{{ hotelInfo.name }}</BflexIconText>
         <BflexIconText icon="Home">{{ hotelInfo.address.address }}</BflexIconText>
-        <BflexIconText icon="Phone"><a :href="`tel:${hotelInfo.phone}`">{{ hotelInfo.phone }}</a></BflexIconText>
-        <BflexIconText icon="Email"><a href="#">{{ hotelInfo.email }}</a></BflexIconText>
+        <BflexIconText icon="Phone"
+          ><a :href="`tel:${hotelInfo.phone}`">{{ hotelInfo.phone }}</a></BflexIconText
+        >
+        <BflexIconText icon="Email"
+          ><a href="#">{{ hotelInfo.email }}</a></BflexIconText
+        >
       </div>
     </BflexContent>
   </BflexInformationBlock>
 </template>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

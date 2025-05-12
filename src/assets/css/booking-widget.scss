@@ -11,7 +11,9 @@
   margin: 0 auto;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -26,38 +28,38 @@
 
 /* 2. Заголовки */
 h1 {
-  font-size: 1.5rem;   /* 24px */
+  font-size: 1.5rem; /* 24px */
   font-weight: 600;
   margin-bottom: 1rem;
 }
 
 h2 {
-  font-size: 1.25rem;  /* 20px */
+  font-size: 1.25rem; /* 20px */
   font-weight: 600;
   margin-bottom: 0.75rem;
 }
 
 h3 {
-  font-size: 1.125rem;  /* 18px */
+  font-size: 1.125rem; /* 18px */
   font-weight: 600;
   margin-bottom: 0.75rem;
 }
 
 h4 {
-  font-size: 1rem;      /* 16px */
+  font-size: 1rem; /* 16px */
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
 
 h5 {
-  font-size: 0.875rem;  /* 14px */
+  font-size: 0.875rem; /* 14px */
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
 
 /* 3. Параграфы и текст */
 p {
-  font-size: 1rem;     /* 16px */
+  font-size: 1rem; /* 16px */
   margin-bottom: 0.75rem;
 }
 
@@ -149,7 +151,7 @@ ul {
     &:before {
       content: '';
       display: inline-flex;
-      margin-right: 0.250rem;
+      margin-right: 0.25rem;
     }
   }
 }

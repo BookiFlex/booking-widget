@@ -9,9 +9,7 @@ if (globalThis.window) {
 }
 
 function mountWidget(initOptions) {
-  createApp(App, { initOptions })
-    .use(i18n)
-    .mount('#bflex-booking-widget')
+  createApp(App, { initOptions }).use(i18n).mount('#bflex-booking-widget')
 }
 
 export { BookingWidget, mountWidget }

@@ -15,7 +15,7 @@ const props = defineProps({
   rules: {
     type: Array,
     default: () => [],
-  }
+  },
 })
 
 const { t } = useI18n()
@@ -24,8 +24,8 @@ const combinedAgreements = computed(() => {
   return props.agreements.filter((item) => item.combined)
 })
 
-const combinedAgreementsChecked = ref(false);
-const agreementsChecked = ref(props.agreements.map(() => false));
+const combinedAgreementsChecked = ref(false)
+const agreementsChecked = ref(props.agreements.map(() => false))
 </script>
 
 <template>
@@ -44,23 +44,27 @@ const agreementsChecked = ref(props.agreements.map(() => false));
       <div class="agreement-rules-list__agreements">
         <div v-if="combinedAgreements.length > 0" class="agreement-rules-list__agreements-item">
           <BflexCheckbox v-model="combinedAgreementsChecked" required>
-            <span>{{ t('accommodationRules.agreementSentence') }}
+            <span
+              >{{ t('accommodationRules.agreementSentence') }}
               <a
                 class="agreement-rules-list__combined-agreement"
                 target="_blank"
                 v-for="(agreement, index) in combinedAgreements"
                 :href="agreement.url"
                 :key="index"
-              >{{ agreement.anchor }}</a
-              >.</span>
+                >{{ agreement.anchor }}</a
+              >.</span
+            >
           </BflexCheckbox>
         </div>
-      <template v-for="(agreement, index) in agreements" :key="index">
+        <template v-for="(agreement, index) in agreements" :key="index">
           <div v-if="agreement.combined === false" class="agreement-rules-list__agreements-item">
-            <BflexCheckbox v-model="agreementsChecked[index]" :required="agreement.required"><span
-            >{{ t('accommodationRules.agreementSentenceShort') }}
+            <BflexCheckbox v-model="agreementsChecked[index]" :required="agreement.required"
+              ><span
+                >{{ t('accommodationRules.agreementSentenceShort') }}
                 <a target="_blank" :href="agreement.url">{{ agreement.anchor }}</a></span
-            ></BflexCheckbox>
+              ></BflexCheckbox
+            >
           </div>
         </template>
       </div>
@@ -68,5 +72,4 @@ const agreementsChecked = ref(props.agreements.map(() => false));
   </BflexInformationBlock>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

@@ -4,7 +4,7 @@ const ENDPOINTS = {
   CART: 'bflex/v1/cart',
   CHANGE_PAYMENT_TYPE: 'bflex/v1/cart/paymentType',
   CONFIRM_CART: 'bflex/v1/cart/confirm',
-  LOAD_RESERVATION: 'bflex/v1/account/reservation'
+  LOAD_RESERVATION: 'bflex/v1/account/reservation',
 }
 
 /**
@@ -47,37 +47,37 @@ async function handleResponse(response) {
  */
 async function detectRestApiRelativeUrl() {
   if (window.BookiFlex?.restUrl) {
-    return toRelativeUrl(window.BookiFlex.restUrl);
+    return toRelativeUrl(window.BookiFlex.restUrl)
   }
 
-  const apiLink = document.querySelector('link[rel="https://api.w.org/"]');
+  const apiLink = document.querySelector('link[rel="https://api.w.org/"]')
   if (apiLink?.href) {
-    return toRelativeUrl(apiLink.href);
+    return toRelativeUrl(apiLink.href)
   }
 
   try {
-    const res = await fetch('/wp-json/', { method: 'HEAD' });
-    if (res.ok) return '/wp-json/';
+    const res = await fetch('/wp-json/', { method: 'HEAD' })
+    if (res.ok) return '/wp-json/'
     // eslint-disable-next-line no-unused-vars
   } catch (_) {
     //
   }
 
-  return '/index.php?rest_route=/';
+  return '/index.php?rest_route=/'
 }
 
 function toRelativeUrl(absoluteUrl) {
   try {
-    const url = new URL(absoluteUrl, location.href);
-    return url.pathname + url.search; // for ex.: /wp-json/ or /index.php?rest_route=/
+    const url = new URL(absoluteUrl, location.href)
+    return url.pathname + url.search // for ex.: /wp-json/ or /index.php?rest_route=/
     // eslint-disable-next-line no-unused-vars
   } catch (_) {
-    return absoluteUrl; // fallback, если URL кривой
+    return absoluteUrl // fallback, если URL кривой
   }
 }
 
 const init = async () => {
-  const endpoint = await detectRestApiRelativeUrl() + ENDPOINTS.INIT
+  const endpoint = (await detectRestApiRelativeUrl()) + ENDPOINTS.INIT
 
   try {
     const response = await fetch(endpoint, {
@@ -90,14 +90,14 @@ const init = async () => {
 
     return await handleResponse(response)
   } catch (error) {
-    console.error('Error in init app', error);
+    console.error('Error in init app', error)
     throw error
   }
 }
 
 const loadOffers = async (start, end, promoCode) => {
   console.debug('Loading data', start, end, promoCode)
-  const endpoint = await detectRestApiRelativeUrl() + ENDPOINTS.OFFERS + '?'
+  const endpoint = (await detectRestApiRelativeUrl()) + ENDPOINTS.OFFERS + '?'
 
   if (!start || !end) {
     throw new Error('Invalid dates')
@@ -116,7 +116,7 @@ const loadOffers = async (start, end, promoCode) => {
 
 const loadCart = async () => {
   console.debug('Loading cart')
-  const endpoint = await detectRestApiRelativeUrl() + ENDPOINTS.CART
+  const endpoint = (await detectRestApiRelativeUrl()) + ENDPOINTS.CART
 
   try {
     const response = await fetch(endpoint, {
@@ -150,7 +150,7 @@ const loadCart = async () => {
  * @returns {Promise<void>}
  */
 const updateCart = async (data) => {
-  const endpoint = await detectRestApiRelativeUrl() + ENDPOINTS.CART
+  const endpoint = (await detectRestApiRelativeUrl()) + ENDPOINTS.CART
 
   try {
     const response = await fetch(endpoint, {
@@ -177,7 +177,7 @@ const updateCart = async (data) => {
  * @returns {Promise<void>}
  */
 const changePaymentType = async (data) => {
-  const endpoint = await detectRestApiRelativeUrl() + ENDPOINTS.CHANGE_PAYMENT_TYPE
+  const endpoint = (await detectRestApiRelativeUrl()) + ENDPOINTS.CHANGE_PAYMENT_TYPE
 
   try {
     const response = await fetch(endpoint, {
@@ -208,7 +208,7 @@ const changePaymentType = async (data) => {
  */
 const confirmCart = async (data) => {
   console.debug('Confirming booking', data)
-  const endpoint = await detectRestApiRelativeUrl() + ENDPOINTS.CONFIRM_CART
+  const endpoint = (await detectRestApiRelativeUrl()) + ENDPOINTS.CONFIRM_CART
 
   try {
     const response = await fetch(endpoint, {
@@ -232,7 +232,7 @@ const confirmCart = async (data) => {
  * @returns {Promise<Object>}
  */
 const loadReservation = async (data) => {
-  const endpoint = await detectRestApiRelativeUrl() + ENDPOINTS.LOAD_RESERVATION
+  const endpoint = (await detectRestApiRelativeUrl()) + ENDPOINTS.LOAD_RESERVATION
 
   try {
     const response = await fetch(endpoint, {

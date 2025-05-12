@@ -26,10 +26,12 @@ defineProps({
 <template>
   <div class="variant-line">
     <div class="variant-line__content">
-      <BflexPriceBlock :selling-price="price.sellingPrice"
-                  :original-selling-price="price.originalSellingPrice"
-                  :discount="price.discount || null"
-                  :currency="price.currency">
+      <BflexPriceBlock
+        :selling-price="price.sellingPrice"
+        :original-selling-price="price.originalSellingPrice"
+        :discount="price.discount || null"
+        :currency="price.currency"
+      >
         <template #icons>
           <slot name="icons" />
         </template>
@@ -46,5 +48,4 @@ defineProps({
   </div>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

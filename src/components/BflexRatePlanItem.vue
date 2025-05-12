@@ -87,7 +87,10 @@ const { formatDescription } = useFormattedCancellationPolicy()
   <div class="rate-plan-card">
     <div class="rate-plan-card__wrapper">
       <div class="rate-plan-card__description">
-        <h2 @click="isDescriptionOpen = !isDescriptionOpen" class="rate-plan-card__title cursor-pointer">
+        <h2
+          @click="isDescriptionOpen = !isDescriptionOpen"
+          class="rate-plan-card__title cursor-pointer"
+        >
           {{ data.name }}
           <BflexIcon :name="isDescriptionOpen ? 'ExpandLess' : 'ExpandMore'"></BflexIcon>
         </h2>
@@ -100,17 +103,15 @@ const { formatDescription } = useFormattedCancellationPolicy()
           <div class="rate-plan-card__offers-item">
             <BflexIcon name="Restore"></BflexIcon>
             <BflexTooltip class="inline">
-                <abbr>{{ data.cancellationPolicy.name || '' }}</abbr>
-                <template #popper>
-                  <p
-                    v-for="(item, index) in formatDescription(
-                      data.cancellationPolicy.consequences,
-                    )"
-                    :key="index"
-                  >
-                    {{ item }}
-                  </p>
-                </template>
+              <abbr>{{ data.cancellationPolicy.name || '' }}</abbr>
+              <template #popper>
+                <p
+                  v-for="(item, index) in formatDescription(data.cancellationPolicy.consequences)"
+                  :key="index"
+                >
+                  {{ item }}
+                </p>
+              </template>
             </BflexTooltip>
           </div>
 
@@ -127,13 +128,15 @@ const { formatDescription } = useFormattedCancellationPolicy()
           <div class="rate-plan-card__offers-item">
             <BflexIcon name="CreditCard"></BflexIcon>
             <span
-              ><strong style="margin-right: .375rem">{{ t('ratePlan.payments') }}:</strong>
+              ><strong style="margin-right: 0.375rem">{{ t('ratePlan.payments') }}:</strong>
               <template v-for="(paymentType, idx) in data.paymentTypes" :key="paymentType.name">
                 <BflexTooltip class="inline">
                   <abbr>{{ paymentType.name }}</abbr>
                   <template #popper>{{ paymentType.description }}</template>
                 </BflexTooltip>
-                <strong v-if="data.paymentTypes.length - 1 !== idx" style="margin: 0 .375rem">{{ t('ratePlan.or') }}</strong>
+                <strong v-if="data.paymentTypes.length - 1 !== idx" style="margin: 0 0.375rem">{{
+                  t('ratePlan.or')
+                }}</strong>
               </template>
             </span>
           </div>
@@ -167,7 +170,12 @@ const { formatDescription } = useFormattedCancellationPolicy()
                 />
               </template>
 
-              <BflexButton :loading="loading[index]" :disabled="disabled && !loading[index]" @click="() => emitVariantChosen(occupancyVariant, index)">{{ t('ratePlan.action') }}</BflexButton>
+              <BflexButton
+                :loading="loading[index]"
+                :disabled="disabled && !loading[index]"
+                @click="() => emitVariantChosen(occupancyVariant, index)"
+                >{{ t('ratePlan.action') }}</BflexButton
+              >
             </BflexRatePlanVariantItem>
           </template>
         </div>
@@ -176,5 +184,4 @@ const { formatDescription } = useFormattedCancellationPolicy()
   </div>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

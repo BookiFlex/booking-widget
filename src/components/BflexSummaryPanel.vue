@@ -35,7 +35,12 @@ const emit = defineEmits(['onAccommodationSummaryClick'])
         </div>
         <div class="summary-block__content-info__text">
           {{ t('summary.room', accommodationUnits) }}, {{ t('summary.los', lengthOfStay) }}
-          <BflexIcon @click.stop="emit('onAccommodationSummaryClick')" class="accommodation-summary-trigger" name="Info" small></BflexIcon>
+          <BflexIcon
+            @click.stop="emit('onAccommodationSummaryClick')"
+            class="accommodation-summary-trigger"
+            name="Info"
+            small
+          ></BflexIcon>
         </div>
       </div>
       <button class="button" type="submit">
@@ -45,5 +50,4 @@ const emit = defineEmits(['onAccommodationSummaryClick'])
   </div>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

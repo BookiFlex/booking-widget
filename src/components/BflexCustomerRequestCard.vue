@@ -13,7 +13,7 @@ const props = defineProps({
     type: Object,
     default: () => ({
       comment: '',
-      arrivalTime: 'none'
+      arrivalTime: 'none',
     }),
   },
   arrivalPolicy: {
@@ -21,14 +21,14 @@ const props = defineProps({
     default: () => ({
       checkInTime: '14:00',
       checkOutTime: '11:00',
-    })
-  }
+    }),
+  },
 })
 const { t } = useI18n()
 
 const emit = defineEmits(['update:modelValue'])
 const data = reactive({ ...props.modelValue })
-const timeSlots = timeRangeGenerator("00:00", "23:00")
+const timeSlots = timeRangeGenerator('00:00', '23:00')
 
 watch(
   data,
@@ -45,29 +45,23 @@ watch(
     <BflexDivider></BflexDivider>
     <BflexContent>
       <BflexFieldDecorator :label="t('customerRequest.comment')">
-          <textarea
-            v-model="data.comment"
-            name="comment"
-            rows="3"
-            maxlength="500"
-          ></textarea>
+        <textarea v-model="data.comment" name="comment" rows="3" maxlength="500"></textarea>
       </BflexFieldDecorator>
     </BflexContent>
     <BflexDivider></BflexDivider>
     <BflexContent>
       <dl class="text-sm">
         <dt>{{ t('customerRequest.checkInOutTime') }}:</dt>
-        <dd>{{ t('customerRequest.checkInTimeFrom') }}: {{ arrivalPolicy.checkInTime }}; {{ t('customerRequest.checkOutTimeUntil') }}:
-          {{ arrivalPolicy.checkOutTime }}</dd>
+        <dd>
+          {{ t('customerRequest.checkInTimeFrom') }}: {{ arrivalPolicy.checkInTime }};
+          {{ t('customerRequest.checkOutTimeUntil') }}: {{ arrivalPolicy.checkOutTime }}
+        </dd>
       </dl>
     </BflexContent>
     <BflexDivider></BflexDivider>
     <BflexContent>
       <BflexFieldDecorator :label="t('customerRequest.arrivalTime')" style="width: 50%">
-        <select
-          name="arrivalTime"
-          v-model="data.arrivalTime"
-        >
+        <select name="arrivalTime" v-model="data.arrivalTime">
           <option value="none" selected>{{ t('customerRequest.noneTime') }}</option>
           <option v-for="time in timeSlots" :value="time" :key="time">{{ time }}</option>
         </select>
@@ -76,5 +70,4 @@ watch(
   </BflexInformationBlock>
 </template>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

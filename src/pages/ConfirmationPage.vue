@@ -24,7 +24,15 @@ const data = ref({
   agreementList: [],
 })
 const emit = defineEmits(['released'])
-const onDeleteAccommodationRequest = async ({ checkInDate, checkOutDate, accommodationType, ratePlan, adults, children, quantity }) => {
+const onDeleteAccommodationRequest = async ({
+  checkInDate,
+  checkOutDate,
+  accommodationType,
+  ratePlan,
+  adults,
+  children,
+  quantity,
+}) => {
   loading.value = true
 
   try {
@@ -125,39 +133,38 @@ const lengthOfStayOfFirstRequest = computed(() => {
 </script>
 
 <template>
-    <form @submit="onSubmit" ref="confirmForm">
-      <BflexGridGap>
-        <BflexContactInformationCard v-model="data.customerInfo" />
+  <form @submit="onSubmit" ref="confirmForm">
+    <BflexGridGap>
+      <BflexContactInformationCard v-model="data.customerInfo" />
 
-        <BflexChosenAccommodationsCard
-          v-if="cart"
-          :loading="loading"
-          :cart="cart"
-          :currency="cart.currency"
-          :locale="settings.widget.locale"
-          :payment="cart.payment"
-          :summary="cart.summary"
-          :items="cart.requests"
-          @changePaymentType="onChangePaymentType"
-          @deleteAccommodationRequest="onDeleteAccommodationRequest"
-        ></BflexChosenAccommodationsCard>
+      <BflexChosenAccommodationsCard
+        v-if="cart"
+        :loading="loading"
+        :cart="cart"
+        :currency="cart.currency"
+        :locale="settings.widget.locale"
+        :payment="cart.payment"
+        :summary="cart.summary"
+        :items="cart.requests"
+        @changePaymentType="onChangePaymentType"
+        @deleteAccommodationRequest="onDeleteAccommodationRequest"
+      ></BflexChosenAccommodationsCard>
 
-        <BflexCustomerRequestCard v-model="data.customerRequest"></BflexCustomerRequestCard>
-        <BflexAccommodationRulesCard
-          :agreements="settings.hotelRules.agreements"
-          :rules="settings.hotelRules.rules"
-        ></BflexAccommodationRulesCard>
+      <BflexCustomerRequestCard v-model="data.customerRequest"></BflexCustomerRequestCard>
+      <BflexAccommodationRulesCard
+        :agreements="settings.hotelRules.agreements"
+        :rules="settings.hotelRules.rules"
+      ></BflexAccommodationRulesCard>
 
-        <BflexSummaryPanel
-          v-if="!loading && cart"
-          :total-amount="cart.summary.total"
-          :currency="cart.currency"
-          :accommodation-units="accommodationUnits"
-          :length-of-stay="lengthOfStayOfFirstRequest"
-        ></BflexSummaryPanel>
-      </BflexGridGap>
-    </form>
+      <BflexSummaryPanel
+        v-if="!loading && cart"
+        :total-amount="cart.summary.total"
+        :currency="cart.currency"
+        :accommodation-units="accommodationUnits"
+        :length-of-stay="lengthOfStayOfFirstRequest"
+      ></BflexSummaryPanel>
+    </BflexGridGap>
+  </form>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

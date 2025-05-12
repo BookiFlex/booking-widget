@@ -32,24 +32,28 @@ const accommodationOffers = ref([])
 const loadingAccommodationOffers = ref(false)
 const { setError } = inject('globalError')
 
-watch(() => props.dateRange, async (value) => {
-  if (!value.start || !value.end) {
-    return
-  }
+watch(
+  () => props.dateRange,
+  async (value) => {
+    if (!value.start || !value.end) {
+      return
+    }
 
-  loadingAccommodationOffers.value = true
-  try {
-    const result = await loadOffers(value.start, value.end, props.promoCode)
-    accommodationOffers.value = result.searchResults
-  } catch (error) {
-    setError(error)
-  } finally {
-    loadingAccommodationOffers.value = false
-  }
-}, {
-  deep: true,
-  immediate: true,
-})
+    loadingAccommodationOffers.value = true
+    try {
+      const result = await loadOffers(value.start, value.end, props.promoCode)
+      accommodationOffers.value = result.searchResults
+    } catch (error) {
+      setError(error)
+    } finally {
+      loadingAccommodationOffers.value = false
+    }
+  },
+  {
+    deep: true,
+    immediate: true,
+  },
+)
 
 const emit = defineEmits(['released'])
 
@@ -94,5 +98,4 @@ const onAddToCart = async ({ accommodationOffer, ratePlan, variant }) => {
   </BflexGridGap>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>
