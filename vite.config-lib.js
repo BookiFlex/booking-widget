@@ -7,12 +7,11 @@ import svgLoader from 'vite-svg-loader'
 const name = "index";
 
 export default defineConfig({
-  // base: "/release-timeline/",
   plugins: [
     vue({
       template: {
         compilerOptions: {
-          isCustomElement: (tag) => tag.startsWith('sl-') || tag.startsWith('bflex-'),
+          isCustomElement: (tag) => tag.startsWith('bflex-'),
         },
       },
     }),
@@ -39,5 +38,9 @@ export default defineConfig({
         inlineDynamicImports: true,
       },
     },
+  },
+  define: {
+    'process.env.NODE_ENV': JSON.stringify('production'),
+    'process.env': {},
   },
 });
