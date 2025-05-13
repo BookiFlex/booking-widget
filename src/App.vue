@@ -1,6 +1,7 @@
 <script setup>
 import BookingWidget from './BookingWidget.vue'
 import BflexErrorProvider from '@/components/BflexErrorProvider.vue'
+import { onUnmounted } from 'vue'
 
 defineProps({
   start: {
@@ -23,6 +24,10 @@ defineProps({
     type: Array,
     default: () => [],
   },
+})
+
+onUnmounted(() => {
+  window.dispatchEvent(new CustomEvent('bflex:booking-widget:removed'))
 })
 </script>
 

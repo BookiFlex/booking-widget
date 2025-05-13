@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, onBeforeMount, ref, getCurrentInstance, watch } from 'vue'
+import { defineProps, onBeforeMount, ref, getCurrentInstance, watch, onUnmounted } from 'vue'
 import BookingWidget from './BookingWidget.vue'
 import BflexErrorProvider from '@/components/BflexErrorProvider.vue'
 import i18n from '@/i18n.js'
@@ -51,6 +51,10 @@ onBeforeMount(() => {
     app.use(i18n)
     app.__i18n_installed = true
   }
+})
+
+onUnmounted(() => {
+  window.dispatchEvent(new CustomEvent('bflex:booking-widget:removed'))
 })
 </script>
 

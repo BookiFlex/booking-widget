@@ -142,7 +142,6 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-  window.dispatchEvent(new CustomEvent('bflex:booking-widget:removed'))
   window.removeEventListener('bflex:search-bar:search', onSearchParamsChanged)
 })
 
