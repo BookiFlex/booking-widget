@@ -97,7 +97,8 @@ const init = async () => {
 
 const loadOffers = async (start, end, promoCode) => {
   console.debug('Loading data', start, end, promoCode)
-  const endpoint = (await detectRestApiRelativeUrl()) + ENDPOINTS.OFFERS + '?'
+  let endpoint = (await detectRestApiRelativeUrl()) + ENDPOINTS.OFFERS
+  endpoint = endpoint.includes('?') ? endpoint + '&' : endpoint + '?'
 
   if (!start || !end) {
     throw new Error('Invalid dates')
