@@ -125,7 +125,7 @@ onMounted(async () => {
     settings.value = appSettings
     const { widget } = appSettings
 
-    if (widget && widget.locale && widget.l10n) {
+    if (widget && widget.locale && widget.l10n && Object.keys(widget.l10n).length) {
       i18n.global.locale.value = widget.locale
       i18n.global.setLocaleMessage(widget.locale, widget.l10n)
     }
