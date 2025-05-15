@@ -54,10 +54,18 @@ provide('settings', settings)
 const pages = [CHOOSE_ACCOMMODATION, BOOKING_CONFIRMATION, RESERVATION_DETAILS]
 const activePage = ref(null)
 const nextPage = (action) => {
-  const index = pages.indexOf(action)
-  if (index >= 0 && index < pages.length - 1) {
-    activePage.value = pages[index + 1]
+  if (!action) {
+    activePage.value = CHOOSE_ACCOMMODATION
+  } else {
+    const index = pages.indexOf(action)
+    if (index >= 0 && index < pages.length - 1) {
+      activePage.value = pages[index + 1]
+    }
   }
+
+  window.dispatchEvent(
+    new CustomEvent('bflex:booking-widget:action', { detail: { action: activePage.value } }),
+  )
 }
 
 const loading = ref(false)
@@ -130,7 +138,7 @@ onMounted(async () => {
       i18n.global.setLocaleMessage(widget.locale, widget.l10n)
     }
 
-    activePage.value = inProgress ? BOOKING_CONFIRMATION : CHOOSE_ACCOMMODATION
+    inProgress ? nextPage(CHOOSE_ACCOMMODATION) : nextPage()
   } catch (error) {
     setError(error)
   } finally {
@@ -147,7 +155,7 @@ onUnmounted(() => {
 
 const onReleasedAction = ({ action, result }) => {
   if (action === EMPTY_CART) {
-    activePage.value = CHOOSE_ACCOMMODATION
+    nextPage()
   } else if (action === BOOKING_CONFIRMATION) {
     sid.value = result.reservations[0]
     nextPage(action)
