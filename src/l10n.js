@@ -97,11 +97,25 @@ export default {
       los: '@:ratePlan.los',
     },
     reservation: {
-      title: 'Your reservation is complete!',
-      description: 'Wait for confirmation from the hotel',
+      title: 'Your booking is complete!',
+      description: {
+        waitingPayment: 'Please make a prepayment to confirm your booking.',
+        waitingConfirmation: 'We will try to confirm your booking as soon as possible.',
+        confirmed: 'Your booking has been successfully confirmed.',
+        cancelled: 'Your booking has been cancelled.',
+        overdue: 'The payment time for your booking has expired. It will be cancelled soon.'
+      },
+      nextStep: {
+        waitingPayment: 'You can pay now to secure your reservation. We’ll hold it for a limited time {untilTime} — if no payment is received, it may be automatically cancelled.',
+        waitingConfirmation: 'We’re checking availability and will notify you once your booking is confirmed. Please wait — this usually takes no more than 24 hours.',
+        confirmed: 'Thank you for your reservation! You’ll receive a confirmation email with all details shortly. If you have any questions, feel free to contact us.',
+        cancelled: 'Unfortunately, this booking is no longer valid. If you still wish to travel, please make a new reservation.',
+        overdue: 'If you still want to keep your booking, please contact us as soon as possible. Otherwise, it will be automatically cancelled.'
+      },
+      whatIsNext: 'What is your next step?',
       customerRequest: 'Your request',
       hotelInfo: {
-        title: 'Hotel Information',
+        title: 'Contact Information',
         email: 'Email',
       },
     },

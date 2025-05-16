@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, onMounted, ref, watch, inject } from 'vue'
+import { defineProps, onMounted, ref, watch, inject, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { loadReservation } from '../api/api.js'
 import BflexChosenAccommodationsCard from '../components/BflexChosenAccommodationsCard.vue'
@@ -10,6 +10,7 @@ import BflexContent from '../components/InformationBlock/BflexContent.vue'
 import BflexSkeletonLoader from '../components/ui/BflexSkeletonLoader.vue'
 import BflexHotelInformationCard from '@/components/BflexHotelInformationCard.vue'
 import BflexGridGap from '@/components/InformationBlock/BflexGridGap.vue'
+import { convertStatus } from '../util/text.js'
 
 const props = defineProps({
   sid: {
@@ -42,6 +43,14 @@ const loadReservationCallback = async () => {
   }
 }
 
+const statusText = computed(() => {
+  if (reservation.value.length) {
+    return convertStatus(reservation.value.reservations[0].status)
+  }
+
+  return ''
+})
+
 watch(() => props.sid, loadReservationCallback)
 onMounted(loadReservationCallback)
 </script>
@@ -52,7 +61,7 @@ onMounted(loadReservationCallback)
     <template v-else>
       <section class="reservation-result">
         <div class="reservation-result__title">{{ t('reservation.title') }}</div>
-        <div class="reservation-result__description">{{ t('reservation.description') }}</div>
+        <div class="reservation-result__description">{{ t(`reservation.description.${statusText}`) }}</div>
       </section>
 
       <BflexChosenAccommodationsCard
@@ -62,6 +71,12 @@ onMounted(loadReservationCallback)
         :locale="settings.widget.locale"
         dummy
       ></BflexChosenAccommodationsCard>
+
+      <BflexInformationBlock class="information-block--attention">
+        <BflexHeader>{{ t('reservation.whatIsNext') }}</BflexHeader>
+        <BflexDivider></BflexDivider>
+        <BflexContent>{{ t(`reservation.nextStep.${statusText}`, { untilTime: '' }) }}</BflexContent>
+      </BflexInformationBlock>
 
       <BflexInformationBlock v-if="reservation.note">
         <BflexHeader>{{ t('reservation.customerRequest') }}</BflexHeader>
