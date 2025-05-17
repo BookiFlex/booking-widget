@@ -37,6 +37,10 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
+      '/index.php?rest_route=': {
+        target: 'http://localhost:8888',
+        changeOrigin: true,
+      },
       // with RegExp:
       // http://localhost:5173/fallback/
       //   -> http://jsonplaceholder.typicode.com/

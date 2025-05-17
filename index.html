@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/js/searchbar.wc.js"></script>
+    <link rel="https://api.w.org/" href="http://localhost:8888/index.php?rest_route=/">
     <title>BookiFlex booking widget</title>
     <style>
       body {
@@ -13,9 +13,6 @@
   </head>
   <body>
     <div id="app"></div>
-    <script id="bookiflex-searchbar-js-extra">
-      var BookiFlex = {"restUrl":"http:\/\/localhost:8888\/wp-json\/","nonce":"f186e7d391","debug":"1","i18n":{"editPrices":"Edit prices","update":"Update"},"widget":[],"searchBar":{"l10n":{"search":"Search","check-in-out-date":"CheckIn\\Out","promo-code":"Promo codes"}}};
-    </script>
     <script type="module" src="/src/main.js"></script>
     <script>
       window.addEventListener('bflex:booking-widget:changed', (e) => {

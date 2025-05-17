@@ -24,12 +24,16 @@ const combinedAgreements = computed(() => {
   return props.agreements.filter((item) => item.combined)
 })
 
+const isDisplayAgreement = computed(() => {
+  return props.agreements.length > 0 || props.rules.length > 0
+})
+
 const combinedAgreementsChecked = ref(false)
 const agreementsChecked = ref(props.agreements.map(() => false))
 </script>
 
 <template>
-  <BflexInformationBlock class="agreement-rules-list">
+  <BflexInformationBlock class="agreement-rules-list" v-if="isDisplayAgreement">
     <BflexHeader>{{ t('accommodationRules.title') }}</BflexHeader>
     <template v-if="rules.length > 0">
       <BflexDivider></BflexDivider>

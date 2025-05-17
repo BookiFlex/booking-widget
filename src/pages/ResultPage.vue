@@ -11,6 +11,7 @@ import BflexSkeletonLoader from '../components/ui/BflexSkeletonLoader.vue'
 import BflexHotelInformationCard from '@/components/BflexHotelInformationCard.vue'
 import BflexGridGap from '@/components/InformationBlock/BflexGridGap.vue'
 import { convertStatus } from '../util/text.js'
+import BflexPaymentPanel from '@/components/BflexPaymentPanel.vue'
 
 const props = defineProps({
   sid: {
@@ -23,6 +24,7 @@ const { t } = useI18n()
 
 const settings = inject('settings')
 const reservation = ref(null)
+const captureTokens = ref([])
 const loading = ref(true)
 
 const { setError } = inject('globalError')
@@ -35,7 +37,8 @@ const loadReservationCallback = async () => {
   loading.value = true
   try {
     const result = await loadReservation({ sid: props.sid })
-    reservation.value = result.reservations
+    reservation.value = result.data
+    captureTokens.value = result.captureTokens
   } catch (error) {
     setError(error)
   } finally {
@@ -50,6 +53,13 @@ const statusText = computed(() => {
 
   return ''
 })
+
+const onClickAction = () => {
+  captureTokens.value.forEach((token) => {
+    console.log(token)
+    window.open(token, '_blank');
+  })
+}
 
 watch(() => props.sid, loadReservationCallback)
 onMounted(loadReservationCallback)
@@ -85,6 +95,13 @@ onMounted(loadReservationCallback)
       </BflexInformationBlock>
 
       <BflexHotelInformationCard :hotel-info="settings.hotelInfo" />
+
+      <BflexPaymentPanel
+        v-if="captureTokens.length"
+        :prepayment="reservation.payment.prepayment"
+        :currency="reservation.currency"
+        @click="onClickAction"
+      ></BflexPaymentPanel>
     </template>
   </BflexGridGap>
 </template>

@@ -118,6 +118,10 @@ export default {
         title: 'Contact Information',
         email: 'Email',
       },
+      payment: {
+        action: 'Pay Now',
+        prepayment: 'Prepayment',
+      }
     },
   },
 }
