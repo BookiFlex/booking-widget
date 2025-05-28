@@ -47,7 +47,7 @@ const loadReservationCallback = async () => {
 }
 
 const statusText = computed(() => {
-  if (reservation.value.reservations.length) {
+  if (reservation.value?.reservations.length) {
     return convertStatus(reservation.value.reservations[0].status)
   }
 
