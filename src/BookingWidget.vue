@@ -6,13 +6,14 @@ import {
   CHOOSE_ACCOMMODATION,
   BOOKING_CONFIRMATION,
   EMPTY_CART,
-  RESERVATION_DETAILS,
+  RESERVATION_DETAILS, CANCEL_RESERVATION
 } from './constants.js'
 import ChooseAccommodationPage from '@/pages/ChooseAccommodationPage.vue'
 import BookingConfirmationPage from '@/pages/ConfirmationPage.vue'
 import ReservationDetailsPage from '@/pages/ResultPage.vue'
 import BflexSkeletonLoader from '@/components/ui/BflexSkeletonLoader.vue'
 import BflexGridGap from '@/components/InformationBlock/BflexGridGap.vue'
+import CancelReservationPage from '@/pages/CancelReservationPage.vue'
 
 const props = defineProps({
   start: {
@@ -56,6 +57,8 @@ const activePage = ref(null)
 const nextPage = (action) => {
   if (!action) {
     activePage.value = CHOOSE_ACCOMMODATION
+  } else if (action === CANCEL_RESERVATION) {
+    activePage.value = CANCEL_RESERVATION
   } else {
     const index = pages.indexOf(action)
     if (index >= 0 && index < pages.length - 1) {
@@ -138,7 +141,15 @@ onMounted(async () => {
       i18n.global.setLocaleMessage(widget.locale, widget.l10n)
     }
 
-    inProgress ? nextPage(CHOOSE_ACCOMMODATION) : nextPage()
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.has('cancelReservation')) {
+      cancelReservation.value = params.get('cancelReservation');
+      console.log('Cancel reservation', cancelReservation.value);
+      nextPage(CANCEL_RESERVATION)
+    } else {
+      inProgress ? nextPage(CHOOSE_ACCOMMODATION) : nextPage()
+    }
   } catch (error) {
     setError(error)
   } finally {
@@ -163,6 +174,8 @@ const onReleasedAction = ({ action, result }) => {
     nextPage(action)
   }
 }
+
+const cancelReservation = ref(null)
 </script>
 
 <template>
@@ -174,8 +187,13 @@ const onReleasedAction = ({ action, result }) => {
             <BflexSkeletonLoader v-for="i in 3" :key="i"></BflexSkeletonLoader>
           </BflexGridGap>
         </template>
+        <CancelReservationPage
+          v-if="cancelReservation"
+          :sid="cancelReservation"
+          @cancelReservation="cancelReservation = null"
+        ></CancelReservationPage>
         <ChooseAccommodationPage
-          v-if="activePage === CHOOSE_ACCOMMODATION"
+          v-else-if="activePage === CHOOSE_ACCOMMODATION"
           :dateRange="searchParams"
           :promoCode="promoCode"
           @released="onReleasedAction"

@@ -5,6 +5,7 @@ const ENDPOINTS = {
   CHANGE_PAYMENT_TYPE: 'bflex/v1/cart/paymentType',
   CONFIRM_CART: 'bflex/v1/cart/confirm',
   LOAD_RESERVATION: 'bflex/v1/account/reservation',
+  CANCEL_RESERVATION: 'bflex/v1/account/reservation/cancel',
 }
 
 /**
@@ -251,4 +252,28 @@ const loadReservation = async (data) => {
   }
 }
 
-export { init, loadOffers, loadCart, updateCart, changePaymentType, confirmCart, loadReservation }
+/**
+ * Cancel reservation
+ * @param {Object} data - Contains reservation SID, cancellation code
+ * @returns {Promise<Object>}
+ */
+const cancelReservation = async (data) => {
+  const endpoint = (await detectRestApiRelativeUrl()) + ENDPOINTS.CANCEL_RESERVATION
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+
+    return await handleResponse(response)
+  } catch (error) {
+    console.error('Failed to load reservation:', error)
+    throw error
+  }
+}
+
+export { init, loadOffers, loadCart, updateCart, changePaymentType, confirmCart, loadReservation, cancelReservation }

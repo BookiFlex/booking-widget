@@ -17,6 +17,7 @@ export default {
       prepaymentAmount: 'Pay now',
       onArrivalAmount: 'Amount to be paid on arrival',
       delete: 'Delete',
+      penalty: 'Cancellation Penalty',
     },
     contactInformation: {
       title: 'Contact Information',
@@ -89,6 +90,18 @@ export default {
         percent: '{penaltyPercentage}% of the booking cost',
         percentAndFixed: '{penaltyPercentage}% of the booking cost + {fixedPenalty}',
         daysAndFixed: '{days} days of the booking cost + {fixedPenalty}',
+      },
+    },
+    cancellationProcess: {
+      title: 'Cancel your reservation',
+      description: 'На этой странице вы сможете отменить вашу резервацию',
+      rules: 'Rules of cancellation',
+      codeHelp: 'Get a cancellation code from your reservation email',
+      codeLabel: 'Cancellation code',
+      action: 'Cancel reservation',
+      result: {
+        success: 'Your reservation has been cancelled',
+        error: 'Problem with cancellation your reservation. Check your cancellation code. If code is valid please contact the administrator.',
       },
     },
     summary: {

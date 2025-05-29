@@ -23,7 +23,7 @@ const props = defineProps({
 const { t } = useI18n()
 
 const settings = inject('settings')
-const reservation = ref(null)
+const data = ref(null)
 const captureTokens = ref([])
 const loading = ref(true)
 
@@ -37,8 +37,8 @@ const loadReservationCallback = async () => {
   loading.value = true
   try {
     const result = await loadReservation({ sid: props.sid })
-    reservation.value = result.data
-    captureTokens.value = result.captureTokens
+    data.value = result.data
+    // captureTokens.value = result.captureTokens
   } catch (error) {
     setError(error)
   } finally {
@@ -47,8 +47,8 @@ const loadReservationCallback = async () => {
 }
 
 const statusText = computed(() => {
-  if (reservation.value?.reservations.length) {
-    return convertStatus(reservation.value.reservations[0].status)
+  if (data.value?.reservation) {
+    return convertStatus(data.value.reservation.status)
   }
 
   return ''
@@ -75,11 +75,11 @@ onMounted(loadReservationCallback)
       </section>
 
       <BflexChosenAccommodationsCard
-        :items="reservation.reservations"
-        :summary="reservation.summary"
-        :payment="reservation.payment"
+        mode="info"
+        :reservation="data.reservation"
+        :summary="data.summary"
+        :payment="data.payment"
         :locale="settings.widget.locale"
-        dummy
       ></BflexChosenAccommodationsCard>
 
       <BflexInformationBlock class="information-block--attention">
@@ -88,18 +88,18 @@ onMounted(loadReservationCallback)
         <BflexContent>{{ t(`reservation.nextStep.${statusText}`, { untilTime: '' }) }}</BflexContent>
       </BflexInformationBlock>
 
-      <BflexInformationBlock v-if="reservation.note">
+      <BflexInformationBlock v-if="data.note">
         <BflexHeader>{{ t('reservation.customerRequest') }}</BflexHeader>
         <BflexDivider></BflexDivider>
-        <BflexContent>{{ reservation.note }}</BflexContent>
+        <BflexContent>{{ data.note }}</BflexContent>
       </BflexInformationBlock>
 
       <BflexHotelInformationCard :hotel-info="settings.hotelInfo" />
 
       <BflexPaymentPanel
         v-if="captureTokens.length"
-        :prepayment="reservation.payment.prepayment"
-        :currency="reservation.currency"
+        :prepayment="data.payment.prepayment"
+        :currency="data.currency"
         @click="onClickAction"
       ></BflexPaymentPanel>
     </template>
