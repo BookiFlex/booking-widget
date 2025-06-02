@@ -120,14 +120,22 @@ const accommodationUnits = computed(() => {
   }, 0)
 })
 
+const hasRequests = computed(() => {
+  return !(!cart.value || !cart.value.requests || Object.keys(cart.value.requests).length === 0);
+})
+
+const firstRequest = computed(() => {
+  return cart.value.requests[Object.keys(cart.value.requests).length - 1]
+})
+
 const lengthOfStayOfFirstRequest = computed(() => {
-  if (!cart.value || !cart.value.requests || Object.keys(cart.value.requests).length === 0) {
+  if (!hasRequests.value) {
     return 0
   }
 
   return lengthOfStay(
-    cart.value.requests[Object.keys(cart.value.requests)[0]].checkInDate,
-    cart.value.requests[Object.keys(cart.value.requests)[0]].checkOutDate,
+    firstRequest.value.checkInDate,
+    firstRequest.value.checkOutDate,
   )
 })
 </script>
@@ -138,14 +146,13 @@ const lengthOfStayOfFirstRequest = computed(() => {
       <BflexContactInformationCard v-model="data.customerInfo" />
 
       <BflexChosenAccommodationsCard
-        v-if="cart"
+        v-if="cart && hasRequests"
+        mode="choose"
         :loading="loading"
-        :cart="cart"
-        :currency="cart.currency"
         :locale="settings.widget.locale"
         :payment="cart.payment"
         :summary="cart.summary"
-        :items="cart.requests"
+        :reservation="firstRequest"
         @changePaymentType="onChangePaymentType"
         @deleteAccommodationRequest="onDeleteAccommodationRequest"
       ></BflexChosenAccommodationsCard>
