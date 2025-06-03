@@ -53,8 +53,8 @@ const emit = defineEmits(['changePaymentType', 'deleteAccommodationRequest'])
 
 const { formatDescription } = useFormattedCancellationPolicy()
 
-const onChangeActivePaymentType = (request, paymentType) => {
-  emit('changePaymentType', { request, paymentType })
+const onChangeActivePaymentType = (paymentType) => {
+  emit('changePaymentType', paymentType)
 }
 const onDeleteAccommodation = (item) => {
   emit('deleteAccommodationRequest', {
@@ -145,9 +145,9 @@ onMounted(() => {
                 type="radio"
                 :name="`payment-type-${index}`"
                 :id="`payment-type-${index}-${reservation.ratePlan.id}-${paymentType.id}`"
-                :value="activePaymentTypes[id]"
-                :checked="+activePaymentTypes[id] === +paymentType.id"
-                @change="() => onChangeActivePaymentType(id, paymentType.id)"
+                :value="reservation.paymentType.id"
+                :checked="+reservation.paymentType.id === +paymentType.id"
+                @change="() => onChangeActivePaymentType(paymentType.id)"
               />
               {{ paymentType.name }}
             </label>

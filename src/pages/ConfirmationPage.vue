@@ -100,9 +100,9 @@ onMounted(async () => {
   }
 })
 
-const onChangePaymentType = async (data) => {
+const onChangePaymentType = async (paymentType) => {
   try {
-    const result = await changePaymentType(data)
+    const result = await changePaymentType({ request: Object.keys(cart.value.requests)[0], paymentType })
     cart.value = result.cart
   } catch (error) {
     setError(error)
@@ -121,22 +121,20 @@ const accommodationUnits = computed(() => {
 })
 
 const hasRequests = computed(() => {
-  return !(!cart.value || !cart.value.requests || Object.keys(cart.value.requests).length === 0);
+  return cart.value && cart.value.requests && Object.keys(cart.value.requests).length > 0
 })
 
 const firstRequest = computed(() => {
-  return cart.value.requests[Object.keys(cart.value.requests).length - 1]
+  return cart.value.requests[Object.keys(cart.value.requests)[0]]
 })
-
+// console.log(firstRequest.value)
 const lengthOfStayOfFirstRequest = computed(() => {
   if (!hasRequests.value) {
     return 0
   }
-
-  return lengthOfStay(
-    firstRequest.value.checkInDate,
-    firstRequest.value.checkOutDate,
-  )
+  console.log('hasRequests.value:', hasRequests.value)
+  console.log('cart.value.requests:', Object.keys(cart.value.requests))
+  return lengthOfStay(firstRequest.value.checkInDate, firstRequest.value.checkOutDate)
 })
 </script>
 

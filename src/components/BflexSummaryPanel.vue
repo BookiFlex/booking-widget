@@ -5,16 +5,12 @@ import BflexIcon from '@/components/ui/BflexIcon.vue'
 
 defineProps({
   totalAmount: {
-    type: String,
-    default: '0',
+    type: Object,
+    required: true,
   },
   lengthOfStay: {
     type: Number,
     default: 0,
-  },
-  currency: {
-    type: String,
-    default: 'EUR',
   },
   accommodationUnits: {
     type: Number,
@@ -31,7 +27,7 @@ const emit = defineEmits(['onAccommodationSummaryClick'])
     <div class="summary-block__content">
       <div class="summary-block__content-info">
         <div class="summary-block__content-info__price">
-          <span>{{ totalAmount }}</span> {{ currency }}
+          <span>{{ totalAmount.amount }}</span> {{ totalAmount.currency }}
         </div>
         <div class="summary-block__content-info__text">
           {{ t('summary.room', accommodationUnits) }}, {{ t('summary.los', lengthOfStay) }}
