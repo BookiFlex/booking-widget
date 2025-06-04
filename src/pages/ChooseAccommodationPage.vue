@@ -42,7 +42,7 @@ watch(
     loadingAccommodationOffers.value = true
     try {
       const result = await loadOffers(value.start, value.end, props.promoCode)
-      accommodationOffers.value = result.searchResults
+      accommodationOffers.value = moveEmptyRatePlansToBottom(result.searchResults)
     } catch (error) {
       setError(error)
     } finally {
@@ -54,6 +54,13 @@ watch(
     immediate: true,
   },
 )
+
+function moveEmptyRatePlansToBottom(items) {
+  return [
+    ...items.filter(item => item.ratePlans && item.ratePlans.length > 0),
+    ...items.filter(item => !item.ratePlans || item.ratePlans.length === 0)
+  ];
+}
 
 const emit = defineEmits(['released'])
 

@@ -4,6 +4,8 @@ import BflexInformationBlock from '@/components/InformationBlock/BflexInformatio
 import BflexAccommodationTypeItem from '@/components/BflexAccommodationTypeItem.vue'
 import BflexRatePlanItem from '@/components/BflexRatePlanItem.vue'
 import BflexDivider from '@/components/InformationBlock/BflexDivider.vue'
+import BflexContent from '@/components/InformationBlock/BflexContent.vue'
+import { useI18n } from 'vue-i18n'
 
 defineProps({
   accommodationOffer: { type: Object, required: true },
@@ -11,6 +13,7 @@ defineProps({
   loading: { type: Boolean, default: false },
 })
 
+const { t } = useI18n()
 const emit = defineEmits(['accommodationOfferChosen'])
 
 const onVariantChosen = (accommodationOffer, ratePlan, variant) => {
@@ -42,6 +45,12 @@ const onVariantChosen = (accommodationOffer, ratePlan, variant) => {
             @variantChosen="(variant) => onVariantChosen(accommodationOffer, ratePlan, variant)"
           >
           </BflexRatePlanItem>
+        </template>
+        <template v-if="!accommodationOffer.ratePlans.length">
+          <BflexDivider></BflexDivider>
+          <BflexContent>
+            <p><strong>{{ t('accommodationType.notAvailable.title') }}</strong><br />{{ t('accommodationType.notAvailable.description') }}</p>
+          </BflexContent>
         </template>
       </div>
     </div>

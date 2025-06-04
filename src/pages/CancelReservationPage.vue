@@ -13,7 +13,6 @@ import BflexGridGap from '@/components/InformationBlock/BflexGridGap.vue'
 import { useFormattedCancellationPolicy } from '../util/text.js'
 import BflexButton from '@/components/ui/BflexButton.vue'
 import BflexFieldDecorator from '@/components/ui/BflexFieldDecorator.vue'
-import { useBase64 } from '@vueuse/core'
 
 const props = defineProps({
   sid: {

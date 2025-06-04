@@ -7,6 +7,10 @@ export default {
     },
     accommodationType: {
       thumbnail: 'Thumbnail',
+      notAvailable: {
+        title: 'Oops! Looks like this accommodation type is fully booked for the selected dates.',
+        description: 'Feel free to try different dates or explore other available options — we’re sure you’ll find something perfect!'
+      },
     },
     chosenAccommodation: {
       title: 'Accommodations',
