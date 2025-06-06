@@ -69,8 +69,8 @@ const onSubmit = async (event) => {
         customer: {
           ...data.value.customerInfo,
         },
-        comment: data.value.comment,
-        arrivalTime: data.value.arrivalTime,
+        customerRequest: data.value.customerRequest.comment,
+        arrivalTime: data.value.customerRequest.arrivalTime,
       })
 
       if (result && result.reservations) {

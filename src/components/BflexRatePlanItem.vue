@@ -28,7 +28,7 @@ const props = defineProps({
    *     occupancyOptions: {
    *       kind: string,
    *       main: number,
-   *       extraBed: boolean
+   *       extraBed: number
    *     },
    *     price: {
    *       currency: string,

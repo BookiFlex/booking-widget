@@ -12,8 +12,8 @@ defineProps({
     required: true,
   },
   extraBed: {
-    type: Boolean,
-    default: false,
+    type: Number,
+    default: 0,
   },
 })
 const { t } = useI18n()
@@ -26,12 +26,19 @@ const { t } = useI18n()
       :title="t('ratePlan.scenario.mainBeds')"
       name="Person"
     ></BflexIcon>
-    <i v-show="main > 2"
-      ><BflexIcon name="Person" :title="t('ratePlan.scenario.mainBeds')"></BflexIcon>{{ main }}</i
-    >
+    <span v-show="main > 2">{{ main }}</span>
+    <span v-show="main > 2">x</span>
     <BflexIcon name="Person" :title="t('ratePlan.scenario.mainBeds')"></BflexIcon>
+
     <template v-if="extraBed">
       <BflexIcon name="Add">add</BflexIcon>
+      <BflexIcon
+        v-show="extraBed === 2"
+        :title="t('ratePlan.scenario.extraBeds')"
+        name="PersonOutline"
+      ></BflexIcon>
+      <span v-show="extraBed > 2">{{ main }}</span>
+      <span v-show="extraBed > 2">x</span>
       <BflexIcon name="PersonOutline" :title="t('ratePlan.scenario.extraBeds')"></BflexIcon>
     </template>
   </div>
