@@ -66,6 +66,8 @@ const nextPage = (action) => {
     }
   }
 
+  container.value.scrollTop = 0;
+
   window.dispatchEvent(
     new CustomEvent('bflex:booking-widget:action', { detail: { action: activePage.value } }),
   )
@@ -73,6 +75,7 @@ const nextPage = (action) => {
 
 const loading = ref(false)
 const sid = ref('')
+const container = ref(null)
 
 const searchParams = ref({
   start: props.start,
@@ -181,7 +184,7 @@ const cancelReservation = ref(null)
 <template>
   <main id="bflex-booking-widget">
     <div class="booking-widget">
-      <section class="booking-widget__content">
+      <section ref="container" class="booking-widget__content">
         <template v-if="loading">
           <BflexGridGap>
             <BflexSkeletonLoader v-for="i in 3" :key="i"></BflexSkeletonLoader>
