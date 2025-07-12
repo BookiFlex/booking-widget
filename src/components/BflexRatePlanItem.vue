@@ -100,7 +100,7 @@ const { formatDescription } = useFormattedCancellationPolicy()
         </blockquote>
 
         <div class="rate-plan-card__offers">
-          <div class="rate-plan-card__offers-item">
+          <div class="rate-plan-card__offers-item cancellation-policy-offer">
             <BflexIcon name="Restore"></BflexIcon>
             <BflexTooltip class="inline">
               <abbr>{{ data.cancellationPolicy.name || '' }}</abbr>
@@ -125,7 +125,7 @@ const { formatDescription } = useFormattedCancellationPolicy()
             <span>{{ data.feed.name ? t(`ratePlan.boardType.${data.feed.name}`) : '' }}</span>
           </div>
 
-          <div class="rate-plan-card__offers-item">
+          <div class="rate-plan-card__offers-item payment-type-offers">
             <BflexIcon name="CreditCard"></BflexIcon>
             <span
               ><strong style="margin-right: 0.375rem">{{ t('ratePlan.payments') }}:</strong>
@@ -174,6 +174,7 @@ const { formatDescription } = useFormattedCancellationPolicy()
                 :loading="loading[index]"
                 :disabled="disabled && !loading[index]"
                 @click="() => emitVariantChosen(occupancyVariant, index)"
+                class="book-button"
                 >{{ t('ratePlan.action') }}</BflexButton
               >
             </BflexRatePlanVariantItem>

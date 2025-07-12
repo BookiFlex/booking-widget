@@ -170,8 +170,8 @@ onMounted(() => {
     <slot>
       <BflexContent>
         <dl class="accommodation-list__payment-rules">
-            <dt style="color: orangered">{{ t('chosenAccommodation.prepaymentAmount') }}:</dt>
-            <dd style="color: orangered">{{ payment.details.prepayment.amount }} {{ payment.details.prepayment.currency }}</dd>
+            <dt class="highlighted">{{ t('chosenAccommodation.prepaymentAmount') }}:</dt>
+            <dd class="highlighted">{{ payment.details.prepayment.amount }} {{ payment.details.prepayment.currency }}</dd>
             <dt>{{ t('chosenAccommodation.onArrivalAmount') }}:</dt>
             <dd>
               <span>{{ payment.details.onArrival.amount }}</span> {{ payment.details.onArrival.currency }}

@@ -25,6 +25,14 @@
 
   &__actions {
     margin-left: 1rem;
+
+    .book-button {
+      background: var(--variant-line-button-bg, #EA580C);
+      color: var(--variant-line-button-color, #FFFFFF);
+      &:hover {
+        background: var(--variant-line-button-bg-hover, #C2410C);
+      }
+    }
   }
 
   &__footer {

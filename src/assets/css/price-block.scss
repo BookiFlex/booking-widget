@@ -17,14 +17,16 @@
     justify-self: end;
     font-size: 0.75rem;
     font-weight: lighter;
+    color: var(--price-block-discount-old-value, #4A5568);
   }
 
   &__discount-size {
     display: block;
     padding: 0.125rem;
     margin-right: 0.25rem;
-    background: red;
-    color: white;
+    background: var(--price-block-discount-bg, #DC2626);
+    color: var(--price-block-discount-color, white);
+    border-radius: 0.25rem;
   }
 
   &__old {
@@ -38,6 +40,7 @@
 
   &__icons .icon {
     font-size: 1rem;
+    fill: var(--price-block-person-icon-color);
   }
 
   &__amount {

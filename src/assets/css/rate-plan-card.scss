@@ -50,8 +50,8 @@
 
       .icon {
         margin-right: 0.375rem;
-        color: var(--rate-plan-icon-primary-color, #696969);
-        fill: var(--rate-plan-icon-primary-color, #696969);
+        color: var(--rate-plan-icon-color);
+        fill: var(--rate-plan-icon-color, #696969);
       }
 
       &.extra-offer {
@@ -61,10 +61,26 @@
       }
 
       &.feed-offer {
-        color: var(--rate-plan-icon-secondary-color, #28a745);
+        color: var(--rate-plan-feed-text-color, #059669);
         .icon {
-          color: var(--rate-plan-icon-secondary-color, #28a745);
-          fill: var(--rate-plan-icon-secondary-color, #28a745);
+          color: var(--rate-plan-feed-icon-color, #059669);
+          fill: var(--rate-plan-feed-icon-color, #059669);
+        }
+      }
+
+      &.cancellation-policy-offer {
+        color: var(--rate-plan-cancellation-policy-text-color);
+        .icon {
+          color: var(--rate-plan-cancellation-policy-icon-color, #696969);
+          fill: var(--rate-plan-cancellation-policy-icon-color, #696969);
+        }
+      }
+
+      &.payment-type-offers {
+        color: var(--rate-plan-payment-type-text-color);
+        .icon {
+          color: var(--rate-plan-payment-type-icon-color, #696969);
+          fill: var(--rate-plan-payment-type-icon-color, #696969);
         }
       }
     }
@@ -81,6 +97,7 @@
       font-size: 0.875rem;
       text-align: right;
       padding: 0 1rem 0;
+      color: var(--rate-plan-los-color);
     }
   }
 }
@@ -96,17 +113,47 @@
     flex-direction: column;
     min-width: 90%;
     scroll-snap-align: start;
-    //grid-template-columns: 1fr;
-    //grid-template-areas:
-    //  'description'
-    //  'actions';
-    //align-content: space-between;
-    //min-width: 300px;
-    border-radius: var(--main-border-radius, 10px);
-    border: 1px solid var(--main-border-color, #e0e0e0);
+    justify-content: space-between;
+    background-color: var(--rate-plan-mobile-background);
+    border-radius: var(--rate-plan-mobile-border-radius, 10px);
+    border: var(--rate-plan-mobile-border, 1px dashed #E5E5E5);
 
     &__actions {
       justify-self: stretch;
+    }
+
+    &__offers {
+      color: var(--rate-plan-mobile-secondary-color);
+      &-item {
+        .icon {
+          color: var(--rate-plan-mobile-icon-color, #696969);
+          fill: var(--rate-plan-mobile-icon-color, #696969);
+        }
+
+        &.feed-offer {
+          color: var(--rate-plan-mobile-feed-text-color, #059669);
+          .icon {
+            color: var(--rate-plan-mobile-feed-icon-color, #059669);
+            fill: var(--rate-plan-mobile-feed-icon-color, #059669);
+          }
+        }
+
+        &.cancellation-policy-offer {
+          color: var(--rate-plan-mobile-cancellation-policy-text-color);
+          .icon {
+            color: var(--rate-plan-mobile-cancellation-policy-icon-color, #696969);
+            fill: var(--rate-plan-mobile-cancellation-policy-icon-color, #696969);
+          }
+        }
+
+        &.payment-type-offers {
+          color: var(--rate-plan-mobile-payment-type-text-color);
+          .icon {
+            color: var(--rate-plan-mobile-payment-type-icon-color, #696969);
+            fill: var(--rate-plan-mobile-payment-type-icon-color, #696969);
+          }
+        }
+      }
     }
   }
 
