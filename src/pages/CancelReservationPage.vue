@@ -71,7 +71,9 @@ onMounted(loadReservationCallback)
     <template v-else>
       <section class="reservation-result">
         <div class="reservation-result__title">{{ t('cancellationProcess.title') }}</div>
-        <div class="reservation-result__description">{{ t(`cancellationProcess.description`) }}</div>
+        <div class="reservation-result__description">
+          {{ t(`cancellationProcess.description`) }}
+        </div>
       </section>
 
       <BflexChosenAccommodationsCard
@@ -84,16 +86,34 @@ onMounted(loadReservationCallback)
         <BflexContent>
           <dl class="accommodation-list__payment-rules">
             <dt style="color: orangered">{{ t('chosenAccommodation.penalty') }}:</dt>
-            <dd style="color: orangered">{{ data.reservation.penalties.total.amount }} {{ data.reservation.penalties.total.currency }}</dd>
+            <dd style="color: orangered">
+              {{ data.reservation.penalties.total.amount }}
+              {{ data.reservation.penalties.total.currency }}
+            </dd>
           </dl>
         </BflexContent>
         <BflexDivider></BflexDivider>
-        <div style="display: flex; flex-direction: row; justify-content: end; column-gap: 0.5rem; padding: 1rem; align-items: center;">
+        <div
+          style="
+            display: flex;
+            flex-direction: row;
+            justify-content: end;
+            column-gap: 0.5rem;
+            padding: 1rem;
+            align-items: center;
+          "
+        >
           <div>{{ t('cancellationProcess.codeHelp') }}</div>
           <BflexFieldDecorator :label="t('cancellationProcess.codeLabel')" hide-hint>
-            <input name="cancellationCode" :value="cancellationCode" @input.stop="(e) => cancellationCode = e.currentTarget.value" />
+            <input
+              name="cancellationCode"
+              :value="cancellationCode"
+              @input.stop="(e) => (cancellationCode = e.currentTarget.value)"
+            />
           </BflexFieldDecorator>
-          <BflexButton @click="onClickAction" :disabled="!cancellationCode">{{ t('cancellationProcess.action') }}</BflexButton>
+          <BflexButton @click="onClickAction" :disabled="!cancellationCode">{{
+            t('cancellationProcess.action')
+          }}</BflexButton>
         </div>
       </BflexChosenAccommodationsCard>
 
@@ -102,10 +122,14 @@ onMounted(loadReservationCallback)
         <BflexDivider></BflexDivider>
         <BflexContent>
           <ul class="agreement-rules-list__rules">
-          <li
-            v-for="(i, index) in formatDescription(data.reservation.cancellationPolicy.consequences)"
-            :key="index"
-          >{{ i }}</li>
+            <li
+              v-for="(i, index) in formatDescription(
+                data.reservation.cancellationPolicy.consequences,
+              )"
+              :key="index"
+            >
+              {{ i }}
+            </li>
           </ul>
         </BflexContent>
       </BflexInformationBlock>

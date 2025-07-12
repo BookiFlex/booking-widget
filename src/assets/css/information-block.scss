@@ -4,7 +4,7 @@
 }
 
 .information-block {
-  background-color: var(--information-block-bg, #FFFFFF);
+  background-color: var(--information-block-bg, #ffffff);
   border-radius: var(--main-border-radius, 10px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
@@ -40,7 +40,7 @@
   .divider {
     margin: 0;
     height: var(--information-block-divider-height, 1px);
-    background-color: var(--information-block-divider-bg, #E5E5E5);
+    background-color: var(--information-block-divider-bg, #e5e5e5);
   }
 
   header {

@@ -102,7 +102,10 @@ onMounted(async () => {
 
 const onChangePaymentType = async (paymentType) => {
   try {
-    const result = await changePaymentType({ request: Object.keys(cart.value.requests)[0], paymentType })
+    const result = await changePaymentType({
+      request: Object.keys(cart.value.requests)[0],
+      paymentType,
+    })
     cart.value = result.cart
   } catch (error) {
     setError(error)

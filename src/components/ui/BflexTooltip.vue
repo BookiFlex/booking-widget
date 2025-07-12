@@ -31,7 +31,14 @@ defineProps({
 </script>
 
 <template>
-  <Tooltip :triggers="trigger" :disabled="disabled" :placement="placement" :container="false" v-bind="$attrs" auto-hide>
+  <Tooltip
+    :triggers="trigger"
+    :disabled="disabled"
+    :placement="placement"
+    :container="false"
+    v-bind="$attrs"
+    auto-hide
+  >
     <slot />
     <template #popper>
       <slot name="popper" />

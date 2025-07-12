@@ -9,7 +9,8 @@ export default {
       thumbnail: 'Thumbnail',
       notAvailable: {
         title: 'Oops! Looks like this accommodation type is fully booked for the selected dates.',
-        description: 'Feel free to try different dates or explore other available options — we’re sure you’ll find something perfect!'
+        description:
+          'Feel free to try different dates or explore other available options — we’re sure you’ll find something perfect!',
       },
     },
     chosenAccommodation: {
@@ -105,7 +106,8 @@ export default {
       action: 'Cancel reservation',
       result: {
         success: 'Your reservation has been cancelled',
-        error: 'Problem with cancellation your reservation. Check your cancellation code. If code is valid please contact the administrator.',
+        error:
+          'Problem with cancellation your reservation. Check your cancellation code. If code is valid please contact the administrator.',
       },
     },
     summary: {
@@ -120,14 +122,19 @@ export default {
         waitingConfirmation: 'We will try to confirm your booking as soon as possible.',
         confirmed: 'Your booking has been successfully confirmed.',
         cancelled: 'Your booking has been cancelled.',
-        overdue: 'The payment time for your booking has expired. It will be cancelled soon.'
+        overdue: 'The payment time for your booking has expired. It will be cancelled soon.',
       },
       nextStep: {
-        waitingPayment: 'You can pay now to secure your reservation. We’ll hold it for a limited time {untilTime} — if no payment is received, it may be automatically cancelled.',
-        waitingConfirmation: 'We’re checking availability and will notify you once your booking is confirmed. Please wait — this usually takes no more than 24 hours.',
-        confirmed: 'Thank you for your reservation! You’ll receive a confirmation email with all details shortly. If you have any questions, feel free to contact us.',
-        cancelled: 'Unfortunately, this booking is no longer valid. If you still wish to travel, please make a new reservation.',
-        overdue: 'If you still want to keep your booking, please contact us as soon as possible. Otherwise, it will be automatically cancelled.'
+        waitingPayment:
+          'You can pay now to secure your reservation. We’ll hold it for a limited time {untilTime} — if no payment is received, it may be automatically cancelled.',
+        waitingConfirmation:
+          'We’re checking availability and will notify you once your booking is confirmed. Please wait — this usually takes no more than 24 hours.',
+        confirmed:
+          'Thank you for your reservation! You’ll receive a confirmation email with all details shortly. If you have any questions, feel free to contact us.',
+        cancelled:
+          'Unfortunately, this booking is no longer valid. If you still wish to travel, please make a new reservation.',
+        overdue:
+          'If you still want to keep your booking, please contact us as soon as possible. Otherwise, it will be automatically cancelled.',
       },
       whatIsNext: 'What is your next step?',
       customerRequest: 'Your request',
@@ -138,7 +145,7 @@ export default {
       payment: {
         action: 'Pay Now',
         prepayment: 'Prepayment',
-      }
+      },
     },
   },
 }

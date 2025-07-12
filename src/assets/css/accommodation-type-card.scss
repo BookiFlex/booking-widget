@@ -55,17 +55,17 @@
     border: none;
     padding: 0.375rem 0.5rem;
     line-height: 1;
-    background: var(--amenities-item-bg, #EBF8FF);
-    color: var(--amenities-item-text-color, #2B6CB0);
+    background: var(--amenities-item-bg, #ebf8ff);
+    color: var(--amenities-item-text-color, #2b6cb0);
     border-radius: var(--amenities-item-border-radius, 4px);
 
     &:nth-last-child(2) {
-      background: var(--amenities-item-secondary-bg, #FAF5FF);
-      color: var(--amenities-item-text-secondary-color, #553C9A);
+      background: var(--amenities-item-secondary-bg, #faf5ff);
+      color: var(--amenities-item-text-secondary-color, #553c9a);
     }
     &:last-child {
-      background: var(--amenities-item-tertiary-bg, #F0FFF4);
-      color: var(--amenities-item-text-tertiary-color, #22543D);
+      background: var(--amenities-item-tertiary-bg, #f0fff4);
+      color: var(--amenities-item-text-tertiary-color, #22543d);
     }
   }
 }

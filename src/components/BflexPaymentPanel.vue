@@ -11,7 +11,7 @@ defineProps({
   currency: {
     type: String,
     default: 'EUR',
-  }
+  },
 })
 const { t } = useI18n()
 
@@ -28,11 +28,7 @@ const onActionClick = () => emit('click')
         </div>
         <div class="summary-block__content-info__text">
           {{ t('reservation.payment.prepayment') }}
-          <BflexIcon
-            class="accommodation-summary-trigger"
-            name="Info"
-            small
-          ></BflexIcon>
+          <BflexIcon class="accommodation-summary-trigger" name="Info" small></BflexIcon>
         </div>
       </div>
       <button class="button" @click.stop="onActionClick">

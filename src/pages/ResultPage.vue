@@ -57,7 +57,7 @@ const statusText = computed(() => {
 const onClickAction = () => {
   captureTokens.value.forEach((token) => {
     console.log(token)
-    window.open(token, '_blank');
+    window.open(token, '_blank')
   })
 }
 
@@ -71,7 +71,9 @@ onMounted(loadReservationCallback)
     <template v-else>
       <section class="reservation-result">
         <div class="reservation-result__title">{{ t('reservation.title') }}</div>
-        <div class="reservation-result__description">{{ t(`reservation.description.${statusText}`) }}</div>
+        <div class="reservation-result__description">
+          {{ t(`reservation.description.${statusText}`) }}
+        </div>
       </section>
 
       <BflexChosenAccommodationsCard
@@ -85,7 +87,9 @@ onMounted(loadReservationCallback)
       <BflexInformationBlock class="information-block--attention">
         <BflexHeader>{{ t('reservation.whatIsNext') }}</BflexHeader>
         <BflexDivider></BflexDivider>
-        <BflexContent>{{ t(`reservation.nextStep.${statusText}`, { untilTime: '' }) }}</BflexContent>
+        <BflexContent>{{
+          t(`reservation.nextStep.${statusText}`, { untilTime: '' })
+        }}</BflexContent>
       </BflexInformationBlock>
 
       <BflexInformationBlock v-if="data.note">

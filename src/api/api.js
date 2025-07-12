@@ -276,4 +276,13 @@ const cancelReservation = async (data) => {
   }
 }
 
-export { init, loadOffers, loadCart, updateCart, changePaymentType, confirmCart, loadReservation, cancelReservation }
+export {
+  init,
+  loadOffers,
+  loadCart,
+  updateCart,
+  changePaymentType,
+  confirmCart,
+  loadReservation,
+  cancelReservation,
+}

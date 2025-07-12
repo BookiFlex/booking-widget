@@ -6,7 +6,8 @@ import {
   CHOOSE_ACCOMMODATION,
   BOOKING_CONFIRMATION,
   EMPTY_CART,
-  RESERVATION_DETAILS, CANCEL_RESERVATION
+  RESERVATION_DETAILS,
+  CANCEL_RESERVATION,
 } from './constants.js'
 import ChooseAccommodationPage from '@/pages/ChooseAccommodationPage.vue'
 import BookingConfirmationPage from '@/pages/ConfirmationPage.vue'
@@ -66,7 +67,7 @@ const nextPage = (action) => {
     }
   }
 
-  container.value.scrollTop = 0;
+  container.value.scrollTop = 0
 
   window.dispatchEvent(
     new CustomEvent('bflex:booking-widget:action', { detail: { action: activePage.value } }),
@@ -144,11 +145,11 @@ onMounted(async () => {
       i18n.global.setLocaleMessage(widget.locale, widget.l10n)
     }
 
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(window.location.search)
 
     if (params.has('cancelReservation')) {
-      cancelReservation.value = params.get('cancelReservation');
-      console.log('Cancel reservation', cancelReservation.value);
+      cancelReservation.value = params.get('cancelReservation')
+      console.log('Cancel reservation', cancelReservation.value)
       nextPage(CANCEL_RESERVATION)
     } else {
       inProgress ? nextPage(CHOOSE_ACCOMMODATION) : nextPage()

@@ -27,10 +27,10 @@
     margin-left: 1rem;
 
     .book-button {
-      background: var(--variant-line-button-bg, #EA580C);
-      color: var(--variant-line-button-color, #FFFFFF);
+      background: var(--variant-line-button-bg, #ea580c);
+      color: var(--variant-line-button-color, #ffffff);
       &:hover {
-        background: var(--variant-line-button-bg-hover, #C2410C);
+        background: var(--variant-line-button-bg-hover, #c2410c);
       }
     }
   }

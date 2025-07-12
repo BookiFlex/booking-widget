@@ -16,7 +16,7 @@ const props = defineProps({
     type: String,
     default: 'choose',
     required: true,
-    validator: value => ['choose', 'info', 'cancellation'].includes(value),
+    validator: (value) => ['choose', 'info', 'cancellation'].includes(value),
   },
   reservation: {
     type: Object,
@@ -82,79 +82,83 @@ onMounted(() => {
     <BflexDivider></BflexDivider>
 
     <BflexContent>
-        <dl class="text-sm">
-          <dt>
-            <BflexIconText icon="DateRange">{{
-              formatDateRange(reservation.checkInDate, reservation.checkOutDate, locale)
-            }}</BflexIconText>
-          </dt>
-          <dd>
-            <BflexIconText icon="Persons">
-              {{ t('chosenAccommodation.adults', reservation.adults) }},
-              {{ t('chosenAccommodation.children', reservation.children.length) }}
-            </BflexIconText>
-          </dd>
-        </dl>
-      </BflexContent>
-      <BflexDivider></BflexDivider>
-      <BflexContent>
-        <dl class="accommodation-list__item">
-          <dt>
-            <h3>
-              {{ reservation.accommodationType.name }}
-              <span style="font-size: 0.9em; opacity: 0.7" v-if="reservation.quantity > 1"
-                >x{{ reservation.quantity }}</span
-              >
-            </h3>
-            <div class="text-sm" style="line-height: 1.25; font-weight: lighter">
-              {{ reservation.ratePlan.name }}<br />
-              <BflexTooltip class="inline">
-                <abbr>{{ reservation.cancellationPolicy.name || '' }}</abbr>
-                <template #popper>
-                  <p
-                    v-for="(i, index) in formatDescription(reservation.cancellationPolicy.consequences)"
-                    :key="index"
-                  >
-                    {{ i }}
-                  </p>
-                </template>
-              </BflexTooltip>
-            </div>
-          </dt>
-          <dd>
-            <div
-              v-if="mode === 'choose'"
-              @click="() => onDeleteAccommodation(reservation)"
-              class="accommodation-list__item-delete text-sm cursor-pointer"
+      <dl class="text-sm">
+        <dt>
+          <BflexIconText icon="DateRange">{{
+            formatDateRange(reservation.checkInDate, reservation.checkOutDate, locale)
+          }}</BflexIconText>
+        </dt>
+        <dd>
+          <BflexIconText icon="Persons">
+            {{ t('chosenAccommodation.adults', reservation.adults) }},
+            {{ t('chosenAccommodation.children', reservation.children.length) }}
+          </BflexIconText>
+        </dd>
+      </dl>
+    </BflexContent>
+    <BflexDivider></BflexDivider>
+    <BflexContent>
+      <dl class="accommodation-list__item">
+        <dt>
+          <h3>
+            {{ reservation.accommodationType.name }}
+            <span style="font-size: 0.9em; opacity: 0.7" v-if="reservation.quantity > 1"
+              >x{{ reservation.quantity }}</span
             >
-              {{ t('chosenAccommodation.delete') }}
-            </div>
-            <span style="opacity: 0.7" v-if="reservation.quantity > 1">{{ reservation.quantity }} x</span>
-            {{ reservation.summary.total.amount }} {{ reservation.summary.total.currency }}
-          </dd>
-        </dl>
-        <div v-if="mode === 'choose'" class="payment-type">
-          <div class="payment-type__label">{{ t('chosenAccommodation.willPay') }}:</div>
-          <div class="payment-type__variants">
-            <label
-              v-for="paymentType in reservation.availablePaymentTypes"
-              :key="paymentType.id"
-              :for="`payment-type-${index}-${reservation.ratePlan.id}-${paymentType.id}`"
-            >
-              <input
-                type="radio"
-                :name="`payment-type-${index}`"
-                :id="`payment-type-${index}-${reservation.ratePlan.id}-${paymentType.id}`"
-                :value="reservation.paymentType.id"
-                :checked="+reservation.paymentType.id === +paymentType.id"
-                @change="() => onChangeActivePaymentType(paymentType.id)"
-              />
-              {{ paymentType.name }}
-            </label>
+          </h3>
+          <div class="text-sm" style="line-height: 1.25; font-weight: lighter">
+            {{ reservation.ratePlan.name }}<br />
+            <BflexTooltip class="inline">
+              <abbr>{{ reservation.cancellationPolicy.name || '' }}</abbr>
+              <template #popper>
+                <p
+                  v-for="(i, index) in formatDescription(
+                    reservation.cancellationPolicy.consequences,
+                  )"
+                  :key="index"
+                >
+                  {{ i }}
+                </p>
+              </template>
+            </BflexTooltip>
           </div>
+        </dt>
+        <dd>
+          <div
+            v-if="mode === 'choose'"
+            @click="() => onDeleteAccommodation(reservation)"
+            class="accommodation-list__item-delete text-sm cursor-pointer"
+          >
+            {{ t('chosenAccommodation.delete') }}
+          </div>
+          <span style="opacity: 0.7" v-if="reservation.quantity > 1"
+            >{{ reservation.quantity }} x</span
+          >
+          {{ reservation.summary.total.amount }} {{ reservation.summary.total.currency }}
+        </dd>
+      </dl>
+      <div v-if="mode === 'choose'" class="payment-type">
+        <div class="payment-type__label">{{ t('chosenAccommodation.willPay') }}:</div>
+        <div class="payment-type__variants">
+          <label
+            v-for="paymentType in reservation.availablePaymentTypes"
+            :key="paymentType.id"
+            :for="`payment-type-${index}-${reservation.ratePlan.id}-${paymentType.id}`"
+          >
+            <input
+              type="radio"
+              :name="`payment-type-${index}`"
+              :id="`payment-type-${index}-${reservation.ratePlan.id}-${paymentType.id}`"
+              :value="reservation.paymentType.id"
+              :checked="+reservation.paymentType.id === +paymentType.id"
+              @change="() => onChangeActivePaymentType(paymentType.id)"
+            />
+            {{ paymentType.name }}
+          </label>
         </div>
-      </BflexContent>
-      <BflexDivider></BflexDivider>
+      </div>
+    </BflexContent>
+    <BflexDivider></BflexDivider>
 
     <BflexContent>
       <dl class="accommodation-list__total">
@@ -170,12 +174,15 @@ onMounted(() => {
     <slot>
       <BflexContent>
         <dl class="accommodation-list__payment-rules">
-            <dt class="highlighted">{{ t('chosenAccommodation.prepaymentAmount') }}:</dt>
-            <dd class="highlighted">{{ payment.details.prepayment.amount }} {{ payment.details.prepayment.currency }}</dd>
-            <dt>{{ t('chosenAccommodation.onArrivalAmount') }}:</dt>
-            <dd>
-              <span>{{ payment.details.onArrival.amount }}</span> {{ payment.details.onArrival.currency }}
-            </dd>
+          <dt class="highlighted">{{ t('chosenAccommodation.prepaymentAmount') }}:</dt>
+          <dd class="highlighted">
+            {{ payment.details.prepayment.amount }} {{ payment.details.prepayment.currency }}
+          </dd>
+          <dt>{{ t('chosenAccommodation.onArrivalAmount') }}:</dt>
+          <dd>
+            <span>{{ payment.details.onArrival.amount }}</span>
+            {{ payment.details.onArrival.currency }}
+          </dd>
         </dl>
       </BflexContent>
     </slot>

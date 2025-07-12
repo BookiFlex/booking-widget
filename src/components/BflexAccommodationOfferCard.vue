@@ -49,7 +49,10 @@ const onVariantChosen = (accommodationOffer, ratePlan, variant) => {
         <template v-if="!accommodationOffer.ratePlans.length">
           <BflexDivider></BflexDivider>
           <BflexContent>
-            <p><strong>{{ t('accommodationType.notAvailable.title') }}</strong><br />{{ t('accommodationType.notAvailable.description') }}</p>
+            <p>
+              <strong>{{ t('accommodationType.notAvailable.title') }}</strong
+              ><br />{{ t('accommodationType.notAvailable.description') }}
+            </p>
           </BflexContent>
         </template>
       </div>

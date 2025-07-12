@@ -57,7 +57,7 @@ const prepareText = (parts) => {
 }
 
 const convertStatus = (status) => {
-  return status.toLowerCase().replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
-};
+  return status.toLowerCase().replace(/_([a-z])/g, (_, letter) => letter.toUpperCase())
+}
 
 export { prepareText, convertStatus }

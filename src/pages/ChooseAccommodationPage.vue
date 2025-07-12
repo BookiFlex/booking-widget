@@ -57,9 +57,9 @@ watch(
 
 function moveEmptyRatePlansToBottom(items) {
   return [
-    ...items.filter(item => item.ratePlans && item.ratePlans.length > 0),
-    ...items.filter(item => !item.ratePlans || item.ratePlans.length === 0)
-  ];
+    ...items.filter((item) => item.ratePlans && item.ratePlans.length > 0),
+    ...items.filter((item) => !item.ratePlans || item.ratePlans.length === 0),
+  ]
 }
 
 const emit = defineEmits(['released'])

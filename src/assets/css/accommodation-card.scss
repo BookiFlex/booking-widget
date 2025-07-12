@@ -23,7 +23,7 @@
       font-size: 0.875rem;
     }
     .highlighted {
-      color: var(--chosen-accommodation-payment-types, #EA580C)
+      color: var(--chosen-accommodation-payment-types, #ea580c);
     }
   }
 
@@ -32,13 +32,13 @@
     flex-direction: row;
     align-items: center;
     font-size: 0.875rem;
-    border: 1px solid var(--chosen-accommodation-payment-types, #EA580C);
+    border: 1px solid var(--chosen-accommodation-payment-types, #ea580c);
     border-radius: 5px;
     margin-top: 1rem;
 
     &__label {
       font-weight: bold;
-      background-color: var(--chosen-accommodation-payment-types, #EA580C);
+      background-color: var(--chosen-accommodation-payment-types, #ea580c);
       color: white;
       height: 100%;
       padding: 0.5rem 1rem;
