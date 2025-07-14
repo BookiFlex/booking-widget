@@ -147,5 +147,9 @@ export default {
         prepayment: 'Prepayment',
       },
     },
+    redirectTimer: {
+      goToPay: 'Proceed to payment',
+      waitingLink: 'Waiting link to payment...',
+    }
   },
 }

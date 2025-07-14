@@ -14,9 +14,6 @@ defineProps({
   },
 })
 const { t } = useI18n()
-
-const emit = defineEmits(['click'])
-const onActionClick = () => emit('click')
 </script>
 
 <template>
@@ -31,9 +28,7 @@ const onActionClick = () => emit('click')
           <BflexIcon class="accommodation-summary-trigger" name="Info" small></BflexIcon>
         </div>
       </div>
-      <button class="button" @click.stop="onActionClick">
-        {{ t('reservation.payment.action') }}
-      </button>
+      <slot />
     </div>
   </div>
 </template>

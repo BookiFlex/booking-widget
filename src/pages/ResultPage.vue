@@ -12,6 +12,7 @@ import BflexHotelInformationCard from '@/components/BflexHotelInformationCard.vu
 import BflexGridGap from '@/components/InformationBlock/BflexGridGap.vue'
 import { convertStatus } from '../util/text.js'
 import BflexPaymentPanel from '@/components/BflexPaymentPanel.vue'
+import BflexRedirectTimer from '@/components/BflexRedirectTimer.vue'
 
 const props = defineProps({
   sid: {
@@ -90,12 +91,15 @@ onMounted(loadReservationCallback)
         <BflexContent>{{
           t(`reservation.nextStep.${statusText}`, { untilTime: '' })
         }}</BflexContent>
+        <template v-if="data.payment.captureToken">
+          <BflexRedirectTimer :capture-token="data.payment.captureToken" :timeout="30" blank />
+        </template>
       </BflexInformationBlock>
 
-      <BflexInformationBlock v-if="data.note">
+      <BflexInformationBlock v-if="data.reservation.specialRequest">
         <BflexHeader>{{ t('reservation.specialRequest') }}</BflexHeader>
         <BflexDivider></BflexDivider>
-        <BflexContent>{{ data.note }}</BflexContent>
+        <BflexContent>{{ data.reservation.specialRequest }}</BflexContent>
       </BflexInformationBlock>
 
       <BflexHotelInformationCard :hotel-info="settings.hotelInfo" />
@@ -105,7 +109,8 @@ onMounted(loadReservationCallback)
         :prepayment="data.payment.prepayment"
         :currency="data.currency"
         @click="onClickAction"
-      ></BflexPaymentPanel>
+      >
+      </BflexPaymentPanel>
     </template>
   </BflexGridGap>
 </template>
