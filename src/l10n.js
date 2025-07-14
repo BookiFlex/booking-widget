@@ -150,6 +150,8 @@ export default {
     redirectTimer: {
       goToPay: 'Proceed to payment',
       waitingLink: 'Waiting link to payment...',
+      doesntOpen: 'Click if it doesn\'t open',
+      windowBlocked: 'Failed to open payment window. Please check your pop-up blocker settings OR click on button below.'
     }
   },
 }

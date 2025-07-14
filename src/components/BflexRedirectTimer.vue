@@ -30,11 +30,12 @@
         </div>
       </div>
 
-      <BflexButton
-        @click="proceedToPayment"
-        class="proceed-button"
+      <button
+        ref="manualOpenBtn"
+        @click="openManually"
+        class="button proceed-button"
         :disabled="!captureToken"
-        >{{ t('redirectTimer.goToPay') }}</BflexButton>
+        >{{ t('redirectTimer.goToPay') }}</button>
     </div>
 
     <div v-else class="no-token-message">
@@ -45,10 +46,8 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
-import BflexButton from '@/components/ui/BflexButton.vue'
 import { useI18n } from 'vue-i18n'
 
-// Определяем props
 const props = defineProps({
   captureToken: {
     type: String,
@@ -67,13 +66,12 @@ const props = defineProps({
   }
 })
 
-// Реактивные данные
 const timeLeft = ref(props.timeout)
 const intervalId = ref(null)
 const radius = 50
 const circumference = 2 * Math.PI * radius
+const manualOpenBtn = ref(null)
 
-// Вычисляемые свойства
 const strokeDashoffset = computed(() => {
   const progress = timeLeft.value / props.timeout
   return circumference * (1 - progress)
@@ -89,23 +87,22 @@ const formatTime = (seconds) => {
 }
 
 const proceedToPayment = () => {
+  console.info('proceedToPayment:', manualOpenBtn.value)
+  manualOpenBtn.value.click()
+}
+
+const openManually = () => {
   if (!props.captureToken) return
 
   stopTimer()
 
   if (props.blank) {
-    // Открываем в новом управляемом окне
-    const newWindow = window.open(
-      props.captureToken,
-      '_blank'
-    )
-
-    // Проверяем, что окно открылось
+    const newWindow = window.open(props.captureToken, '_blank')
     if (!newWindow) {
-      alert('Не удалось открыть окно оплаты. Проверьте настройки блокировки всплывающих окон.')
+      manualOpenBtn.value.innerHTML = t('redirectTimer.doesntOpen')
+      alert(t('redirectTimer.windowBlocked'))
     }
   } else {
-    // Открываем в текущем окне
     window.location.href = props.captureToken
   }
 }
