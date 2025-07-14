@@ -34,7 +34,7 @@ export default {
         'You will receive a booking confirmation by email. The owner of the place may contact you by phone to clarify the details.',
     },
     specialRequest: {
-      title: 'Customer request',
+      title: 'Special request',
       comment: 'Comment',
       checkInOutTime: 'Check-in/out Time',
       checkInTimeFrom: 'Check-in time from',
