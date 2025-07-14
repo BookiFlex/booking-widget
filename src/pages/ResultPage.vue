@@ -93,7 +93,7 @@ onMounted(loadReservationCallback)
       </BflexInformationBlock>
 
       <BflexInformationBlock v-if="data.note">
-        <BflexHeader>{{ t('reservation.customerRequest') }}</BflexHeader>
+        <BflexHeader>{{ t('reservation.specialRequest') }}</BflexHeader>
         <BflexDivider></BflexDivider>
         <BflexContent>{{ data.note }}</BflexContent>
       </BflexInformationBlock>

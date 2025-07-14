@@ -41,28 +41,28 @@ watch(
 
 <template>
   <BflexInformationBlock class="customer-request-block">
-    <BflexHeader>{{ t('customerRequest.title') }}</BflexHeader>
+    <BflexHeader>{{ t('specialRequest.title') }}</BflexHeader>
     <BflexDivider></BflexDivider>
     <BflexContent>
-      <BflexFieldDecorator :label="t('customerRequest.comment')">
+      <BflexFieldDecorator :label="t('specialRequest.comment')">
         <textarea v-model="data.comment" name="comment" rows="3" maxlength="500"></textarea>
       </BflexFieldDecorator>
     </BflexContent>
     <BflexDivider></BflexDivider>
     <BflexContent>
       <dl class="text-sm">
-        <dt>{{ t('customerRequest.checkInOutTime') }}:</dt>
+        <dt>{{ t('specialRequest.checkInOutTime') }}:</dt>
         <dd>
-          {{ t('customerRequest.checkInTimeFrom') }}: {{ arrivalPolicy.checkInTime }};
-          {{ t('customerRequest.checkOutTimeUntil') }}: {{ arrivalPolicy.checkOutTime }}
+          {{ t('specialRequest.checkInTimeFrom') }}: {{ arrivalPolicy.checkInTime }};
+          {{ t('specialRequest.checkOutTimeUntil') }}: {{ arrivalPolicy.checkOutTime }}
         </dd>
       </dl>
     </BflexContent>
     <BflexDivider></BflexDivider>
     <BflexContent>
-      <BflexFieldDecorator :label="t('customerRequest.arrivalTime')" style="width: 50%">
+      <BflexFieldDecorator :label="t('specialRequest.arrivalTime')" style="width: 50%">
         <select name="arrivalTime" v-model="data.arrivalTime">
-          <option value="none" selected>{{ t('customerRequest.noneTime') }}</option>
+          <option value="none" selected>{{ t('specialRequest.noneTime') }}</option>
           <option v-for="time in timeSlots" :value="time" :key="time">{{ time }}</option>
         </select>
       </BflexFieldDecorator>

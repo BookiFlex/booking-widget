@@ -33,7 +33,7 @@ export default {
       confirmationInfo:
         'You will receive a booking confirmation by email. The owner of the place may contact you by phone to clarify the details.',
     },
-    customerRequest: {
+    specialRequest: {
       title: 'Customer request',
       comment: 'Comment',
       checkInOutTime: 'Check-in/out Time',
@@ -137,7 +137,7 @@ export default {
           'If you still want to keep your booking, please contact us as soon as possible. Otherwise, it will be automatically cancelled.',
       },
       whatIsNext: 'What is your next step?',
-      customerRequest: 'Your request',
+      specialRequest: 'Your request',
       hotelInfo: {
         title: 'Contact Information',
         email: 'Email',

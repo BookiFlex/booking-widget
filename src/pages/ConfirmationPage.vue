@@ -5,7 +5,7 @@ import { lengthOfStay } from '../util/date.js'
 import BflexContactInformationCard from '../components/BflexContactInformationCard.vue'
 import BflexChosenAccommodationsCard from '../components/BflexChosenAccommodationsCard.vue'
 import BflexSummaryPanel from '../components/BflexSummaryPanel.vue'
-import BflexCustomerRequestCard from '@/components/BflexCustomerRequestCard.vue'
+import BflexSpecialRequestCard from '@/components/BflexSpecialRequestCard.vue'
 import BflexAccommodationRulesCard from '@/components/BflexAccommodationRulesCard.vue'
 import BflexGridGap from '@/components/InformationBlock/BflexGridGap.vue'
 import { BOOKING_CONFIRMATION, EMPTY_CART } from '@/constants.js'
@@ -17,7 +17,7 @@ const data = ref({
     email: '',
     phone: '',
   },
-  customerRequest: {
+  specialRequest: {
     comment: '',
     arrivalTime: 'none',
   },
@@ -69,8 +69,8 @@ const onSubmit = async (event) => {
         customer: {
           ...data.value.customerInfo,
         },
-        customerRequest: data.value.customerRequest.comment,
-        arrivalTime: data.value.customerRequest.arrivalTime,
+        specialRequest: data.value.specialRequest.comment,
+        arrivalTime: data.value.specialRequest.arrivalTime,
       })
 
       if (result && result.reservations) {
@@ -158,7 +158,7 @@ const lengthOfStayOfFirstRequest = computed(() => {
         @deleteAccommodationRequest="onDeleteAccommodationRequest"
       ></BflexChosenAccommodationsCard>
 
-      <BflexCustomerRequestCard v-model="data.customerRequest"></BflexCustomerRequestCard>
+      <BflexSpecialRequestCard v-model="data.specialRequest"></BflexSpecialRequestCard>
       <BflexAccommodationRulesCard
         :agreements="settings.hotelRules.agreements"
         :rules="settings.hotelRules.rules"
