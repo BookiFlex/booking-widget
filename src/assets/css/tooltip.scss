@@ -6,4 +6,10 @@
     font-size: 0.875rem;
     color: #ffffff;
   }
+  ul {
+    margin-bottom: 0;
+    li:before {
+      content: '-';
+    }
+  }
 }

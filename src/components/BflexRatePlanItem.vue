@@ -58,6 +58,10 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  additionalFees: {
+    type: Array,
+    default: () => [],
+  },
   disabled: {
     type: Boolean,
     default: false,
@@ -179,6 +183,13 @@ const { formatDescription } = useFormattedCancellationPolicy()
               >
             </BflexRatePlanVariantItem>
           </template>
+          <span v-if="additionalFees.length" class="additional-fees--info">
+            + addition fees
+            <BflexTooltip class="inline-flex">
+              <BflexIcon name="Info" small></BflexIcon>
+              <template #popper><p>These fees will be added on the final step.</p><ul><li><strong>City tax:</strong> 2.5eur</li></ul></template>
+            </BflexTooltip>
+          </span>
         </div>
       </slot>
     </div>

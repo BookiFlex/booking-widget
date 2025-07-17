@@ -87,7 +87,6 @@ const formatTime = (seconds) => {
 }
 
 const proceedToPayment = () => {
-  console.info('proceedToPayment:', manualOpenBtn.value)
   manualOpenBtn.value.click()
 }
 
