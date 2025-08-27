@@ -1,20 +1,9 @@
 <script setup>
-import { ref, onMounted, provide, defineProps, onUnmounted, watch, inject, toRaw } from 'vue'
-import { init } from './api/api.js'
-import i18n from './i18n'
-import {
-  CHOOSE_ACCOMMODATION,
-  BOOKING_CONFIRMATION,
-  EMPTY_CART,
-  RESERVATION_DETAILS,
-  CANCEL_RESERVATION,
-} from './constants.js'
-import ChooseAccommodationPage from '@/pages/ChooseAccommodationPage.vue'
-import BookingConfirmationPage from '@/pages/ConfirmationPage.vue'
-import ReservationDetailsPage from '@/pages/ResultPage.vue'
-import BflexSkeletonLoader from '@/components/ui/BflexSkeletonLoader.vue'
-import BflexGridGap from '@/components/InformationBlock/BflexGridGap.vue'
-import CancelReservationPage from '@/pages/CancelReservationPage.vue'
+import { defineProps } from 'vue';
+import { useBooking } from '@/composables/useBooking';
+import BflexSkeletonLoader from '@/components/ui/BflexSkeletonLoader.vue';
+import BflexGridGap from '@/components/InformationBlock/BflexGridGap.vue';
+import PageManager from '@/components/PageManager.vue';
 
 const props = defineProps({
   start: {
@@ -37,149 +26,9 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
-})
+});
 
-const settings = ref({
-  hotelRules: {
-    rules: [],
-    agreements: [],
-  },
-  policies: {
-    arrivalPolicy: {
-      checkInTime: '14:00',
-      checkOutTime: '12:00',
-    },
-  },
-})
-provide('settings', settings)
-
-const pages = [CHOOSE_ACCOMMODATION, BOOKING_CONFIRMATION, RESERVATION_DETAILS]
-const activePage = ref(RESERVATION_DETAILS)
-const nextPage = (action) => {
-  if (!action) {
-    activePage.value = CHOOSE_ACCOMMODATION
-  } else if (action === CANCEL_RESERVATION) {
-    activePage.value = CANCEL_RESERVATION
-  } else {
-    const index = pages.indexOf(action)
-    if (index >= 0 && index < pages.length - 1) {
-      activePage.value = pages[index + 1]
-    }
-  }
-
-  container.value.scrollTop = 0
-
-  window.dispatchEvent(
-    new CustomEvent('bflex:booking-widget:action', { detail: { action: activePage.value } }),
-  )
-}
-
-const loading = ref(false)
-const sid = ref('ebd1f7ba-85aa-4e26-971e-35d2ceaf0206')
-const container = ref(null)
-
-const searchParams = ref({
-  start: props.start,
-  end: props.end,
-  promoCode: props.promoCode,
-})
-
-// changed by params
-watch(
-  () => ({ start: props.start, end: props.end, promoCode: props.promoCode }),
-  () => {
-    searchParams.value = {
-      start: props.start,
-      end: props.end,
-      promoCode: props.promoCode,
-    }
-  },
-)
-
-watch(
-  searchParams,
-  (value, prevValue) => {
-    if (!value.start || !value.end) {
-      return
-    }
-
-    if (
-      !prevValue ||
-      !prevValue.start ||
-      !prevValue.end ||
-      prevValue.start !== value.start ||
-      prevValue.end !== value.end
-    ) {
-      window.dispatchEvent(
-        new CustomEvent('bflex:booking-widget:changed', { detail: toRaw(searchParams.value) }),
-      )
-    }
-  },
-  {
-    immediate: true,
-    deep: true,
-  },
-)
-
-const { setError } = inject('globalError')
-
-// changed by custom event from outside
-const onSearchParamsChanged = (e) => {
-  const { start, end, promoCode } = e.detail
-  searchParams.value = { start, end, promoCode }
-  e.stopPropagation()
-}
-
-onMounted(async () => {
-  window.dispatchEvent(new CustomEvent('bflex:booking-widget:ready'))
-  window.addEventListener('bflex:search-bar:search', onSearchParamsChanged)
-
-  loading.value = true
-  try {
-    const { inProgress, settings: appSettings } = await init()
-    settings.value = appSettings
-    const { widget } = appSettings
-
-    if (widget && widget.locale && widget.l10n && Object.keys(widget.l10n).length) {
-      i18n.global.locale.value = widget.locale
-      i18n.global.setLocaleMessage(widget.locale, widget.l10n)
-    }
-
-    const params = new URLSearchParams(window.location.search)
-
-    if (params.has('cancelReservation')) {
-      cancelReservation.value = params.get('cancelReservation')
-      console.log('Cancel reservation', cancelReservation.value)
-      nextPage(CANCEL_RESERVATION)
-    } else {
-      inProgress ? nextPage(CHOOSE_ACCOMMODATION) : nextPage()
-    }
-  } catch (error) {
-    setError(error)
-  } finally {
-    // sync loaders with next page
-    setTimeout(() => {
-      loading.value = false
-    }, 1000)
-  }
-})
-
-onUnmounted(() => {
-  window.removeEventListener('bflex:search-bar:search', onSearchParamsChanged)
-})
-
-const onReleasedAction = ({ action, result }) => {
-  if (action === EMPTY_CART) {
-    nextPage()
-  } else if (action === BOOKING_CONFIRMATION) {
-    sid.value = result.reservations[0]
-    nextPage(action)
-  } else {
-    nextPage(action)
-  }
-}
-
-const cancelReservation = ref(null)
+const { activePage, loading, container } = useBooking(props);
 </script>
 
 <template>
@@ -188,29 +37,10 @@ const cancelReservation = ref(null)
       <section ref="container" class="booking-widget__content">
         <template v-if="loading">
           <BflexGridGap>
-            <BflexSkeletonLoader v-for="i in 3" :key="i"></BflexSkeletonLoader>
+            <BflexSkeletonLoader v-for="i in 3" :key="i" />
           </BflexGridGap>
         </template>
-        <CancelReservationPage
-          v-if="cancelReservation"
-          :sid="cancelReservation"
-          @cancelReservation="cancelReservation = null"
-        ></CancelReservationPage>
-        <ChooseAccommodationPage
-          v-else-if="activePage === CHOOSE_ACCOMMODATION"
-          :dateRange="searchParams"
-          :promoCode="promoCode"
-          @released="onReleasedAction"
-        ></ChooseAccommodationPage>
-        <BookingConfirmationPage
-          v-else-if="activePage === BOOKING_CONFIRMATION"
-          @released="onReleasedAction"
-        ></BookingConfirmationPage>
-        <ReservationDetailsPage
-          v-else-if="activePage === RESERVATION_DETAILS"
-          :sid="sid"
-          @released="onReleasedAction"
-        ></ReservationDetailsPage>
+        <PageManager v-else :active-page="activePage" />
       </section>
     </div>
   </main>
