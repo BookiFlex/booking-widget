@@ -65,7 +65,7 @@ const openGallery = () => {
 
         <div class="amenities">
           <span v-for="(amenity, index) in data.amenities" :key="index" class="amenities__item">{{
-            amenity.title
+            amenity
           }}</span>
         </div>
       </div>

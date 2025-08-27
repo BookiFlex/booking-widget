@@ -1,15 +1,15 @@
 <script setup>
 import { computed, defineProps } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { htmlFormatMoney } from '../util/money.js'
+import { formatMoney } from '../util/money.js'
 
 const props = defineProps({
   sellingPrice: {
-    type: String || null,
+    type: Number || null,
     default: null,
   },
   originalSellingPrice: {
-    type: String || null,
+    type: Number || null,
     default: null,
   },
   discount: {
@@ -29,16 +29,14 @@ const props = defineProps({
 const { t } = useI18n()
 
 const originalPrice = computed(() => {
-  return formatMoney(props.originalSellingPrice, 'currency')
+  // return formatMoney(props.originalSellingPrice, 'currency')
+  return formatMoney(props.originalSellingPrice, props.currency)
 })
 
 const price = computed(() => {
-  return formatMoney(props.sellingPrice, 'price-block__current-currency')
+  // return formatMoney(props.sellingPrice, 'price-block__current-currency')
+  return formatMoney(props.sellingPrice, props.currency)
 })
-
-const formatMoney = (money, className = '', showFraction = true) => {
-  return htmlFormatMoney(money, props.currency, className, showFraction)
-}
 </script>
 
 <template>

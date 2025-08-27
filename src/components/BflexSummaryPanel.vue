@@ -2,9 +2,10 @@
 import { defineProps, defineEmits } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BflexIcon from '@/components/ui/BflexIcon.vue'
+import { formatMoney } from '../util/money.js'
 
 defineProps({
-  totalAmount: {
+  totals: {
     type: Object,
     required: true,
   },
@@ -27,7 +28,7 @@ const emit = defineEmits(['onAccommodationSummaryClick'])
     <div class="summary-block__content">
       <div class="summary-block__content-info">
         <div class="summary-block__content-info__price">
-          <span>{{ totalAmount.amount }}</span> {{ totalAmount.currency }}
+          <span>{{ formatMoney(totals.total, totals.currency) }}</span>
         </div>
         <div class="summary-block__content-info__text">
           {{ t('summary.room', accommodationUnits) }}, {{ t('summary.los', lengthOfStay) }}

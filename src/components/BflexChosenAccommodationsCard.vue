@@ -10,6 +10,7 @@ import BflexSkeletonLoader from '@/components/ui/BflexSkeletonLoader.vue'
 import { useFormattedCancellationPolicy } from '@/util/text.js'
 import BflexTooltip from '@/components/ui/BflexTooltip.vue'
 import BflexIconText from '@/components/ui/BflexIconText.vue'
+import { formatMoney } from '../util/money.js'
 
 const props = defineProps({
   mode: {
@@ -29,14 +30,18 @@ const props = defineProps({
       onArrival: '0.00',
     }),
   },
-  summary: {
+  totals: {
     type: Object,
     default: () => ({
-      subtotal: '0.00',
-      taxes: '0.00',
-      fees: '0.00',
-      discounts: '0.00',
-      total: '0.00',
+      currency: 'EUR',
+      subtotal: 0,
+      total: 0,
+      summary: {
+        base: 0,
+        taxes: 0,
+        charges: 0,
+        discounts: 0
+      },
     }),
   },
   locale: {
@@ -49,7 +54,7 @@ const props = defineProps({
   },
 })
 const { t } = useI18n()
-const emit = defineEmits(['changePaymentType', 'deleteAccommodationRequest'])
+const emit = defineEmits(['changePaymentType', 'deleteAccommodation'])
 
 const { formatDescription } = useFormattedCancellationPolicy()
 
@@ -57,20 +62,12 @@ const onChangeActivePaymentType = (paymentType) => {
   emit('changePaymentType', paymentType)
 }
 const onDeleteAccommodation = (item) => {
-  emit('deleteAccommodationRequest', {
-    checkInDate: item.checkInDate,
-    checkOutDate: item.checkOutDate,
-    accommodationType: item.accommodationType.id,
-    ratePlan: item.ratePlan.id,
-    adults: item.adults,
-    children: item.children,
-    quantity: 0,
-  })
+  emit('deleteAccommodation', item.hash)
 }
 
 const activePaymentTypes = ref({})
 onMounted(() => {
-  activePaymentTypes.value = props.reservation.paymentType.id
+  activePaymentTypes.value = props.reservation.details.accommodation.paymentType.id
 })
 </script>
 
@@ -85,13 +82,13 @@ onMounted(() => {
       <dl class="text-sm">
         <dt>
           <BflexIconText icon="DateRange">{{
-            formatDateRange(reservation.checkInDate, reservation.checkOutDate, locale)
+            formatDateRange(reservation.details.accommodation.checkInDate, reservation.details.accommodation.checkOutDate, locale)
           }}</BflexIconText>
         </dt>
         <dd>
           <BflexIconText icon="Persons">
-            {{ t('chosenAccommodation.adults', reservation.adults) }},
-            {{ t('chosenAccommodation.children', reservation.children.length) }}
+            {{ t('chosenAccommodation.adults', reservation.details.accommodation.adults) }},
+            {{ t('chosenAccommodation.children', reservation.details.accommodation.children.length) }}
           </BflexIconText>
         </dd>
       </dl>
@@ -101,19 +98,19 @@ onMounted(() => {
       <dl class="accommodation-list__item">
         <dt>
           <h3>
-            {{ reservation.accommodationType.name }}
+            {{ reservation.details.accommodation.accommodationType.name }}
             <span style="font-size: 0.9em; opacity: 0.7" v-if="reservation.quantity > 1"
               >x{{ reservation.quantity }}</span
             >
           </h3>
           <div class="text-sm" style="line-height: 1.25; font-weight: lighter">
-            {{ reservation.ratePlan.name }}<br />
+            {{ reservation.details.accommodation.ratePlan.name }}<br />
             <BflexTooltip class="inline">
-              <abbr>{{ reservation.cancellationPolicy.name || '' }}</abbr>
+              <abbr>{{ reservation.details.accommodation.cancellationPolicy.name || '' }}</abbr>
               <template #popper>
                 <p
                   v-for="(i, index) in formatDescription(
-                    reservation.cancellationPolicy.consequences,
+                    reservation.details.accommodation.cancellationPolicy.consequences,
                   )"
                   :key="index"
                 >
@@ -134,23 +131,24 @@ onMounted(() => {
           <span style="opacity: 0.7" v-if="reservation.quantity > 1"
             >{{ reservation.quantity }} x</span
           >
-          {{ reservation.summary.total.amount }} {{ reservation.summary.total.currency }}
+          {{ formatMoney(reservation.unitPrice, totals.currency) }}
         </dd>
       </dl>
+
       <div v-if="mode === 'choose'" class="payment-type">
         <div class="payment-type__label">{{ t('chosenAccommodation.willPay') }}:</div>
         <div class="payment-type__variants">
           <label
-            v-for="paymentType in reservation.availablePaymentTypes"
+            v-for="(paymentType, index) in reservation.details.availablePaymentTypes"
             :key="paymentType.id"
-            :for="`payment-type-${index}-${reservation.ratePlan.id}-${paymentType.id}`"
+            :for="`payment-type-${index}-${reservation.details.accommodation.ratePlan.id}-${paymentType.id}`"
           >
             <input
               type="radio"
               :name="`payment-type-${index}`"
-              :id="`payment-type-${index}-${reservation.ratePlan.id}-${paymentType.id}`"
-              :value="reservation.paymentType.id"
-              :checked="+reservation.paymentType.id === +paymentType.id"
+              :id="`payment-type-${index}-${reservation.details.accommodation.ratePlan.id}-${paymentType.id}`"
+              :value="reservation.details.accommodation.paymentType.id"
+              :checked="+reservation.details.accommodation.paymentType.id === +paymentType.id"
               @change="() => onChangeActivePaymentType(paymentType.id)"
             />
             {{ paymentType.name }}
@@ -164,9 +162,7 @@ onMounted(() => {
       <dl class="accommodation-list__total">
         <dt>{{ t('chosenAccommodation.totalAmount') }}:</dt>
         <dd>
-          <strong
-            ><span>{{ summary.total.amount }}</span> {{ summary.total.currency }}</strong
-          >
+          <strong>{{ formatMoney(totals.total, totals.currency) }}</strong>
         </dd>
       </dl>
     </BflexContent>
@@ -176,12 +172,11 @@ onMounted(() => {
         <dl class="accommodation-list__payment-rules">
           <dt class="highlighted">{{ t('chosenAccommodation.prepaymentAmount') }}:</dt>
           <dd class="highlighted">
-            {{ payment.details.prepayment.amount }} {{ payment.details.prepayment.currency }}
+            {{ formatMoney(payment.prepayment, totals.currency)  }}
           </dd>
           <dt>{{ t('chosenAccommodation.onArrivalAmount') }}:</dt>
           <dd>
-            <span>{{ payment.details.onArrival.amount }}</span>
-            {{ payment.details.onArrival.currency }}
+            <span>{{ formatMoney(payment.onArrival || 0, totals.currency) }}</span>
           </dd>
         </dl>
       </BflexContent>

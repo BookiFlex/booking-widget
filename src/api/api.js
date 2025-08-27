@@ -2,7 +2,7 @@ const ENDPOINTS = {
   INIT: 'bflex/v1/cart/init',
   OFFERS: 'bflex/v1/offers',
   CART: 'bflex/v1/cart',
-  CHANGE_PAYMENT_TYPE: 'bflex/v1/cart/paymentType',
+  CHANGE_PAYMENT_TYPE: 'bflex/v1/cart/payment-type',
   CONFIRM_CART: 'bflex/v1/cart/confirm',
   LOAD_RESERVATION: 'bflex/v1/account/reservation',
   CANCEL_RESERVATION: 'bflex/v1/account/reservation/cancel',
@@ -122,11 +122,10 @@ const loadCart = async () => {
 
   try {
     const response = await fetch(endpoint, {
-      method: 'POST',
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ request: {} }),
     })
 
     return await handleResponse(response)
@@ -138,15 +137,14 @@ const loadCart = async () => {
 
 /**
  * {
- *     "request": {
- *         "checkInDate": "2024-12-03",
- *         "checkOutDate": "2024-12-06",
- *         "accommodationType": 272,
- *         "ratePlan": 284,
- *         "adults": 1,
- *         "children": [],
- *         "quantity": 2
- *     }
+ *     "type": "accommodation",
+ *     "checkInDate": "2024-12-03",
+ *     "checkOutDate": "2024-12-06",
+ *     "accommodationTypeId": 272,
+ *     "ratePlanId": 284,
+ *     "adults": 1,
+ *     "children": [],
+ *     "quantity": 2
  * }
  * @param data
  * @returns {Promise<void>}
@@ -156,11 +154,33 @@ const updateCart = async (data) => {
 
   try {
     const response = await fetch(endpoint, {
-      method: 'PATCH',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ request: data }),
+      body: JSON.stringify(data),
+    })
+
+    return await handleResponse(response)
+  } catch (error) {
+    console.error('Failed to add to cart:', error)
+    throw error
+  }
+}
+
+/**
+ * @param hash
+ * @returns {Promise<void>}
+ */
+const removeFromCart = async (hash) => {
+  const endpoint = (await detectRestApiRelativeUrl()) + ENDPOINTS.CART + '/items/' + hash
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
 
     return await handleResponse(response)
@@ -281,6 +301,7 @@ export {
   loadOffers,
   loadCart,
   updateCart,
+  removeFromCart,
   changePaymentType,
   confirmCart,
   loadReservation,

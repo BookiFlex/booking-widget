@@ -1,7 +1,6 @@
 <script setup>
 import { ref, defineEmits, onMounted, computed, inject } from 'vue'
-import { loadCart, changePaymentType, updateCart, confirmCart } from '../api/api.js'
-import { lengthOfStay } from '../util/date.js'
+import { loadCart, changePaymentType, removeFromCart, confirmCart } from '../api/api.js'
 import BflexContactInformationCard from '../components/BflexContactInformationCard.vue'
 import BflexChosenAccommodationsCard from '../components/BflexChosenAccommodationsCard.vue'
 import BflexSummaryPanel from '../components/BflexSummaryPanel.vue'
@@ -24,29 +23,13 @@ const data = ref({
   agreementList: [],
 })
 const emit = defineEmits(['released'])
-const onDeleteAccommodationRequest = async ({
-  checkInDate,
-  checkOutDate,
-  accommodationType,
-  ratePlan,
-  adults,
-  children,
-  quantity,
-}) => {
+const onDeleteAccommodation = async (hash) => {
   loading.value = true
 
   try {
-    const result = await updateCart({
-      checkInDate,
-      checkOutDate,
-      accommodationType,
-      ratePlan,
-      adults,
-      children,
-      quantity,
-    })
+    const result = await removeFromCart(hash)
     cart.value = result.cart
-    if (result.cart.requests.length === 0) {
+    if (result.cart.items.length === 0) {
       emit('released', { action: EMPTY_CART, result })
     }
   } catch (error) {
@@ -103,7 +86,7 @@ onMounted(async () => {
 const onChangePaymentType = async (paymentType) => {
   try {
     const result = await changePaymentType({
-      request: Object.keys(cart.value.requests)[0],
+      request: Object.keys(cart.value.items)[0],
       paymentType,
     })
     cart.value = result.cart
@@ -113,31 +96,28 @@ const onChangePaymentType = async (paymentType) => {
 }
 
 const accommodationUnits = computed(() => {
-  if (!cart.value || !cart.value.requests || Object.keys(cart.value.requests).length === 0) {
+  if (!cart.value || !cart.value.items) {
     return 0
   }
 
-  return Object.keys(cart.value.requests).reduce((acc, id) => {
-    const request = cart.value.requests[id]
-    return acc + request.quantity
+  return cart.value.items.reduce((acc, accommodation) => {
+    return acc + accommodation.quantity
   }, 0)
 })
 
-const hasRequests = computed(() => {
-  return cart.value && cart.value.requests && Object.keys(cart.value.requests).length > 0
+const isEmpty = computed(() => {
+  return !cart.value && cart.value.items.length === 0
 })
 
-const firstRequest = computed(() => {
-  return cart.value.requests[Object.keys(cart.value.requests)[0]]
+const firstAccommodation = computed(() => {
+  return cart.value.items[Object.keys(cart.value.items)[0]]
 })
-// console.log(firstRequest.value)
-const lengthOfStayOfFirstRequest = computed(() => {
-  if (!hasRequests.value) {
+
+const lengthOfStay = computed(() => {
+  if (isEmpty.value) {
     return 0
   }
-  console.log('hasRequests.value:', hasRequests.value)
-  console.log('cart.value.requests:', Object.keys(cart.value.requests))
-  return lengthOfStay(firstRequest.value.checkInDate, firstRequest.value.checkOutDate)
+  return firstAccommodation.value.details.accommodation.lengthOfStay
 })
 </script>
 
@@ -147,15 +127,15 @@ const lengthOfStayOfFirstRequest = computed(() => {
       <BflexContactInformationCard v-model="data.customerInfo" />
 
       <BflexChosenAccommodationsCard
-        v-if="cart && hasRequests"
+        v-if="cart && !isEmpty"
         mode="choose"
         :loading="loading"
         :locale="settings.widget.locale"
         :payment="cart.payment"
-        :summary="cart.summary"
-        :reservation="firstRequest"
+        :totals="cart.totals"
+        :reservation="firstAccommodation"
         @changePaymentType="onChangePaymentType"
-        @deleteAccommodationRequest="onDeleteAccommodationRequest"
+        @deleteAccommodation="onDeleteAccommodation"
       ></BflexChosenAccommodationsCard>
 
       <BflexSpecialRequestCard v-model="data.specialRequest"></BflexSpecialRequestCard>
@@ -166,10 +146,9 @@ const lengthOfStayOfFirstRequest = computed(() => {
 
       <BflexSummaryPanel
         v-if="!loading && cart"
-        :total-amount="cart.summary.total"
-        :currency="cart.currency"
+        :totals="cart.totals"
         :accommodation-units="accommodationUnits"
-        :length-of-stay="lengthOfStayOfFirstRequest"
+        :length-of-stay="lengthOfStay"
       ></BflexSummaryPanel>
     </BflexGridGap>
   </form>

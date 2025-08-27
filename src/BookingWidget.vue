@@ -54,7 +54,7 @@ const settings = ref({
 provide('settings', settings)
 
 const pages = [CHOOSE_ACCOMMODATION, BOOKING_CONFIRMATION, RESERVATION_DETAILS]
-const activePage = ref(null)
+const activePage = ref(RESERVATION_DETAILS)
 const nextPage = (action) => {
   if (!action) {
     activePage.value = CHOOSE_ACCOMMODATION
@@ -75,7 +75,7 @@ const nextPage = (action) => {
 }
 
 const loading = ref(false)
-const sid = ref('')
+const sid = ref('ebd1f7ba-85aa-4e26-971e-35d2ceaf0206')
 const container = ref(null)
 
 const searchParams = ref({

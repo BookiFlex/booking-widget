@@ -70,10 +70,11 @@ const onAddToCart = async ({ accommodationOffer, ratePlan, variant }) => {
 
   try {
     const result = await updateCart({
+      type: 'accommodation',
       checkInDate: props.dateRange.start,
       checkOutDate: props.dateRange.end,
-      accommodationType: accommodationOffer.accommodationType.id,
-      ratePlan: ratePlan.id,
+      accommodationTypeId: accommodationOffer.accommodationType.id,
+      ratePlanId: ratePlan.id,
       adults: variant.occupancyOptions.main + variant.occupancyOptions.extraBed,
       children: [],
       quantity: 1,
