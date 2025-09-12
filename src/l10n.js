@@ -53,6 +53,9 @@ export default {
       free: 'Free',
     },
     ratePlan: {
+      selectOccupancy: 'Select number of guests',
+      persons: 'person | persons',
+      extraBed: 'extra bed | extra beds',
       payments: 'Payments',
       or: 'OR',
       los: '{n} night | {n} nights',

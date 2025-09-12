@@ -1,51 +1,75 @@
 <script setup>
-import { ref, onMounted, inject } from 'vue';
-import { useI18n } from 'vue-i18n';
-import BflexChosenAccommodationsCard from '../components/BflexChosenAccommodationsCard.vue';
-import BflexInformationBlock from '../components/InformationBlock/BflexInformationBlock.vue';
-import BflexHeader from '../components/InformationBlock/BflexHeader.vue';
-import BflexDivider from '../components/InformationBlock/BflexDivider.vue';
-import BflexContent from '../components/InformationBlock/BflexContent.vue';
-import BflexSkeletonLoader from '../components/ui/BflexSkeletonLoader.vue';
-import BflexHotelInformationCard from '@/components/BflexHotelInformationCard.vue';
-import BflexGridGap from '@/components/InformationBlock/BflexGridGap.vue';
+import { defineProps, onMounted, ref, watch, inject } from 'vue'
+import { useI18n } from 'vue-i18n'
+import BflexChosenAccommodationsCard from '../components/BflexChosenAccommodationsCard.vue'
+import BflexInformationBlock from '../components/InformationBlock/BflexInformationBlock.vue'
+import BflexHeader from '../components/InformationBlock/BflexHeader.vue'
+import BflexDivider from '../components/InformationBlock/BflexDivider.vue'
+import BflexContent from '../components/InformationBlock/BflexContent.vue'
+import BflexSkeletonLoader from '../components/ui/BflexSkeletonLoader.vue'
+import BflexHotelInformationCard from '@/components/BflexHotelInformationCard.vue'
+import BflexGridGap from '@/components/InformationBlock/BflexGridGap.vue'
+import BflexButton from '@/components/ui/BflexButton.vue'
+import BflexFieldDecorator from '@/components/ui/BflexFieldDecorator.vue'
+import { useReservation } from '@/composables/useReservation.js'
 import { useCancellationI18n } from '@/composables/index.js'
-import BflexButton from '@/components/ui/BflexButton.vue';
-import BflexFieldDecorator from '@/components/ui/BflexFieldDecorator.vue';
-import { useBooking } from '@/composables/useBooking';
 
-const { t } = useI18n();
-const settings = inject('settings');
-const { cancelReservationSid, cancelationData, loadingCancelation, loadCancelation, cancel } = useBooking();
+const props = defineProps({
+  sid: {
+    type: String,
+    required: true,
+    default: '',
+  },
+})
 
-onMounted(() => loadCancelation(cancelReservationSid.value));
+const { t } = useI18n()
+const settings = inject('settings')
+const { setError } = inject('globalError')
+const { formatRuleDescription } = useCancellationI18n()
 
-const { formatRuleDescription } = useCancellationI18n();
+const cancellationCode = ref('')
+const cancellationInProgress = ref(false)
 
-const cancellationCode = ref('');
-const cancellationInProgress = ref(false);
+// Используем composable
+const { reservation, loading, loadReservation, cancelReservation } = useReservation()
+
+const loadReservationData = async () => {
+  if (!props.sid) return
+
+  try {
+    await loadReservation(props.sid)
+  } catch (error) {
+    setError(error)
+  }
+}
 
 const onClickAction = async () => {
-  cancellationInProgress.value = true;
+  cancellationInProgress.value = true
   try {
-    const result = await cancel(cancelReservationSid.value, cancellationCode.value);
+    const result = await cancelReservation(props.sid, cancellationCode.value)
     if (result.successful) {
-      alert(t('cancellationProcess.result.success'));
-      window.location.replace(window.location.origin);
+      alert(t('cancellationProcess.result.success'))
+      window.location.replace(window.location.origin)
     } else {
-      alert(t('cancellationProcess.result.error'));
-      cancellationCode.value = '';
+      alert(t('cancellationProcess.result.error'))
+      cancellationCode.value = ''
     }
+  } catch (error) {
+    setError(error)
+    alert(t('cancellationProcess.result.error'))
   } finally {
-    cancellationInProgress.value = false;
+    cancellationInProgress.value = false
   }
-};
+}
+
+watch(() => props.sid, loadReservationData)
+onMounted(loadReservationData)
 </script>
 
 <template>
   <BflexGridGap>
-    <BflexSkeletonLoader v-if="loadingCancelation" />
-    <template v-else-if="cancelationData">
+    <BflexSkeletonLoader v-if="loading"></BflexSkeletonLoader>
+    <template v-else-if="reservation">
       <section class="reservation-result">
         <div class="reservation-result__title">{{ t('cancellationProcess.title') }}</div>
         <div class="reservation-result__description">
@@ -55,21 +79,21 @@ const onClickAction = async () => {
 
       <BflexChosenAccommodationsCard
         mode="cancellation"
-        :reservation="cancelationData.reservation"
-        :summary="cancelationData.summary"
-        :payment="cancelationData.payment"
+        :reservation="reservation.reservation"
+        :summary="reservation.summary"
+        :payment="reservation.payment"
         :locale="settings.widget.locale"
       >
         <BflexContent>
           <dl class="accommodation-list__payment-rules">
             <dt style="color: orangered">{{ t('chosenAccommodation.penalty') }}:</dt>
             <dd style="color: orangered">
-              {{ cancelationData.reservation.penalties.total.amount }}
-              {{ cancelationData.reservation.penalties.total.currency }}
+              {{ reservation.reservation.penalties.total.amount }}
+              {{ reservation.reservation.penalties.total.currency }}
             </dd>
           </dl>
         </BflexContent>
-        <BflexDivider />
+        <BflexDivider></BflexDivider>
         <div
           style="
             display: flex;
@@ -86,9 +110,13 @@ const onClickAction = async () => {
               name="cancellationCode"
               :value="cancellationCode"
               @input.stop="(e) => (cancellationCode = e.currentTarget.value)"
+              :disabled="cancellationInProgress"
             />
           </BflexFieldDecorator>
-          <BflexButton @click="onClickAction" :disabled="!cancellationCode || cancellationInProgress">
+          <BflexButton
+            @click="onClickAction"
+            :disabled="!cancellationCode || cancellationInProgress"
+          >
             {{ t('cancellationProcess.action') }}
           </BflexButton>
         </div>
@@ -96,14 +124,14 @@ const onClickAction = async () => {
 
       <BflexInformationBlock class="information-block--attention">
         <BflexHeader>{{ t('cancellationProcess.rules') }}</BflexHeader>
-        <BflexDivider />
+        <BflexDivider></BflexDivider>
         <BflexContent>
           <ul class="agreement-rules-list__rules">
             <li
-              v-for="(i, index) in cancelationData.reservation.cancellationPolicy.consequences"
+              v-for="(item, index) in reservation.reservation.cancellationPolicy.consequences"
               :key="index"
             >
-              {{ formatRuleDescription(i) }}
+              {{ formatDescription(item) }}
             </li>
           </ul>
         </BflexContent>
@@ -113,5 +141,3 @@ const onClickAction = async () => {
     </template>
   </BflexGridGap>
 </template>
-
-<style lang="scss"></style>
