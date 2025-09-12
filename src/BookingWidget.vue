@@ -1,18 +1,19 @@
 <!-- BookingWidget.vue -->
 <script setup>
-import { ref, onMounted, provide, inject, defineProps, onUnmounted, watch, toRaw } from 'vue'
+import { ref, onMounted, provide, inject, defineProps, onUnmounted, watch, toRaw, nextTick } from 'vue'
 import { init } from './api/api.js'
 import i18n from './i18n'
 import {
   CHOOSE_ACCOMMODATION,
   BOOKING_CONFIRMATION,
+  RESERVATION_DETAILS,
   CANCEL_RESERVATION,
   EMPTY_CART
 } from './constants.js'
-import ChooseAccommodationPage from '@/pages/ChooseAccommodationPage.vue'
+import OffersPage from '@/pages/OffersPage.vue'
 import BookingConfirmationPage from '@/pages/ConfirmationPage.vue'
 import ReservationDetailsPage from '@/pages/ResultPage.vue'
-import CancelReservationPage from '@/pages/CancelReservationPage.vue'
+import CancellationPage from '@/pages/CancellationPage.vue'
 import BflexSkeletonLoader from '@/components/ui/BflexSkeletonLoader.vue'
 import BflexGridGap from '@/components/InformationBlock/BflexGridGap.vue'
 import { useBookingFlow } from '@/composables/useBookingFlow.js'
@@ -64,14 +65,52 @@ const searchParams = ref({
 })
 
 // Используем composables
-const { activePage, reservationSid, nextPage, startCancellation } = useBookingFlow()
+const { activePage, reservationSid, nextPage: navigateNext, startCancellation } = useBookingFlow()
 const { loading, withLoading } = useLoading(false)
 
 // Container ref для скролла
 const container = ref(null)
 
+// Transition state
+const isTransitioning = ref(false)
+
 // Error handler
 const { setError } = inject('globalError')
+
+// Smooth scroll to top
+const scrollToTop = () => {
+  if (container.value) {
+    container.value.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+}
+
+// Enhanced page navigation with transition
+const nextPage = async (action, result = null) => {
+  isTransitioning.value = true
+
+  // Небольшая задержка для начала анимации
+  await nextTick()
+
+  setTimeout(() => {
+    scrollToTop()
+
+    if (action === EMPTY_CART) {
+      navigateNext(null)
+    } else if (action === BOOKING_CONFIRMATION) {
+      navigateNext(action, result)
+    } else {
+      navigateNext(action)
+    }
+
+    // Завершаем переход
+    setTimeout(() => {
+      isTransitioning.value = false
+    }, 300)
+  }, 150)
+}
 
 // Отслеживаем изменения props
 watch(
@@ -115,18 +154,8 @@ const onSearchParamsChanged = (e) => {
 
 // Обработчик действий от дочерних компонентов
 const onReleasedAction = ({ action, result }) => {
-  // Скроллим наверх при навигации
-  if (container.value) {
-    container.value.scrollTop = 0
-  }
-
-  if (action === EMPTY_CART) {
-    nextPage(null)
-  } else if (action === BOOKING_CONFIRMATION) {
-    nextPage(action, result)
-  } else {
-    nextPage(action)
-  }
+  console.log(`Released action: ${action}`, result)
+  nextPage(action, result)
 }
 
 // Инициализация
@@ -148,22 +177,22 @@ onMounted(async () => {
 
       // Проверяем параметры URL
       const params = new URLSearchParams(window.location.search)
-      if (params.has('cancelReservation')) {
-        const sid = params.get('cancelReservation')
+      if (params.has('cancel')) {
+        const sid = params.get('cancel')
         startCancellation(sid)
       } else {
-        nextPage(inProgress ? CHOOSE_ACCOMMODATION : null)
+        navigateNext(inProgress ? CHOOSE_ACCOMMODATION : null)
       }
     } catch (error) {
       setError(error)
     }
   })
 
-  // Добавляем задержку для синхронизации лоадеров
+  // Плавное завершение начальной загрузки
   if (loading.value) {
     setTimeout(() => {
       loading.value = false
-    }, 1000)
+    }, 800)
   }
 })
 
@@ -185,32 +214,35 @@ onUnmounted(() => {
         </template>
 
         <!-- Cancel reservation page -->
-        <CancelReservationPage
+        <CancellationPage
           v-else-if="activePage === CANCEL_RESERVATION && reservationSid"
           :sid="reservationSid"
           @cancelReservation="() => nextPage(null)"
         />
 
-        <!-- Choose accommodation page -->
-        <ChooseAccommodationPage
-          v-else-if="activePage === CHOOSE_ACCOMMODATION"
-          :dateRange="searchParams"
-          :promoCode="searchParams.promoCode"
-          @released="onReleasedAction"
-        />
+            <!-- Choose accommodation page -->
+            <OffersPage
+              v-else-if="activePage === CHOOSE_ACCOMMODATION"
+              :key="CHOOSE_ACCOMMODATION"
+              :date-range="searchParams"
+              :promo-code="searchParams.promoCode"
+              @released="onReleasedAction"
+            />
 
-        <!-- Booking confirmation page -->
-        <BookingConfirmationPage
-          v-else-if="activePage === BOOKING_CONFIRMATION"
-          @released="onReleasedAction"
-        />
+            <!-- Booking confirmation page -->
+            <BookingConfirmationPage
+              v-else-if="activePage === BOOKING_CONFIRMATION"
+              :key="BOOKING_CONFIRMATION"
+              @released="onReleasedAction"
+            />
 
-        <!-- Reservation details page -->
-        <ReservationDetailsPage
-          v-else-if="activePage === RESERVATION_DETAILS"
-          :sid="reservationSid"
-          @released="onReleasedAction"
-        />
+            <!-- Reservation details page -->
+            <ReservationDetailsPage
+              v-else-if="activePage === RESERVATION_DETAILS"
+              :key="RESERVATION_DETAILS"
+              :sid="reservationSid"
+              @released="onReleasedAction"
+            />
       </section>
     </div>
   </main>

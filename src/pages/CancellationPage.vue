@@ -1,7 +1,6 @@
 <script setup>
-import { defineProps, onMounted, ref, watch, inject } from 'vue'
+import { defineProps, onMounted, ref, watch, inject, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import BflexChosenAccommodationsCard from '../components/BflexChosenAccommodationsCard.vue'
 import BflexInformationBlock from '../components/InformationBlock/BflexInformationBlock.vue'
 import BflexHeader from '../components/InformationBlock/BflexHeader.vue'
 import BflexDivider from '../components/InformationBlock/BflexDivider.vue'
@@ -12,7 +11,9 @@ import BflexGridGap from '@/components/InformationBlock/BflexGridGap.vue'
 import BflexButton from '@/components/ui/BflexButton.vue'
 import BflexFieldDecorator from '@/components/ui/BflexFieldDecorator.vue'
 import { useReservation } from '@/composables/useReservation.js'
+import BflexReadOnlyAccommodationCard from '@/components/BflexReadOnlyAccommodationCard.vue'
 import { useCancellationI18n } from '@/composables/index.js'
+import { formatMoney } from '../util/money.js'
 
 const props = defineProps({
   sid: {
@@ -42,6 +43,13 @@ const loadReservationData = async () => {
     setError(error)
   }
 }
+
+const penaltyAmount = computed(() => {
+  return reservation.value.cancellation.penalties.reduce((acc, cur) => {
+    acc += cur.amount
+    return acc
+  }, 0)
+})
 
 const onClickAction = async () => {
   cancellationInProgress.value = true
@@ -77,19 +85,20 @@ onMounted(loadReservationData)
         </div>
       </section>
 
-      <BflexChosenAccommodationsCard
-        mode="cancellation"
-        :reservation="reservation.reservation"
-        :summary="reservation.summary"
-        :payment="reservation.payment"
+      <BflexReadOnlyAccommodationCard
+        :reservation="reservation"
         :locale="settings.widget.locale"
       >
         <BflexContent>
           <dl class="accommodation-list__payment-rules">
-            <dt style="color: orangered">{{ t('chosenAccommodation.penalty') }}:</dt>
-            <dd style="color: orangered">
-              {{ reservation.reservation.penalties.total.amount }}
-              {{ reservation.reservation.penalties.total.currency }}
+            <dt>{{ t('chosenAccommodation.paid') }}:</dt>
+            <dd>
+              {{ formatMoney(reservation.payment.amounts.paid, reservation.currency)  }}
+            </dd>
+
+            <dt class="highlighted">{{ t('chosenAccommodation.penalty') }}:</dt>
+            <dd class="highlighted">
+              {{ formatMoney(penaltyAmount, reservation.currency) }}
             </dd>
           </dl>
         </BflexContent>
@@ -120,7 +129,7 @@ onMounted(loadReservationData)
             {{ t('cancellationProcess.action') }}
           </BflexButton>
         </div>
-      </BflexChosenAccommodationsCard>
+      </BflexReadOnlyAccommodationCard>
 
       <BflexInformationBlock class="information-block--attention">
         <BflexHeader>{{ t('cancellationProcess.rules') }}</BflexHeader>
@@ -128,10 +137,10 @@ onMounted(loadReservationData)
         <BflexContent>
           <ul class="agreement-rules-list__rules">
             <li
-              v-for="(item, index) in reservation.reservation.cancellationPolicy.consequences"
+              v-for="(item, index) in reservation.cancellation.policy.consequences"
               :key="index"
             >
-              {{ formatDescription(item) }}
+              {{ formatRuleDescription(item) }}
             </li>
           </ul>
         </BflexContent>

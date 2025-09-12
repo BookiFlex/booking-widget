@@ -6,19 +6,12 @@ import BflexDivider from './InformationBlock/BflexDivider.vue'
 import BflexContent from './InformationBlock/BflexContent.vue'
 import BflexInformationBlock from './InformationBlock/BflexInformationBlock.vue'
 import BflexHeader from './InformationBlock/BflexHeader.vue'
-import BflexSkeletonLoader from '@/components/ui/BflexSkeletonLoader.vue'
-import { useCancellationI18n } from '@/composables/index.js'
 import BflexTooltip from '@/components/ui/BflexTooltip.vue'
 import BflexIconText from '@/components/ui/BflexIconText.vue'
 import { formatMoney } from '../util/money.js'
+import { useCancellationI18n } from '@/composables/index.js'
 
 const props = defineProps({
-  mode: {
-    type: String,
-    default: 'choose',
-    required: true,
-    validator: (value) => ['choose', 'info', 'cancellation'].includes(value),
-  },
   reservation: {
     type: Object,
     required: true,
@@ -53,6 +46,7 @@ const props = defineProps({
     default: false,
   },
 })
+
 const { t } = useI18n()
 const emit = defineEmits(['changePaymentType', 'deleteAccommodation'])
 
@@ -61,8 +55,9 @@ const { formatRuleDescription } = useCancellationI18n()
 const onChangeActivePaymentType = (paymentType) => {
   emit('changePaymentType', paymentType)
 }
-const onDeleteAccommodation = (item) => {
-  emit('deleteAccommodation', item.hash)
+
+const onDeleteAccommodation = () => {
+  emit('deleteAccommodation', props.reservation.hash)
 }
 
 const activePaymentTypes = ref({})
@@ -72,18 +67,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <BflexSkeletonLoader v-if="loading" is-result></BflexSkeletonLoader>
-
-  <BflexInformationBlock v-else class="accommodation-list">
+  <BflexInformationBlock class="accommodation-list">
     <BflexHeader>{{ t('chosenAccommodation.title') }}</BflexHeader>
     <BflexDivider></BflexDivider>
 
     <BflexContent>
-      <dl class="text-sm">
+      <dl class="text-sm stay-information">
         <dt>
           <BflexIconText icon="DateRange">{{
-            formatDateRange(reservation.details.accommodation.checkInDate, reservation.details.accommodation.checkOutDate, locale)
-          }}</BflexIconText>
+              formatDateRange(reservation.details.accommodation.checkInDate, reservation.details.accommodation.checkOutDate, locale)
+            }}</BflexIconText>
         </dt>
         <dd>
           <BflexIconText icon="Persons">
@@ -94,25 +87,25 @@ onMounted(() => {
       </dl>
     </BflexContent>
     <BflexDivider></BflexDivider>
+
     <BflexContent>
       <dl class="accommodation-list__item">
         <dt>
           <h3>
-            {{ reservation.details.accommodation.accommodationType.name }}
+            {{ reservation.name }}
             <span style="font-size: 0.9em; opacity: 0.7" v-if="reservation.quantity > 1"
-              >x{{ reservation.quantity }}</span
+            >x{{ reservation.quantity }}</span
             >
           </h3>
           <div class="text-sm" style="line-height: 1.25; font-weight: lighter">
-            {{ reservation.details.accommodation.ratePlan.name }}<br />
             <BflexTooltip class="inline">
               <abbr>{{ reservation.details.accommodation.cancellationPolicy.name || '' }}</abbr>
               <template #popper>
                 <p
-                  v-for="(i, index) in reservation.details.accommodation.cancellationPolicy.consequences"
+                  v-for="(rule, index) in reservation.details.accommodation.cancellationPolicy.rules"
                   :key="index"
                 >
-                  {{ formatRuleDescription(i) }}
+                  {{ formatRuleDescription(rule) }}
                 </p>
               </template>
             </BflexTooltip>
@@ -120,20 +113,19 @@ onMounted(() => {
         </dt>
         <dd>
           <div
-            v-if="mode === 'choose'"
-            @click="() => onDeleteAccommodation(reservation)"
+            @click="onDeleteAccommodation"
             class="accommodation-list__item-delete text-sm cursor-pointer"
           >
             {{ t('chosenAccommodation.delete') }}
           </div>
           <span style="opacity: 0.7" v-if="reservation.quantity > 1"
-            >{{ reservation.quantity }} x</span
+          >{{ reservation.quantity }} x</span
           >
           {{ formatMoney(reservation.unitPrice, totals.currency) }}
         </dd>
       </dl>
 
-      <div v-if="mode === 'choose'" class="payment-type">
+      <div class="payment-type">
         <div class="payment-type__label">{{ t('chosenAccommodation.willPay') }}:</div>
         <div class="payment-type__variants">
           <label
@@ -165,16 +157,19 @@ onMounted(() => {
       </dl>
     </BflexContent>
     <BflexDivider></BflexDivider>
+
     <slot>
       <BflexContent>
         <dl class="accommodation-list__payment-rules">
           <dt class="highlighted">{{ t('chosenAccommodation.prepaymentAmount') }}:</dt>
           <dd class="highlighted">
-            {{ formatMoney(payment.prepayment, totals.currency)  }}
+            <span v-if="loading" class="amount-loader"></span>
+            <span v-else>{{ formatMoney(payment.prepayment, totals.currency)  }}</span>
           </dd>
           <dt>{{ t('chosenAccommodation.onArrivalAmount') }}:</dt>
           <dd>
-            <span>{{ formatMoney(payment.onArrival || 0, totals.currency) }}</span>
+            <span v-if="loading" class="amount-loader"></span>
+            <span v-else>{{ formatMoney(payment.onArrival || 0, totals.currency) }}</span>
           </dd>
         </dl>
       </BflexContent>
@@ -182,4 +177,6 @@ onMounted(() => {
   </BflexInformationBlock>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+
+</style>

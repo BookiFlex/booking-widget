@@ -7,6 +7,7 @@ import BflexIcon from '@/components/ui/BflexIcon.vue'
 import BflexScenarioIcon from '@/components/BflexScenarioIcon.vue'
 import BflexButton from '@/components/ui/BflexButton.vue'
 import { useCancellationI18n } from '@/composables/index.js'
+import { formatMoney } from '../util/money.js'
 
 const props = defineProps({
   /**
@@ -85,17 +86,6 @@ const selectedVariant = computed(() => {
   return null
 })
 
-// Функция для форматирования текста варианта в селекторе
-const getVariantLabel = (variant) => {
-  const people = variant.occupancyOptions.main
-  const extraBed = variant.occupancyOptions.extraBed
-  let label = `${people} ${t('ratePlan.persons', people)}`
-  if (extraBed > 0) {
-    label += ` + ${extraBed} ${t('ratePlan.extraBed', extraBed)}`
-  }
-  return label
-}
-
 // Обработчики для мобильной версии
 const selectVariant = (index) => {
   selectedVariantIndex.value = index
@@ -131,7 +121,6 @@ const emitVariantChosen = (value, index) => {
   if (loading.value[index]) {
     return
   }
-
   loading.value[index] = true
   emit('variant-chosen', value)
 }
@@ -282,7 +271,7 @@ const emitMobileVariantChosen = () => {
                   </div>
                   <div class="variant-selector__price">
                     <span class="variant-selector__price-amount">
-                      {{ selectedVariant.price.currency }} {{ selectedVariant.price.sellingPrice }}
+                      {{ formatMoney(selectedVariant.price.sellingPrice, selectedVariant.price.currency) }}
                     </span>
                     <span v-if="selectedVariant.price.discount" class="variant-selector__discount">
                       -{{ selectedVariant.price.discount }}%
@@ -315,10 +304,10 @@ const emitMobileVariantChosen = () => {
                   </div>
                   <div class="variant-selector__option-price">
                     <span class="variant-selector__option-price-amount">
-                      {{ variant.price.currency }} {{ variant.price.sellingPrice }}
+                      {{ formatMoney(variant.price.sellingPrice, variant.price.currency) }}
                     </span>
                     <span v-if="variant.price.originalSellingPrice" class="variant-selector__option-price-original">
-                      {{ variant.price.currency }} {{ variant.price.originalSellingPrice }}
+                      {{ formatMoney(variant.price.originalSellingPrice, variant.price.currency) }}
                     </span>
                   </div>
                 </div>

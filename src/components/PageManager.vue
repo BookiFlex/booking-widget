@@ -1,9 +1,9 @@
 <script setup>
 import { computed } from 'vue';
-import ChooseAccommodationPage from '@/pages/ChooseAccommodationPage.vue';
+import OffersPage from '@/pages/OffersPage.vue';
 import ConfirmationPage from '@/pages/ConfirmationPage.vue';
 import ResultPage from '@/pages/ResultPage.vue';
-import CancelReservationPage from '@/pages/CancelReservationPage.vue';
+import CancellationPage from '@/pages/CancellationPage.vue';
 import {
   CHOOSE_ACCOMMODATION,
   BOOKING_CONFIRMATION,
@@ -19,10 +19,10 @@ const props = defineProps({
 });
 
 const pages = {
-  [CHOOSE_ACCOMMODATION]: ChooseAccommodationPage,
+  [CHOOSE_ACCOMMODATION]: OffersPage,
   [BOOKING_CONFIRMATION]: ConfirmationPage,
   [RESERVATION_DETAILS]: ResultPage,
-  [CANCEL_RESERVATION]: CancelReservationPage,
+  [CANCEL_RESERVATION]: CancellationPage,
 };
 
 const currentPage = computed(() => pages[props.activePage]);

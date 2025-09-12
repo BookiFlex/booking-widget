@@ -55,6 +55,7 @@ const openGallery = () => {
         />
         <span v-else>{{ t('accommodationType.thumbnail') }}</span>
       </BflexImageGallery>
+      <div class="room-quantity">{{ t('accommodationType.roomQuantity') }}: {{ roomQuantity }}</div>
     </section>
 
     <section class="accommodation-type-card__body">
@@ -69,8 +70,6 @@ const openGallery = () => {
             amenity
           }}</span>
         </div>
-
-        <div class="room-quantity">{{ t('accommodationType.roomQuantity') }}: {{ roomQuantity }}</div>
       </div>
     </section>
   </article>

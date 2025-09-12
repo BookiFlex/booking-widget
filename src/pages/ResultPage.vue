@@ -1,7 +1,6 @@
 <script setup>
 import { defineProps, onMounted, watch, inject, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import BflexChosenAccommodationsCard from '../components/BflexChosenAccommodationsCard.vue'
 import BflexInformationBlock from '../components/InformationBlock/BflexInformationBlock.vue'
 import BflexHeader from '../components/InformationBlock/BflexHeader.vue'
 import BflexDivider from '../components/InformationBlock/BflexDivider.vue'
@@ -12,6 +11,7 @@ import BflexGridGap from '@/components/InformationBlock/BflexGridGap.vue'
 import BflexPaymentPanel from '@/components/BflexPaymentPanel.vue'
 import BflexRedirectTimer from '@/components/BflexRedirectTimer.vue'
 import { useReservation } from '@/composables/useReservation.js'
+import BflexReadOnlyAccommodationCard from '@/components/BflexReadOnlyAccommodationCard.vue'
 
 const props = defineProps({
   sid: {
@@ -27,7 +27,6 @@ const { setError } = inject('globalError')
 
 // Используем composable
 const { reservation, loading, statusText, loadReservation } = useReservation()
-
 const captureTokens = computed(() => {
   // Временно возвращаем пустой массив
   return []
@@ -39,6 +38,7 @@ const loadReservationData = async () => {
   try {
     await loadReservation(props.sid)
   } catch (error) {
+    console.error(error)
     setError(error)
   }
 }
@@ -64,13 +64,10 @@ const onClickAction = () => {
         </div>
       </section>
 
-      <BflexChosenAccommodationsCard
-        mode="info"
-        :reservation="reservation.reservation"
-        :summary="reservation.summary"
-        :payment="reservation.payment"
+      <BflexReadOnlyAccommodationCard
+        :reservation="reservation"
         :locale="settings.widget.locale"
-      ></BflexChosenAccommodationsCard>
+      ></BflexReadOnlyAccommodationCard>
 
       <BflexInformationBlock class="information-block--attention">
         <BflexHeader>{{ t('reservation.whatIsNext') }}</BflexHeader>
@@ -78,8 +75,8 @@ const onClickAction = () => {
         <BflexContent>{{
             t(`reservation.nextStep.${statusText}`, { untilTime: '' })
           }}</BflexContent>
-        <template v-if="reservation.payment?.captureToken">
-          <BflexRedirectTimer :capture-token="reservation.payment.captureToken" :timeout="30" blank />
+        <template v-if="reservation.payment?.method?.captureToken">
+          <BflexRedirectTimer :capture-token="reservation.payment?.method?.captureToken" :timeout="30" blank />
         </template>
       </BflexInformationBlock>
 

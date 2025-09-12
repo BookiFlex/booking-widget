@@ -43,7 +43,7 @@ const { formatRuleDescription } = useCancellationI18n()
     <BflexDivider></BflexDivider>
 
     <BflexContent>
-      <dl class="text-sm">
+      <dl class="text-sm stay-information">
         <dt>
           <BflexIconText icon="DateRange">{{
             formatDateRange(reservation.stay.checkInDate, reservation.stay.checkOutDate, locale)

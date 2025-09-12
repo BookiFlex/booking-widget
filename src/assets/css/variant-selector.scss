@@ -172,32 +172,36 @@
   }
 }
 
-// Скрываем мобильную версию на десктопе и наоборот
-.rate-plan-card__variants--mobile {
-  display: none;
+// Стили для единой кнопки бронирования на мобильных
+.book-button--mobile {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.125rem;
+  background: var(--mobile-button-bg, #10b981);
+  color: var(--mobile-button-color, #ffffff);
+  border: none;
+  border-radius: var(--mobile-button-radius, 8px);
+  font-weight: 600;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: var(--mobile-button-hover, #059669);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--mobile-button-disabled, #9ca3af);
+  }
 }
 
+// Адаптация для дополнительной информации о сборах
 @container widget (max-width: 480px) {
-  .rate-plan-card__variants--desktop {
-    display: none;
-  }
-
-  .rate-plan-card__variants--mobile {
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-    gap: 1rem;
-
-    // Разрешаем показ выпадающего списка за пределами контейнера
-    overflow: visible;
-  }
-
-  // Убираем overflow с родительских элементов при открытом селекторе
-  .rate-plan-card:has(.variant-selector__dropdown) {
-    overflow: visible;
-
-    .rate-plan-card__actions {
-      overflow: visible;
-    }
+  .additional-fees--info {
+    text-align: center;
+    width: 100%;
+    margin-top: 0.5rem;
   }
 }
