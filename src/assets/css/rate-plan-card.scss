@@ -181,3 +181,33 @@
     }
   }
 }
+
+// Скрываем мобильную версию на десктопе и наоборот
+.rate-plan-card__variants--mobile {
+  display: none;
+}
+
+@container widget (max-width: 480px) {
+  .rate-plan-card__variants--desktop {
+    display: none;
+  }
+
+  .rate-plan-card__variants--mobile {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+
+    // Разрешаем показ выпадающего списка за пределами контейнера
+    overflow: visible;
+  }
+
+  // Убираем overflow с родительских элементов при открытом селекторе
+  .rate-plan-card:has(.variant-selector__dropdown) {
+    overflow: visible;
+
+    .rate-plan-card__actions {
+      overflow: visible;
+    }
+  }
+}

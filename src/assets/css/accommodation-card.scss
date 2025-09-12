@@ -1,3 +1,4 @@
+.accommodation-info,
 .accommodation-list {
   &__item {
     margin-bottom: 0.5rem;
@@ -24,6 +25,13 @@
     }
     .highlighted {
       color: var(--chosen-accommodation-payment-types, #ea580c);
+    }
+    .amount-loader {
+      display: inline-flex;
+      align-items: end;
+      width: 50px;
+      height: 10px;
+      background: var(--chosen-accommodation-payment-types, #ea580c);
     }
   }
 

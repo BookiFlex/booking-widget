@@ -7,7 +7,7 @@ import BflexContent from './InformationBlock/BflexContent.vue'
 import BflexInformationBlock from './InformationBlock/BflexInformationBlock.vue'
 import BflexHeader from './InformationBlock/BflexHeader.vue'
 import BflexSkeletonLoader from '@/components/ui/BflexSkeletonLoader.vue'
-import { useFormattedCancellationPolicy } from '@/util/text.js'
+import { useCancellationI18n } from '@/composables/index.js'
 import BflexTooltip from '@/components/ui/BflexTooltip.vue'
 import BflexIconText from '@/components/ui/BflexIconText.vue'
 import { formatMoney } from '../util/money.js'
@@ -56,7 +56,7 @@ const props = defineProps({
 const { t } = useI18n()
 const emit = defineEmits(['changePaymentType', 'deleteAccommodation'])
 
-const { formatDescription } = useFormattedCancellationPolicy()
+const { formatRuleDescription } = useCancellationI18n()
 
 const onChangeActivePaymentType = (paymentType) => {
   emit('changePaymentType', paymentType)
@@ -109,12 +109,10 @@ onMounted(() => {
               <abbr>{{ reservation.details.accommodation.cancellationPolicy.name || '' }}</abbr>
               <template #popper>
                 <p
-                  v-for="(i, index) in formatDescription(
-                    reservation.details.accommodation.cancellationPolicy.consequences,
-                  )"
+                  v-for="(i, index) in reservation.details.accommodation.cancellationPolicy.consequences"
                   :key="index"
                 >
-                  {{ i }}
+                  {{ formatRuleDescription(i) }}
                 </p>
               </template>
             </BflexTooltip>

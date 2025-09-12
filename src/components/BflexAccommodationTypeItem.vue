@@ -32,6 +32,7 @@ defineProps({
       amenities: [],
     }),
   },
+  roomQuantity: Number,
 })
 
 const { t } = useI18n()
@@ -68,6 +69,8 @@ const openGallery = () => {
             amenity
           }}</span>
         </div>
+
+        <div class="room-quantity">{{ t('accommodationType.roomQuantity') }}: {{ roomQuantity }}</div>
       </div>
     </section>
   </article>

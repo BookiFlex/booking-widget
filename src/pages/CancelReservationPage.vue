@@ -9,7 +9,7 @@ import BflexContent from '../components/InformationBlock/BflexContent.vue';
 import BflexSkeletonLoader from '../components/ui/BflexSkeletonLoader.vue';
 import BflexHotelInformationCard from '@/components/BflexHotelInformationCard.vue';
 import BflexGridGap from '@/components/InformationBlock/BflexGridGap.vue';
-import { useFormattedCancellationPolicy } from '../util/text.js';
+import { useCancellationI18n } from '@/composables/index.js'
 import BflexButton from '@/components/ui/BflexButton.vue';
 import BflexFieldDecorator from '@/components/ui/BflexFieldDecorator.vue';
 import { useBooking } from '@/composables/useBooking';
@@ -20,7 +20,7 @@ const { cancelReservationSid, cancelationData, loadingCancelation, loadCancelati
 
 onMounted(() => loadCancelation(cancelReservationSid.value));
 
-const { formatDescription } = useFormattedCancellationPolicy();
+const { formatRuleDescription } = useCancellationI18n();
 
 const cancellationCode = ref('');
 const cancellationInProgress = ref(false);
@@ -100,12 +100,10 @@ const onClickAction = async () => {
         <BflexContent>
           <ul class="agreement-rules-list__rules">
             <li
-              v-for="(i, index) in formatDescription(
-                cancelationData.reservation.cancellationPolicy.consequences,
-              )"
+              v-for="(i, index) in cancelationData.reservation.cancellationPolicy.consequences"
               :key="index"
             >
-              {{ i }}
+              {{ formatRuleDescription(i) }}
             </li>
           </ul>
         </BflexContent>

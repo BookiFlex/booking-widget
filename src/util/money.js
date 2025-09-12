@@ -11,8 +11,7 @@ export function formatMoney(cents, currencyCode = 'USD') {
     });
 
     return formatter.format(amount);
-  // eslint-disable-next-line no-unused-vars
-  } catch (_) {
+  } catch (e) {
     // Fallback
     return `${currencyCode} ${amount.toFixed(2)}`;
   }

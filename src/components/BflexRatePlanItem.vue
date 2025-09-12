@@ -1,12 +1,12 @@
 <script setup>
-import { ref, defineProps, defineEmits, computed } from 'vue'
+import { ref, defineProps, defineEmits, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BflexTooltip from './ui/BflexTooltip.vue'
 import BflexRatePlanVariantItem from './BflexRatePlanVariantItem.vue'
-import { useFormattedCancellationPolicy } from '../util/text.js'
 import BflexIcon from '@/components/ui/BflexIcon.vue'
 import BflexScenarioIcon from '@/components/BflexScenarioIcon.vue'
 import BflexButton from '@/components/ui/BflexButton.vue'
+import { useCancellationI18n } from '@/composables/index.js'
 
 const props = defineProps({
   /**
@@ -68,13 +68,65 @@ const props = defineProps({
   },
 })
 const { t } = useI18n()
+const { formatRuleDescription } = useCancellationI18n()
 
 const isDescriptionOpen = ref(false)
 const loading = ref({})
+const selectedVariantIndex = ref(null)
+const isVariantSelectorOpen = ref(false)
 
 const hasFeedOffer = computed(() => props.data.feed?.name !== 'ROOM_ONLY')
 
+// Вычисляемое свойство для текущего выбранного варианта
+const selectedVariant = computed(() => {
+  if (selectedVariantIndex.value !== null && props.data.variations) {
+    return props.data.variations[selectedVariantIndex.value]
+  }
+  return null
+})
+
+// Функция для форматирования текста варианта в селекторе
+const getVariantLabel = (variant) => {
+  const people = variant.occupancyOptions.main
+  const extraBed = variant.occupancyOptions.extraBed
+  let label = `${people} ${t('ratePlan.persons', people)}`
+  if (extraBed > 0) {
+    label += ` + ${extraBed} ${t('ratePlan.extraBed', extraBed)}`
+  }
+  return label
+}
+
+// Обработчики для мобильной версии
+const selectVariant = (index) => {
+  selectedVariantIndex.value = index
+  isVariantSelectorOpen.value = false
+}
+
+const toggleVariantSelector = () => {
+  if (!props.disabled) {
+    isVariantSelectorOpen.value = !isVariantSelectorOpen.value
+  }
+}
+
+// Закрытие селектора при клике вне его
+const handleClickOutside = (event) => {
+  const selector = event.target.closest('.variant-selector')
+  if (!selector) {
+    isVariantSelectorOpen.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
+
 const emit = defineEmits(['variant-chosen'])
+
+// Обработчик для десктопной версии (оставляем как было)
 const emitVariantChosen = (value, index) => {
   if (loading.value[index]) {
     return
@@ -84,7 +136,20 @@ const emitVariantChosen = (value, index) => {
   emit('variant-chosen', value)
 }
 
-const { formatDescription } = useFormattedCancellationPolicy()
+// Обработчик для мобильной версии (одна кнопка)
+const emitMobileVariantChosen = () => {
+  if (selectedVariantIndex.value === null || props.disabled) {
+    return
+  }
+  const index = selectedVariantIndex.value
+  const variant = props.data.variations[index]
+
+  if (loading.value[index]) {
+    return
+  }
+  loading.value[index] = true
+  emit('variant-chosen', variant)
+}
 </script>
 
 <template>
@@ -110,10 +175,10 @@ const { formatDescription } = useFormattedCancellationPolicy()
               <abbr>{{ data.cancellationPolicy.name || '' }}</abbr>
               <template #popper>
                 <p
-                  v-for="(item, index) in formatDescription(data.cancellationPolicy.consequences)"
+                  v-for="(rule, index) in data.cancellationPolicy.rules"
                   :key="index"
                 >
-                  {{ item }}
+                  {{ formatRuleDescription(rule) }}
                 </p>
               </template>
             </BflexTooltip>
@@ -131,16 +196,16 @@ const { formatDescription } = useFormattedCancellationPolicy()
 
           <div class="rate-plan-card__offers-item payment-type-offers">
             <BflexIcon name="CreditCard"></BflexIcon>
-            <span
-              ><strong style="margin-right: 0.375rem">{{ t('ratePlan.payments') }}:</strong>
+            <span>
+              <strong style="margin-right: 0.375rem">{{ t('ratePlan.payments') }}:</strong>
               <template v-for="(paymentType, idx) in data.paymentTypes" :key="paymentType.name">
                 <BflexTooltip class="inline">
                   <abbr>{{ paymentType.name }}</abbr>
                   <template #popper>{{ paymentType.description }}</template>
                 </BflexTooltip>
                 <strong v-if="data.paymentTypes.length - 1 !== idx" style="margin: 0 0.375rem">{{
-                  t('ratePlan.or')
-                }}</strong>
+                    t('ratePlan.or')
+                  }}</strong>
               </template>
             </span>
           </div>
@@ -162,7 +227,8 @@ const { formatDescription } = useFormattedCancellationPolicy()
 
     <div class="rate-plan-card__actions">
       <slot>
-        <div class="rate-plan-card__variants">
+        <!-- Десктопная версия (оставляем как есть) -->
+        <div class="rate-plan-card__variants rate-plan-card__variants--desktop">
           <span class="length-of-stay">{{ t('ratePlan.los', lengthOfStay) }}</span>
           <template v-for="(occupancyVariant, index) in data.variations || []" :key="index">
             <BflexRatePlanVariantItem :price="occupancyVariant.price">
@@ -179,15 +245,106 @@ const { formatDescription } = useFormattedCancellationPolicy()
                 :disabled="disabled && !loading[index]"
                 @click="() => emitVariantChosen(occupancyVariant, index)"
                 class="book-button"
-                >{{ t('ratePlan.action') }}</BflexButton
-              >
+              >{{ t('ratePlan.action') }}</BflexButton>
             </BflexRatePlanVariantItem>
           </template>
           <span v-if="additionalFees.length" class="additional-fees--info">
             + addition fees
             <BflexTooltip class="inline-flex">
               <BflexIcon name="Info" small></BflexIcon>
-              <template #popper><p>These fees will be added on the final step.</p><ul><li><strong>City tax:</strong> 2.5eur</li></ul></template>
+              <template #popper>
+                <p>These fees will be added on the final step.</p>
+                <ul><li><strong>City tax:</strong> 2.5eur</li></ul>
+              </template>
+            </BflexTooltip>
+          </span>
+        </div>
+
+        <!-- Мобильная версия (новая) -->
+        <div class="rate-plan-card__variants rate-plan-card__variants--mobile">
+          <span class="length-of-stay">{{ t('ratePlan.los', lengthOfStay) }}</span>
+
+          <!-- Псевдо-селектор -->
+          <div class="variant-selector">
+            <div
+              class="variant-selector__toggle"
+              :class="{ 'variant-selector__toggle--disabled': disabled }"
+              @click="toggleVariantSelector"
+            >
+              <div class="variant-selector__selected">
+                <template v-if="selectedVariant">
+                  <div class="variant-selector__icons">
+                    <BflexScenarioIcon
+                      :kind="selectedVariant.occupancyOptions.kind"
+                      :main="selectedVariant.occupancyOptions.main"
+                      :extra-bed="selectedVariant.occupancyOptions.extraBed"
+                    />
+                  </div>
+                  <div class="variant-selector__price">
+                    <span class="variant-selector__price-amount">
+                      {{ selectedVariant.price.currency }} {{ selectedVariant.price.sellingPrice }}
+                    </span>
+                    <span v-if="selectedVariant.price.discount" class="variant-selector__discount">
+                      -{{ selectedVariant.price.discount }}%
+                    </span>
+                  </div>
+                </template>
+                <template v-else>
+                  <span class="variant-selector__placeholder">{{ t('ratePlan.selectOccupancy') }}</span>
+                </template>
+                <BflexIcon :name="isVariantSelectorOpen ? 'ExpandLess' : 'ExpandMore'" />
+              </div>
+            </div>
+
+            <!-- Выпадающий список вариантов -->
+            <div v-if="isVariantSelectorOpen" class="variant-selector__dropdown">
+              <div
+                v-for="(variant, index) in data.variations"
+                :key="index"
+                class="variant-selector__option"
+                :class="{ 'variant-selector__option--selected': selectedVariantIndex === index }"
+                @click="selectVariant(index)"
+              >
+                <div class="variant-selector__option-content">
+                  <div class="variant-selector__option-icons">
+                    <BflexScenarioIcon
+                      :kind="variant.occupancyOptions.kind"
+                      :main="variant.occupancyOptions.main"
+                      :extra-bed="variant.occupancyOptions.extraBed"
+                    />
+                  </div>
+                  <div class="variant-selector__option-price">
+                    <span class="variant-selector__option-price-amount">
+                      {{ variant.price.currency }} {{ variant.price.sellingPrice }}
+                    </span>
+                    <span v-if="variant.price.originalSellingPrice" class="variant-selector__option-price-original">
+                      {{ variant.price.currency }} {{ variant.price.originalSellingPrice }}
+                    </span>
+                  </div>
+                </div>
+                <BflexIcon v-if="selectedVariantIndex === index" name="Check" class="variant-selector__option-check" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Единая кнопка бронирования -->
+          <BflexButton
+            :loading="selectedVariantIndex !== null && loading[selectedVariantIndex]"
+            :disabled="!selectedVariant || disabled"
+            @click="emitMobileVariantChosen"
+            class="book-button book-button--mobile"
+          >
+            {{ t('ratePlan.action') }}
+          </BflexButton>
+
+          <span v-if="additionalFees.length" class="additional-fees--info">
+            + addition fees
+            <BflexTooltip class="inline-flex">
+              <BflexIcon name="Info" small></BflexIcon>
+              <template #popper>
+                <p>These fees will be added on the final step.</p>
+                <ul><li><strong>City tax:</strong> 2.5eur</li></ul>
+              </template>
             </BflexTooltip>
           </span>
         </div>
@@ -195,5 +352,3 @@ const { formatDescription } = useFormattedCancellationPolicy()
     </div>
   </div>
 </template>
-
-<style lang="scss"></style>

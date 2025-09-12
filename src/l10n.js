@@ -7,6 +7,7 @@ export default {
     },
     accommodationType: {
       thumbnail: 'Thumbnail',
+      roomQuantity: 'Available',
       notAvailable: {
         title: 'Oops! Looks like this accommodation type is fully booked for the selected dates.',
         description:
@@ -21,8 +22,9 @@ export default {
       totalAmount: 'Total amount',
       prepaymentAmount: 'Pay now',
       onArrivalAmount: 'Amount to be paid on arrival',
+      paid: 'Paid',
       delete: 'Delete',
-      penalty: 'Cancellation Penalty',
+      penalty: 'Penalty',
     },
     contactInformation: {
       title: 'Contact Information',
@@ -84,22 +86,38 @@ export default {
         mainExtraBeds: 'Main bed(s) + Extra bed(s)',
       },
     },
-    cancellationPolicy: {
-      free: 'Free cancellation',
-      paid: 'Paid cancellation',
-      beforeFree: 'Free cancellation is possible before {date}',
-      afterPenaltyStart: 'If the cancellation is made after {date}, a penalty of ',
-      penalty: {
-        days: '{days} days of the booking cost',
-        fixed: '{fixedPenalty}',
-        percent: '{penaltyPercentage}% of the booking cost',
-        percentAndFixed: '{penaltyPercentage}% of the booking cost + {fixedPenalty}',
-        daysAndFixed: '{days} days of the booking cost + {fixedPenalty}',
-      },
+    cancellation: {
+      // Main descriptions
+      nonRefundableRateFull: 'Non-refundable rate: 100% penalty applies at any time',
+      freeCancellationAtAnyTime: 'Free cancellation at any time',
+
+      // Time-based descriptions (relative)
+      freeCancellationBefore: 'Free cancellation if cancelled more than {hours} hours before check-in',
+      freeCancellationBetween: 'Free cancellation between {minHours} and {maxHours} hours before check-in',
+      penaltyWithinHours: '{penalty} if cancelled within {hours} hours of check-in',
+      penaltyBetweenHours: '{penalty} if cancelled between {minHours} and {maxHours} hours before check-in',
+      penaltyAfterHours: '{penalty} if cancelled within {hours} hours of check-in',
+
+      // Date-based descriptions (detailed)
+      freeCancellationUntilDate: 'Free cancellation until {date}',
+      freeCancellationFromDate: 'Free cancellation from {date} onwards',
+      freeCancellationBetweenDates: 'Free cancellation between {minDate} and {maxDate}',
+      penaltyAfterDate: '{penalty} if cancelled after {date}',
+      penaltyBetweenDates: '{penalty} if cancelled between {minDate} and {maxDate}',
+
+      // No-show specific
+      penaltyNoShow: '{penalty} for no-show (after check-in time)',
+      penaltyNoShowDate: '{penalty} for no-show or cancellation after {date}',
+
+      // Penalty amounts
+      percentageCharge: '{percentage}% charge',
+      fixedFee: '{currency}{amount} fee',
+      nightCharge: '{nights} night charge',
+      nightsCharge: '{nights} nights charge',
     },
     cancellationProcess: {
       title: 'Cancel your reservation',
-      description: 'На этой странице вы сможете отменить вашу резервацию',
+      description: 'On this page you will be able to cancel your reservation',
       rules: 'Rules of cancellation',
       codeHelp: 'Get a cancellation code from your reservation email',
       codeLabel: 'Cancellation code',

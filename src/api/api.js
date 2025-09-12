@@ -192,8 +192,8 @@ const removeFromCart = async (hash) => {
 
 /**
  * {
- *     "request": "requestHash",
- *     "paymentType": 277
+ *     "itemHash": "requestHash",
+ *     "paymentTypeId": 277
  * }
  * @param data
  * @returns {Promise<void>}

@@ -29,6 +29,7 @@ const onVariantChosen = (accommodationOffer, ratePlan, variant) => {
   <BflexInformationBlock class="accommodation-offer">
     <BflexAccommodationTypeItem
       :data="accommodationOffer.accommodationType"
+      :room-quantity="accommodationOffer.roomQuantity"
     ></BflexAccommodationTypeItem>
 
     <div class="rate-plan-list__wrapper">
