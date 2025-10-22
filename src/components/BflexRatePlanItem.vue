@@ -1,6 +1,5 @@
 <script setup>
 import { ref, defineProps, defineEmits, computed, onMounted, onBeforeUnmount } from 'vue'
-import { useI18n } from 'vue-i18n'
 import BflexTooltip from './ui/BflexTooltip.vue'
 import BflexRatePlanVariantItem from './BflexRatePlanVariantItem.vue'
 import BflexIcon from '@/components/ui/BflexIcon.vue'
@@ -68,7 +67,21 @@ const props = defineProps({
     default: false,
   },
 })
-const { t } = useI18n()
+
+const t = {
+  los: window.wp.i18n.__('%d night(s)', 'bookiflex'),
+  payments: window.wp.i18n.__('Payment types', 'bookiflex'),
+  or: window.wp.i18n.__('or', 'bookiflex'),
+  action: window.wp.i18n.__('Book Now', 'bookiflex'),
+  selectOccupancy: window.wp.i18n.__('Select occupancy', 'bookiflex'),
+  // Board types
+  'boardType.ROOM_ONLY': window.wp.i18n.__('Room Only', 'bookiflex'),
+  'boardType.BED_AND_BREAKFAST': window.wp.i18n.__('Bed & Breakfast', 'bookiflex'),
+  'boardType.HALF_BOARD': window.wp.i18n.__('Half Board', 'bookiflex'),
+  'boardType.FULL_BOARD': window.wp.i18n.__('Full Board', 'bookiflex'),
+  'boardType.ALL_INCLUSIVE': window.wp.i18n.__('All Inclusive', 'bookiflex')
+}
+
 const { formatRuleDescription } = useCancellationI18n()
 
 const isDescriptionOpen = ref(false)
@@ -139,6 +152,8 @@ const emitMobileVariantChosen = () => {
   loading.value[index] = true
   emit('variant-chosen', variant)
 }
+
+const losTxt = computed(() => window.wp.i18n.sprintf(t.los, props.lengthOfStay))
 </script>
 
 <template>
@@ -180,20 +195,20 @@ const emitMobileVariantChosen = () => {
             :title="data.feed.description"
           >
             <BflexIcon name="Restaurant"></BflexIcon>
-            <span>{{ data.feed.name ? t(`ratePlan.boardType.${data.feed.name}`) : '' }}</span>
+            <span>{{ data.feed.name ? t[`boardType.${data.feed.name}`] || data.feed.name : '' }}</span>
           </div>
 
           <div class="rate-plan-card__offers-item payment-type-offers">
             <BflexIcon name="CreditCard"></BflexIcon>
             <span>
-              <strong style="margin-right: 0.375rem">{{ t('ratePlan.payments') }}:</strong>
+              <strong style="margin-right: 0.375rem">{{ t.payments }}:</strong>
               <template v-for="(paymentType, idx) in data.paymentTypes" :key="paymentType.name">
                 <BflexTooltip class="inline">
                   <abbr>{{ paymentType.name }}</abbr>
                   <template #popper>{{ paymentType.description }}</template>
                 </BflexTooltip>
                 <strong v-if="data.paymentTypes.length - 1 !== idx" style="margin: 0 0.375rem">{{
-                    t('ratePlan.or')
+                    t.or
                   }}</strong>
               </template>
             </span>
@@ -218,7 +233,7 @@ const emitMobileVariantChosen = () => {
       <slot>
         <!-- Десктопная версия (оставляем как есть) -->
         <div class="rate-plan-card__variants rate-plan-card__variants--desktop">
-          <span class="length-of-stay">{{ t('ratePlan.los', lengthOfStay) }}</span>
+          <span class="length-of-stay">{{ losTxt }}</span>
           <template v-for="(occupancyVariant, index) in data.variations || []" :key="index">
             <BflexRatePlanVariantItem :price="occupancyVariant.price">
               <template #icons>
@@ -234,7 +249,7 @@ const emitMobileVariantChosen = () => {
                 :disabled="disabled && !loading[index]"
                 @click="() => emitVariantChosen(occupancyVariant, index)"
                 class="book-button"
-              >{{ t('ratePlan.action') }}</BflexButton>
+              >{{ t.action }}</BflexButton>
             </BflexRatePlanVariantItem>
           </template>
           <span v-if="additionalFees.length" class="additional-fees--info">
@@ -251,7 +266,7 @@ const emitMobileVariantChosen = () => {
 
         <!-- Мобильная версия (новая) -->
         <div class="rate-plan-card__variants rate-plan-card__variants--mobile">
-          <span class="length-of-stay">{{ t('ratePlan.los', lengthOfStay) }}</span>
+          <span class="length-of-stay">{{ losTxt }}</span>
 
           <!-- Псевдо-селектор -->
           <div class="variant-selector">
@@ -279,7 +294,7 @@ const emitMobileVariantChosen = () => {
                   </div>
                 </template>
                 <template v-else>
-                  <span class="variant-selector__placeholder">{{ t('ratePlan.selectOccupancy') }}</span>
+                  <span class="variant-selector__placeholder">{{ t.selectOccupancy }}</span>
                 </template>
                 <BflexIcon :name="isVariantSelectorOpen ? 'ExpandLess' : 'ExpandMore'" />
               </div>
@@ -323,7 +338,7 @@ const emitMobileVariantChosen = () => {
             @click="emitMobileVariantChosen"
             class="book-button book-button--mobile"
           >
-            {{ t('ratePlan.action') }}
+            {{ t.action }}
           </BflexButton>
 
           <span v-if="additionalFees.length" class="additional-fees--info">

@@ -1,6 +1,5 @@
 <script setup>
 import { defineProps, onMounted, ref, watch, inject, computed } from 'vue'
-import { useI18n } from 'vue-i18n'
 import BflexInformationBlock from '../components/InformationBlock/BflexInformationBlock.vue'
 import BflexHeader from '../components/InformationBlock/BflexHeader.vue'
 import BflexDivider from '../components/InformationBlock/BflexDivider.vue'
@@ -23,7 +22,21 @@ const props = defineProps({
   },
 })
 
-const { t } = useI18n()
+const t = {
+  title: window.wp.i18n.__('Cancel Reservation', 'bookiflex'),
+  description: window.wp.i18n.__('Enter the cancellation code from your confirmation email', 'bookiflex'),
+  paid: window.wp.i18n.__('Amount Paid', 'bookiflex'),
+  penalty: window.wp.i18n.__('Cancellation Penalty', 'bookiflex'),
+  refund: window.wp.i18n.__('Refund Amount', 'bookiflex'),
+  cancellationRulesTitle: window.wp.i18n.__('Cancellation Rules', 'bookiflex'),
+  codeHelp: window.wp.i18n.__('Code from email:', 'bookiflex'),
+  codeLabel: window.wp.i18n.__('Cancellation Code', 'bookiflex'),
+  action: window.wp.i18n.__('Cancel Reservation', 'bookiflex'),
+  rules: window.wp.i18n.__('Cancellation Rules', 'bookiflex'),
+  'result.success': window.wp.i18n.__('Reservation cancelled successfully', 'bookiflex'),
+  'result.error': window.wp.i18n.__('Error cancelling reservation', 'bookiflex')
+}
+
 const settings = inject('settings')
 const { setError } = inject('globalError')
 const { formatRuleDescription } = useCancellationI18n()
@@ -56,15 +69,15 @@ const onClickAction = async () => {
   try {
     const result = await cancelReservation(props.sid, cancellationCode.value)
     if (result.successful) {
-      alert(t('cancellationProcess.result.success'))
+      alert(t['result.success'])
       window.location.replace(window.location.origin)
     } else {
-      alert(t('cancellationProcess.result.error'))
+      alert(t['result.error'])
       cancellationCode.value = ''
     }
   } catch (error) {
     setError(error)
-    alert(t('cancellationProcess.result.error'))
+    alert(t['result.error'])
   } finally {
     cancellationInProgress.value = false
   }
@@ -79,9 +92,9 @@ onMounted(loadReservationData)
     <BflexSkeletonLoader v-if="loading"></BflexSkeletonLoader>
     <template v-else-if="reservation">
       <section class="reservation-result">
-        <div class="reservation-result__title">{{ t('cancellationProcess.title') }}</div>
+        <div class="reservation-result__title">{{ t.title }}</div>
         <div class="reservation-result__description">
-          {{ t('cancellationProcess.description') }}
+          {{ t.description }}
         </div>
       </section>
 
@@ -91,12 +104,12 @@ onMounted(loadReservationData)
       >
         <BflexContent>
           <dl class="accommodation-list__payment-rules">
-            <dt>{{ t('chosenAccommodation.paid') }}:</dt>
+            <dt>{{ t.paid }}:</dt>
             <dd>
               {{ formatMoney(reservation.payment.amounts.paid, reservation.currency)  }}
             </dd>
 
-            <dt class="highlighted">{{ t('chosenAccommodation.penalty') }}:</dt>
+            <dt class="highlighted">{{ t.penalty }}:</dt>
             <dd class="highlighted">
               {{ formatMoney(penaltyAmount, reservation.currency) }}
             </dd>
@@ -113,8 +126,8 @@ onMounted(loadReservationData)
             align-items: center;
           "
         >
-          <div>{{ t('cancellationProcess.codeHelp') }}</div>
-          <BflexFieldDecorator :label="t('cancellationProcess.codeLabel')" hide-hint>
+          <div>{{ t.codeHelp }}</div>
+          <BflexFieldDecorator :label="t.codeLabel" hide-hint>
             <input
               name="cancellationCode"
               :value="cancellationCode"
@@ -126,13 +139,13 @@ onMounted(loadReservationData)
             @click="onClickAction"
             :disabled="!cancellationCode || cancellationInProgress"
           >
-            {{ t('cancellationProcess.action') }}
+            {{ t.action }}
           </BflexButton>
         </div>
       </BflexReadOnlyAccommodationCard>
 
       <BflexInformationBlock class="information-block--attention">
-        <BflexHeader>{{ t('cancellationProcess.rules') }}</BflexHeader>
+        <BflexHeader>{{ t.rules }}</BflexHeader>
         <BflexDivider></BflexDivider>
         <BflexContent>
           <ul class="agreement-rules-list__rules">

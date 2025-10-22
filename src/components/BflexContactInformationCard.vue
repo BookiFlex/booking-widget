@@ -1,6 +1,5 @@
 <script setup>
 import { reactive, watch, defineProps, defineEmits } from 'vue'
-import { useI18n } from 'vue-i18n'
 import BflexFieldDecorator from './ui/BflexFieldDecorator.vue'
 import BflexInformationBlock from '@/components/InformationBlock/BflexInformationBlock.vue'
 import BflexContent from '@/components/InformationBlock/BflexContent.vue'
@@ -19,7 +18,15 @@ const props = defineProps({
     }),
   },
 })
-const { t } = useI18n()
+
+const t = {
+  title: window.wp.i18n.__('Contact Information', 'bookiflex'),
+  firstName: window.wp.i18n.__('First Name', 'bookiflex'),
+  lastName: window.wp.i18n.__('Last Name', 'bookiflex'),
+  email: window.wp.i18n.__('Email', 'bookiflex'),
+  phoneNumber: window.wp.i18n.__('Phone Number', 'bookiflex'),
+  confirmationInfo: window.wp.i18n.__('Booking confirmation will be sent to this email address', 'bookiflex')
+}
 
 const emit = defineEmits(['update:modelValue'])
 const customer = reactive({ ...props.modelValue })
@@ -48,12 +55,12 @@ watch(
 
 <template>
   <BflexInformationBlock>
-    <BflexHeader>{{ t('contactInformation.title') }}</BflexHeader>
+    <BflexHeader>{{ t.title }}</BflexHeader>
     <BflexDivider></BflexDivider>
     <BflexContent>
       <section id="customer-data-form" class="customer-data-form">
         <BflexFieldDecorator
-          :label="t('contactInformation.firstName')"
+          :label="t.firstName"
           required
           :hint="errors.firstName"
           :class="{ 'form-group--error': errors.firstName }"
@@ -70,7 +77,7 @@ watch(
         </BflexFieldDecorator>
 
         <BflexFieldDecorator
-          :label="t('contactInformation.lastName')"
+          :label="t.lastName"
           required
           :hint="errors.lastName"
           :class="{ 'form-group--error': errors.lastName }"
@@ -87,7 +94,7 @@ watch(
         </BflexFieldDecorator>
 
         <BflexFieldDecorator
-          :label="t('contactInformation.email')"
+          :label="t.email"
           required
           :hint="errors.email"
           :class="{ 'form-group--error': errors.email }"
@@ -103,7 +110,7 @@ watch(
         </BflexFieldDecorator>
 
         <BflexFieldDecorator
-          :label="t('contactInformation.phoneNumber')"
+          :label="t.phoneNumber"
           :hint="errors.phone"
           :class="{ 'form-group--error': errors.phone }"
         >
@@ -118,7 +125,7 @@ watch(
         </BflexFieldDecorator>
       </section>
       <BflexDetailsInfo icon="Info">
-        {{ t('contactInformation.confirmationInfo') }}
+        {{ t.confirmationInfo }}
       </BflexDetailsInfo>
     </BflexContent>
   </BflexInformationBlock>

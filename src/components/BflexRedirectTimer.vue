@@ -35,18 +35,17 @@
         @click="openManually"
         class="button proceed-button"
         :disabled="!captureToken"
-        >{{ t('redirectTimer.goToPay') }}</button>
+        >{{ t.goToPay }}</button>
     </div>
 
     <div v-else class="no-token-message">
-      <p>{{ t('redirectTimer.waitingLink') }}</p>
+      <p>{{ t.waitingLink }}</p>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   captureToken: {
@@ -66,6 +65,13 @@ const props = defineProps({
   }
 })
 
+const t = {
+  goToPay: window.wp.i18n.__('Proceed to Payment', 'bookiflex'),
+  waitingLink: window.wp.i18n.__('Waiting for payment link...', 'bookiflex'),
+  doesntOpen: window.wp.i18n.__("Doesn't open?", 'bookiflex'),
+  windowBlocked: window.wp.i18n.__('Pop-up blocked. Please allow pop-ups and try again.', 'bookiflex')
+}
+
 const timeLeft = ref(props.timeout)
 const intervalId = ref(null)
 const radius = 50
@@ -76,8 +82,6 @@ const strokeDashoffset = computed(() => {
   const progress = timeLeft.value / props.timeout
   return circumference * (1 - progress)
 })
-
-const { t } = useI18n()
 
 // Методы
 const formatTime = (seconds) => {
@@ -98,8 +102,8 @@ const openManually = () => {
   if (props.blank) {
     const newWindow = window.open(props.captureToken, '_blank')
     if (!newWindow) {
-      manualOpenBtn.value.innerHTML = t('redirectTimer.doesntOpen')
-      alert(t('redirectTimer.windowBlocked'))
+      manualOpenBtn.value.innerHTML = t.doesntOpen
+      alert(t.windowBlocked)
     }
   } else {
     window.location.href = props.captureToken

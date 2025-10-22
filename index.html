@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="https://api.w.org/" href="http://localhost:8888/index.php?rest_route=/">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+    <script type="module">
+      import * as i18n from "https://cdn.jsdelivr.net/npm/@wordpress/i18n@6.6.0/+esm";
+
+      window.wp = window.wp || {};
+      window.wp.i18n = i18n;
+    </script>
     <title>BookiFlex booking widget</title>
     <style>
       body {

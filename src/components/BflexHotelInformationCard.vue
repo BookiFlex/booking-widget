@@ -1,5 +1,4 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
 import BflexHeader from '@/components/InformationBlock/BflexHeader.vue'
 import BflexDivider from '@/components/InformationBlock/BflexDivider.vue'
 import BflexContent from '@/components/InformationBlock/BflexContent.vue'
@@ -12,12 +11,14 @@ defineProps({
   },
 })
 
-const { t } = useI18n()
+const t = {
+  title: window.wp.i18n.__('Hotel Information', 'bookiflex')
+}
 </script>
 
 <template>
   <BflexInformationBlock>
-    <BflexHeader>{{ t('reservation.hotelInfo.title') }}</BflexHeader>
+    <BflexHeader>{{ t.title }}</BflexHeader>
     <BflexDivider></BflexDivider>
     <BflexContent>
       <div class="hotel-information">

@@ -1,10 +1,9 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { defineProps, defineEmits, computed } from 'vue'
 import BflexIcon from '@/components/ui/BflexIcon.vue'
 import { formatMoney } from '../util/money.js'
 
-defineProps({
+const props = defineProps({
   totals: {
     type: Object,
     required: true,
@@ -18,7 +17,16 @@ defineProps({
     default: 0,
   },
 })
-const { t } = useI18n()
+
+const t = {
+  room: window.wp.i18n.__('%d room(s)', 'bookiflex'),
+  los: window.wp.i18n.__('%d night(s)', 'bookiflex'),
+  complete: window.wp.i18n.__('Complete Booking', 'bookiflex')
+}
+
+const summaryText = computed(() =>
+  `${window.wp.i18n.sprintf(t.room, props.accommodationUnits)}, ${window.wp.i18n.sprintf(t.los, props.lengthOfStay)}`
+)
 
 const emit = defineEmits(['onAccommodationSummaryClick'])
 </script>
@@ -31,7 +39,7 @@ const emit = defineEmits(['onAccommodationSummaryClick'])
           <span>{{ formatMoney(totals.total, totals.currency) }}</span>
         </div>
         <div class="summary-block__content-info__text">
-          {{ t('summary.room', accommodationUnits) }}, {{ t('summary.los', lengthOfStay) }}
+          {{ summaryText }}
           <BflexIcon
             @click.stop="emit('onAccommodationSummaryClick')"
             class="accommodation-summary-trigger"
@@ -41,7 +49,7 @@ const emit = defineEmits(['onAccommodationSummaryClick'])
         </div>
       </div>
       <button class="button" type="submit">
-        {{ t('summary.complete') }}
+        {{ t.complete }}
       </button>
     </div>
   </div>

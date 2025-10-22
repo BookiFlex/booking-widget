@@ -1,6 +1,5 @@
 <script setup>
 import { computed, defineProps, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
 import BflexInformationBlock from '@/components/InformationBlock/BflexInformationBlock.vue'
 import BflexContent from '@/components/InformationBlock/BflexContent.vue'
 import BflexHeader from '@/components/InformationBlock/BflexHeader.vue'
@@ -18,7 +17,11 @@ const props = defineProps({
   },
 })
 
-const { t } = useI18n()
+const t = {
+  title: window.wp.i18n.__('Accommodation Rules & Agreements', 'bookiflex'),
+  agreementSentence: window.wp.i18n.__('I agree to the', 'bookiflex'),
+  agreementSentenceShort: window.wp.i18n.__('I agree to', 'bookiflex')
+}
 
 const combinedAgreements = computed(() => {
   return props.agreements.filter((item) => item.combined)
@@ -34,7 +37,7 @@ const agreementsChecked = ref(props.agreements.map(() => false))
 
 <template>
   <BflexInformationBlock class="agreement-rules-list" v-if="isDisplayAgreement">
-    <BflexHeader>{{ t('accommodationRules.title') }}</BflexHeader>
+    <BflexHeader>{{ t.title }}</BflexHeader>
     <template v-if="rules.length > 0">
       <BflexDivider></BflexDivider>
       <BflexContent>
@@ -49,7 +52,7 @@ const agreementsChecked = ref(props.agreements.map(() => false))
         <div v-if="combinedAgreements.length > 0" class="agreement-rules-list__agreements-item">
           <BflexCheckbox v-model="combinedAgreementsChecked" required>
             <span
-              >{{ t('accommodationRules.agreementSentence') }}
+              >{{ t.agreementSentence }}
               <a
                 class="agreement-rules-list__combined-agreement"
                 target="_blank"
@@ -65,7 +68,7 @@ const agreementsChecked = ref(props.agreements.map(() => false))
           <div v-if="agreement.combined === false" class="agreement-rules-list__agreements-item">
             <BflexCheckbox v-model="agreementsChecked[index]" :required="agreement.required"
               ><span
-                >{{ t('accommodationRules.agreementSentenceShort') }}
+                >{{ t.agreementSentenceShort }}
                 <a target="_blank" :href="agreement.url">{{ agreement.anchor }}</a></span
               ></BflexCheckbox
             >

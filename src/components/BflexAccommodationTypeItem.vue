@@ -1,6 +1,5 @@
 <script setup>
 import { defineProps, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
 import BflexImageGallery from './ui/BflexImageGallery.vue'
 
 defineProps({
@@ -35,7 +34,10 @@ defineProps({
   roomQuantity: Number,
 })
 
-const { t } = useI18n()
+const t = {
+  thumbnail: window.wp.i18n.__('No image available', 'bookiflex'),
+  roomQuantity: window.wp.i18n.__('Available rooms', 'bookiflex')
+}
 
 const isOpen = ref(false)
 const openGallery = () => {
@@ -53,9 +55,9 @@ const openGallery = () => {
           :src="data.thumbnail.url"
           :alt="data.thumbnail.name"
         />
-        <span v-else>{{ t('accommodationType.thumbnail') }}</span>
+        <span v-else>{{ t.thumbnail }}</span>
       </BflexImageGallery>
-      <div class="room-quantity">{{ t('accommodationType.roomQuantity') }}: {{ roomQuantity }}</div>
+      <div class="room-quantity">{{ t.roomQuantity }}: {{ roomQuantity }}</div>
     </section>
 
     <section class="accommodation-type-card__body">

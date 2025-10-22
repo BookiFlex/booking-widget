@@ -1,10 +1,14 @@
 <script setup>
 import { provide, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
 import BflexInformationBlock from '@/components/InformationBlock/BflexInformationBlock.vue'
 import BflexContent from '@/components/InformationBlock/BflexContent.vue'
 
-const { t } = useI18n()
+const t = {
+  globalErrorTitle: window.wp.i18n.__('Something went wrong', 'bookiflex'),
+  globalErrorDescription: window.wp.i18n.__('An unexpected error occurred. Please try again.', 'bookiflex'),
+  globalErrorReload: window.wp.i18n.__('Reload page', 'bookiflex')
+}
+
 const error = ref(null)
 
 const setError = (err) => {
@@ -34,9 +38,9 @@ const reload = () => {
           align-items: center;
         "
       >
-        <h1>{{ t('globalError.title') }}</h1>
-        <p>{{ t('globalError.description') }}</p>
-        <button class="button" @click="reload">{{ t('globalError.reload') }}</button>
+        <h1>{{ t.globalErrorTitle }}</h1>
+        <p>{{ t.globalErrorDescription }}</p>
+        <button class="button" @click="reload">{{ t.globalErrorReload }}</button>
       </section>
     </BflexContent>
   </BflexInformationBlock>

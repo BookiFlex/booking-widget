@@ -1,6 +1,5 @@
 <script setup>
 import { computed, defineProps } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { formatMoney } from '../util/money.js'
 
 const props = defineProps({
@@ -26,7 +25,10 @@ const props = defineProps({
     required: false,
   },
 })
-const { t } = useI18n()
+
+const t = {
+  free: window.wp.i18n.__('Free', 'bookiflex')
+}
 
 const originalPrice = computed(() => {
   // return formatMoney(props.originalSellingPrice, 'currency')
@@ -58,7 +60,7 @@ const price = computed(() => {
       <span v-if="sellingPrice" class="price-block__current">
         <span class="price-block__current-amount" v-html="price"></span>
       </span>
-      <span v-else-if="sellingPrice === 0">{{ t('price.free') }}</span>
+      <span v-else-if="sellingPrice === 0">{{ t.free }}</span>
       <div v-if="sellingPrice && details" class="price-block__details" />
     </div>
 

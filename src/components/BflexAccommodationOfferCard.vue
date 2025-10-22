@@ -5,7 +5,6 @@ import BflexAccommodationTypeItem from '@/components/BflexAccommodationTypeItem.
 import BflexRatePlanItem from '@/components/BflexRatePlanItem.vue'
 import BflexDivider from '@/components/InformationBlock/BflexDivider.vue'
 import BflexContent from '@/components/InformationBlock/BflexContent.vue'
-import { useI18n } from 'vue-i18n'
 
 defineProps({
   accommodationOffer: { type: Object, required: true },
@@ -13,7 +12,11 @@ defineProps({
   loading: { type: Boolean, default: false },
 })
 
-const { t } = useI18n()
+const t = {
+  notAvailableTitle: window.wp.i18n.__('Not Available', 'bookiflex'),
+  notAvailableDescription: window.wp.i18n.__('This accommodation type is not available for the selected dates', 'bookiflex')
+}
+
 const emit = defineEmits(['accommodationOfferChosen'])
 
 const onVariantChosen = (accommodationOffer, ratePlan, variant) => {
@@ -51,8 +54,8 @@ const onVariantChosen = (accommodationOffer, ratePlan, variant) => {
           <BflexDivider></BflexDivider>
           <BflexContent>
             <p>
-              <strong>{{ t('accommodationType.notAvailable.title') }}</strong
-              ><br />{{ t('accommodationType.notAvailable.description') }}
+              <strong>{{ t.notAvailableTitle }}</strong
+              ><br />{{ t.notAvailableDescription }}
             </p>
           </BflexContent>
         </template>

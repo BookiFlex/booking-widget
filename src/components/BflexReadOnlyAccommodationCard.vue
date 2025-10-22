@@ -1,6 +1,5 @@
 <script setup>
-import { defineProps } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { defineProps, computed } from 'vue'
 import { formatDateRange } from '../util/date.js'
 import BflexDivider from './InformationBlock/BflexDivider.vue'
 import BflexContent from './InformationBlock/BflexContent.vue'
@@ -12,7 +11,7 @@ import BflexIconText from '@/components/ui/BflexIconText.vue'
 import { formatMoney } from '../util/money.js'
 import { useCancellationI18n } from '@/composables/index.js'
 
-defineProps({
+const props = defineProps({
   reservation: {
     type: Object,
     required: true,
@@ -31,7 +30,21 @@ defineProps({
   },
 })
 
-const { t } = useI18n()
+const t = {
+  title: window.wp.i18n.__('Chosen Accommodation', 'bookiflex'),
+  adults: window.wp.i18n.__('%d adults', 'bookiflex'),
+  children: window.wp.i18n.__('%d children', 'bookiflex'),
+  paymentMethod: window.wp.i18n.__('Payment Method', 'bookiflex'),
+  totalAmount: window.wp.i18n.__('Total Amount', 'bookiflex'),
+  prepaymentAmount: window.wp.i18n.__('Prepayment Amount', 'bookiflex'),
+  onArrivalAmount: window.wp.i18n.__('On Arrival Amount', 'bookiflex')
+}
+
+const guestsText = computed(() => ({
+  adults: window.wp.i18n.sprintf(t.adults, props.reservation.stay.guests.adults),
+  children: window.wp.i18n.sprintf(t.children, props.reservation.stay.guests.children.length)
+}))
+
 const { formatRuleDescription } = useCancellationI18n()
 </script>
 
@@ -39,7 +52,7 @@ const { formatRuleDescription } = useCancellationI18n()
   <BflexSkeletonLoader v-if="loading" is-result></BflexSkeletonLoader>
 
   <BflexInformationBlock v-else class="accommodation-info">
-    <BflexHeader>{{ t('chosenAccommodation.title') }}</BflexHeader>
+    <BflexHeader>{{ t.title }}</BflexHeader>
     <BflexDivider></BflexDivider>
 
     <BflexContent>
@@ -51,8 +64,7 @@ const { formatRuleDescription } = useCancellationI18n()
         </dt>
         <dd>
           <BflexIconText icon="Persons">
-            {{ t('chosenAccommodation.adults', reservation.stay.guests.adults) }},
-            {{ t('chosenAccommodation.children', reservation.stay.guests.children.length) }}
+            {{ guestsText.adults }}, {{ guestsText.children }}
           </BflexIconText>
         </dd>
       </dl>
@@ -88,7 +100,7 @@ const { formatRuleDescription } = useCancellationI18n()
 
       <!-- Отображение выбранного типа оплаты (только для чтения) -->
       <div v-if="reservation.paymentType" class="payment-info">
-        <span class="payment-info__label">{{ t('chosenAccommodation.paymentMethod') }}:</span>
+        <span class="payment-info__label">{{ t.paymentMethod }}:</span>
         <span class="payment-info__value">{{ reservation.paymentType.name }}</span>
       </div>
     </BflexContent>
@@ -96,7 +108,7 @@ const { formatRuleDescription } = useCancellationI18n()
 
     <BflexContent>
       <dl class="accommodation-info__total">
-        <dt>{{ t('chosenAccommodation.totalAmount') }}:</dt>
+        <dt>{{ t.totalAmount }}:</dt>
         <dd>
           <strong>{{ formatMoney(reservation.totals.total, reservation.totals.currency) }}</strong>
         </dd>
@@ -107,11 +119,11 @@ const { formatRuleDescription } = useCancellationI18n()
     <slot>
       <BflexContent>
         <dl class="accommodation-info__payment-rules">
-          <dt class="highlighted">{{ t('chosenAccommodation.prepaymentAmount') }}:</dt>
+          <dt class="highlighted">{{ t.prepaymentAmount }}:</dt>
           <dd class="highlighted">
             {{ formatMoney(reservation.payment.amounts.prepayment, reservation.currency)  }}
           </dd>
-          <dt>{{ t('chosenAccommodation.onArrivalAmount') }}:</dt>
+          <dt>{{ t.onArrivalAmount }}:</dt>
           <dd>
             <span>{{ formatMoney(reservation.payment.amounts.onArrival || 0, reservation.currency) }}</span>
           </dd>

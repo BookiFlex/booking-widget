@@ -2,7 +2,6 @@
 <script setup>
 import { ref, onMounted, provide, inject, defineProps, onUnmounted, watch, toRaw, nextTick } from 'vue'
 import { init } from './api/api.js'
-import i18n from './i18n'
 import {
   CHOOSE_ACCOMMODATION,
   BOOKING_CONFIRMATION,
@@ -167,13 +166,6 @@ onMounted(async () => {
     try {
       const { inProgress, settings: appSettings } = await init()
       settings.value = appSettings
-
-      // Настройка локализации
-      const { widget } = appSettings
-      if (widget?.locale && widget?.l10n && Object.keys(widget.l10n).length) {
-        i18n.global.locale.value = widget.locale
-        i18n.global.setLocaleMessage(widget.locale, widget.l10n)
-      }
 
       // Проверяем параметры URL
       const params = new URLSearchParams(window.location.search)

@@ -1,6 +1,5 @@
 <script setup>
 import { defineProps } from 'vue'
-import { useI18n } from 'vue-i18n'
 import BflexIcon from '@/components/ui/BflexIcon.vue'
 
 defineProps({
@@ -13,7 +12,10 @@ defineProps({
     default: 'EUR',
   },
 })
-const { t } = useI18n()
+
+const t = {
+  prepayment: window.wp.i18n.__('Prepayment required', 'bookiflex')
+}
 </script>
 
 <template>
@@ -24,7 +26,7 @@ const { t } = useI18n()
           <span>{{ prepayment }}</span> {{ currency }}
         </div>
         <div class="summary-block__content-info__text">
-          {{ t('reservation.payment.prepayment') }}
+          {{ t.prepayment }}
           <BflexIcon class="accommodation-summary-trigger" name="Info" small></BflexIcon>
         </div>
       </div>

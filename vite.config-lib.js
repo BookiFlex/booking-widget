@@ -30,13 +30,29 @@ export default defineConfig({
       fileName: format => `${name}.${format}.${format === "es" ? "m" : ""}js`,
     },
     rollupOptions: {
-      external: ["vue"],
+      external: ["vue", '@wordpress/i18n'],
       output: {
         globals: {
           vue: "Vue",
+        '@wordpress/i18n': 'wp.i18n',
         },
         inlineDynamicImports: true,
       },
+    },
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        // Не удаляем console и debugger в production (опционально)
+        drop_console: false,
+        drop_debugger: false,
+      },
+      mangle: {
+        // Не переименовываем функции WordPress
+        reserved: ['wp', 'i18n', '__', 'sprintf', '_x', '_n', '_nx']
+      },
+      format: {
+        comments: false // Удаляем комментарии
+      }
     },
   },
   define: {

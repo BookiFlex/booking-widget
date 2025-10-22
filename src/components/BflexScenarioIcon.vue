@@ -1,6 +1,5 @@
 <script setup>
 import { defineProps } from 'vue'
-import { useI18n } from 'vue-i18n'
 import BflexIcon from '@/components/ui/BflexIcon.vue'
 defineProps({
   kind: {
@@ -16,38 +15,44 @@ defineProps({
     default: 0,
   },
 })
-const { t } = useI18n()
+
+const t = {
+  mainBeds: window.wp.i18n.__('Main beds', 'bookiflex'),
+  extraBeds: window.wp.i18n.__('Extra beds', 'bookiflex'),
+  family: window.wp.i18n.__('Family room', 'bookiflex'),
+  mainExtraBeds: window.wp.i18n.__('Main and extra beds', 'bookiflex')
+}
 </script>
 
 <template>
   <div v-if="kind === 'adults'" class="icons">
     <BflexIcon
       v-show="main === 2"
-      :title="t('ratePlan.scenario.mainBeds')"
+      :title="t.mainBeds"
       name="Person"
     ></BflexIcon>
     <span v-show="main > 2">{{ main }}</span>
     <span v-show="main > 2">x</span>
-    <BflexIcon name="Person" :title="t('ratePlan.scenario.mainBeds')"></BflexIcon>
+    <BflexIcon name="Person" :title="t.mainBeds"></BflexIcon>
 
     <template v-if="extraBed">
       <BflexIcon name="Add">add</BflexIcon>
       <BflexIcon
         v-show="extraBed === 2"
-        :title="t('ratePlan.scenario.extraBeds')"
+        :title="t.extraBeds"
         name="PersonOutline"
       ></BflexIcon>
       <span v-show="extraBed > 2">{{ main }}</span>
       <span v-show="extraBed > 2">x</span>
-      <BflexIcon name="PersonOutline" :title="t('ratePlan.scenario.extraBeds')"></BflexIcon>
+      <BflexIcon name="PersonOutline" :title="t.extraBeds"></BflexIcon>
     </template>
   </div>
 
   <span v-else-if="kind === 'child'" class="scenario-text">{{
-    t('ratePlan.scenario.family')
+    t.family
   }}</span>
 
-  <div v-else class="icons" :title="t('ratePlan.scenario.mainExtraBeds')">
+  <div v-else class="icons" :title="t.mainExtraBeds">
     <BflexIcon name="People"></BflexIcon>
     <BflexIcon name="Add"></BflexIcon>
     <BflexIcon name="PeopleOutline"></BflexIcon>
