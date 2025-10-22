@@ -9,7 +9,6 @@ import BflexSkeletonLoader from '@/components/ui/BflexSkeletonLoader.vue'
 import BflexTooltip from '@/components/ui/BflexTooltip.vue'
 import BflexIconText from '@/components/ui/BflexIconText.vue'
 import { formatMoney } from '../util/money.js'
-import { useCancellationI18n } from '@/composables/index.js'
 
 const props = defineProps({
   reservation: {
@@ -44,8 +43,6 @@ const guestsText = computed(() => ({
   adults: window.wp.i18n.sprintf(t.adults, props.reservation.stay.guests.adults),
   children: window.wp.i18n.sprintf(t.children, props.reservation.stay.guests.children.length)
 }))
-
-const { formatRuleDescription } = useCancellationI18n()
 </script>
 
 <template>
@@ -87,7 +84,7 @@ const { formatRuleDescription } = useCancellationI18n()
                   v-for="(i, index) in reservation.cancellation.policy.consequences"
                   :key="index"
                 >
-                  {{ formatRuleDescription(i) }}
+                  {{ i }}
                 </p>
               </template>
             </BflexTooltip>

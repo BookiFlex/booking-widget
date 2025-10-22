@@ -5,7 +5,6 @@ import BflexRatePlanVariantItem from './BflexRatePlanVariantItem.vue'
 import BflexIcon from '@/components/ui/BflexIcon.vue'
 import BflexScenarioIcon from '@/components/BflexScenarioIcon.vue'
 import BflexButton from '@/components/ui/BflexButton.vue'
-import { useCancellationI18n } from '@/composables/index.js'
 import { formatMoney } from '../util/money.js'
 
 const props = defineProps({
@@ -81,8 +80,6 @@ const t = {
   'boardType.FULL_BOARD': window.wp.i18n.__('Full Board', 'bookiflex'),
   'boardType.ALL_INCLUSIVE': window.wp.i18n.__('All Inclusive', 'bookiflex')
 }
-
-const { formatRuleDescription } = useCancellationI18n()
 
 const isDescriptionOpen = ref(false)
 const loading = ref({})
@@ -182,7 +179,7 @@ const losTxt = computed(() => window.wp.i18n.sprintf(t.los, props.lengthOfStay))
                   v-for="(rule, index) in data.cancellationPolicy.rules"
                   :key="index"
                 >
-                  {{ formatRuleDescription(rule) }}
+                  {{ rule }}
                 </p>
               </template>
             </BflexTooltip>

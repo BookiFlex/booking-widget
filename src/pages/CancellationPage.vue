@@ -11,7 +11,6 @@ import BflexButton from '@/components/ui/BflexButton.vue'
 import BflexFieldDecorator from '@/components/ui/BflexFieldDecorator.vue'
 import { useReservation } from '@/composables/useReservation.js'
 import BflexReadOnlyAccommodationCard from '@/components/BflexReadOnlyAccommodationCard.vue'
-import { useCancellationI18n } from '@/composables/index.js'
 import { formatMoney } from '../util/money.js'
 
 const props = defineProps({
@@ -39,7 +38,6 @@ const t = {
 
 const settings = inject('settings')
 const { setError } = inject('globalError')
-const { formatRuleDescription } = useCancellationI18n()
 
 const cancellationCode = ref('')
 const cancellationInProgress = ref(false)
@@ -153,7 +151,7 @@ onMounted(loadReservationData)
               v-for="(item, index) in reservation.cancellation.policy.consequences"
               :key="index"
             >
-              {{ formatRuleDescription(item) }}
+              {{ item }}
             </li>
           </ul>
         </BflexContent>

@@ -8,7 +8,6 @@ import BflexHeader from './InformationBlock/BflexHeader.vue'
 import BflexTooltip from '@/components/ui/BflexTooltip.vue'
 import BflexIconText from '@/components/ui/BflexIconText.vue'
 import { formatMoney } from '../util/money.js'
-import { useCancellationI18n } from '@/composables/index.js'
 
 const props = defineProps({
   reservation: {
@@ -58,8 +57,6 @@ const t = {
 }
 
 const emit = defineEmits(['changePaymentType', 'deleteAccommodation'])
-
-const { formatRuleDescription } = useCancellationI18n()
 
 const guestsText = computed(() => ({
   adults: window.wp.i18n.sprintf(t.adults, props.reservation.details.accommodation.adults),
@@ -118,7 +115,7 @@ onMounted(() => {
                   v-for="(rule, index) in reservation.details.accommodation.cancellationPolicy.rules"
                   :key="index"
                 >
-                  {{ formatRuleDescription(rule) }}
+                  {{ rule }}
                 </p>
               </template>
             </BflexTooltip>
