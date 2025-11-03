@@ -1,6 +1,6 @@
 <!-- BookingWidget.vue -->
 <script setup>
-import { ref, onMounted, provide, inject, defineProps, onUnmounted, watch, toRaw, nextTick } from 'vue'
+import { ref, onMounted, provide, inject, defineProps, onUnmounted, watch, toRaw, nextTick, computed } from 'vue'
 import { init } from './api/api.js'
 import {
   CHOOSE_ACCOMMODATION,
@@ -78,7 +78,7 @@ const searchParams = ref({
 })
 
 // Используем composables
-const { activePage, reservationSid, nextPage: navigateNext, startCancellation } = useBookingFlow()
+const { activePage, reservationSid, navigationDirection, nextPage: navigateNext, startCancellation } = useBookingFlow()
 const { loading, withLoading } = useLoading(false)
 
 // Container ref для скролла
@@ -86,6 +86,15 @@ const container = ref(null)
 
 // Transition state
 const isTransitioning = ref(false)
+
+// Height stabilization
+const containerHeight = ref(null)
+const contentWrapper = ref(null)
+
+// Dynamic transition name based on navigation direction
+const transitionName = computed(() => {
+  return `slide-${navigationDirection.value}`
+})
 
 // Error handler
 const { setError } = inject('globalError')
@@ -100,29 +109,55 @@ const scrollToTop = () => {
   }
 }
 
+// Transition hooks for height stabilization
+const onBeforeLeave = (el) => {
+  // Capture current height before leaving
+  containerHeight.value = el.offsetHeight
+  if (contentWrapper.value) {
+    contentWrapper.value.style.height = `${containerHeight.value}px`
+  }
+}
+
+const onEnter = (el) => {
+  // Measure incoming content height
+  const newHeight = el.offsetHeight
+
+  // Wait for next tick to ensure DOM is ready
+  nextTick(() => {
+    if (contentWrapper.value) {
+      // Smoothly transition to new height
+      contentWrapper.value.style.height = `${newHeight}px`
+    }
+  })
+}
+
+const onAfterEnter = () => {
+  // Remove fixed height after transition completes
+  if (contentWrapper.value) {
+    contentWrapper.value.style.height = ''
+  }
+  isTransitioning.value = false
+}
+
 // Enhanced page navigation with transition
 const nextPage = async (action, result = null) => {
   isTransitioning.value = true
 
-  // Небольшая задержка для начала анимации
+  // Scroll immediately and synchronously with transition
+  scrollToTop()
+
+  // Navigate to next page
   await nextTick()
 
-  setTimeout(() => {
-    scrollToTop()
+  if (action === EMPTY_CART) {
+    navigateNext(null)
+  } else if (action === BOOKING_CONFIRMATION) {
+    navigateNext(action, result)
+  } else {
+    navigateNext(action)
+  }
 
-    if (action === EMPTY_CART) {
-      navigateNext(null)
-    } else if (action === BOOKING_CONFIRMATION) {
-      navigateNext(action, result)
-    } else {
-      navigateNext(action)
-    }
-
-    // Завершаем переход
-    setTimeout(() => {
-      isTransitioning.value = false
-    }, 300)
-  }, 150)
+  // Note: isTransitioning will be set to false in onAfterEnter hook
 }
 
 // Отслеживаем изменения props
@@ -229,12 +264,22 @@ onUnmounted(() => {
           </BflexGridGap>
         </template>
 
-        <!-- Cancel reservation page -->
-        <CancellationPage
-          v-else-if="activePage === CANCEL_RESERVATION && reservationSid"
-          :sid="reservationSid"
-          @cancelReservation="() => nextPage(null)"
-        />
+        <!-- Pages with transition wrapper -->
+        <div v-else ref="contentWrapper" class="booking-widget__pages">
+          <Transition
+            :name="transitionName"
+            mode="out-in"
+            @before-leave="onBeforeLeave"
+            @enter="onEnter"
+            @after-enter="onAfterEnter"
+          >
+            <!-- Cancel reservation page -->
+            <CancellationPage
+              v-if="activePage === CANCEL_RESERVATION && reservationSid"
+              :key="CANCEL_RESERVATION"
+              :sid="reservationSid"
+              @cancelReservation="() => nextPage(null)"
+            />
 
             <!-- Choose accommodation page -->
             <OffersPage
@@ -259,6 +304,8 @@ onUnmounted(() => {
               :sid="reservationSid"
               @released="onReleasedAction"
             />
+          </Transition>
+        </div>
       </section>
     </div>
   </main>
