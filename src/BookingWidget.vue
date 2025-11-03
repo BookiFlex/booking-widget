@@ -17,6 +17,7 @@ import BflexSkeletonLoader from '@/components/ui/BflexSkeletonLoader.vue'
 import BflexGridGap from '@/components/InformationBlock/BflexGridGap.vue'
 import { useBookingFlow } from '@/composables/useBookingFlow.js'
 import { useLoading } from '@/composables/useLoading.js'
+import { useUrlParams } from '@/composables/useUrlParams.js'
 
 const props = defineProps({
   start: {
@@ -39,6 +40,14 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  useUrlParams: {
+    type: Boolean,
+    default: false,
+  },
+  syncUrl: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 // Settings
@@ -56,11 +65,16 @@ const settings = ref({
 })
 provide('settings', settings)
 
-// Search params
+// URL parameters composable
+const { urlParams, updateUrl } = useUrlParams({
+  enabled: props.useUrlParams
+})
+
+// Search params with priority: URL > Props
 const searchParams = ref({
-  start: props.start,
-  end: props.end,
-  promoCode: props.promoCode,
+  start: urlParams.value?.start || props.start,
+  end: urlParams.value?.end || props.end,
+  promoCode: urlParams.value?.promoCode || props.promoCode,
 })
 
 // Используем composables
@@ -134,11 +148,17 @@ watch(
       prevValue.end !== value.end
 
     if (hasChanges) {
+      // Emit change event
       window.dispatchEvent(
         new CustomEvent('bflex:booking-widget:changed', {
           detail: toRaw(searchParams.value)
         })
       )
+
+      // Sync URL if enabled
+      if (props.syncUrl) {
+        updateUrl(value)
+      }
     }
   },
   { immediate: true, deep: true }
@@ -162,16 +182,20 @@ onMounted(async () => {
   window.dispatchEvent(new CustomEvent('bflex:booking-widget:ready'))
   window.addEventListener('bflex:search-bar:search', onSearchParamsChanged)
 
+  // Check for cancel parameter ALWAYS (independent of useUrlParams flag)
+  // This is critical functionality for reservation cancellation links
+  const urlSearchParams = new URLSearchParams(window.location.search)
+  const cancelSid = urlSearchParams.has('cancel') ? urlSearchParams.get('cancel') : null
+
+  // ALWAYS initialize widget to get settings (needed by CancellationPage and all other pages)
   await withLoading(async () => {
     try {
       const { inProgress, settings: appSettings } = await init()
       settings.value = appSettings
 
-      // Проверяем параметры URL
-      const params = new URLSearchParams(window.location.search)
-      if (params.has('cancel')) {
-        const sid = params.get('cancel')
-        startCancellation(sid)
+      // Navigate based on cancel parameter or normal flow
+      if (cancelSid) {
+        startCancellation(cancelSid)
       } else {
         navigateNext(inProgress ? CHOOSE_ACCOMMODATION : null)
       }

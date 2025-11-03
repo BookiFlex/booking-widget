@@ -24,6 +24,14 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  useUrlParams: {
+    type: Boolean,
+    default: false,
+  },
+  syncUrl: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const preparedParams = ref({
@@ -37,7 +45,7 @@ watch(
     if (value.accommodationTypes.length || value.ratePlans.length) {
       preparedParams.value = {
         accommodationTypes: value.accommodationTypes.split(','),
-        ratePlans: value.accommodationTypes.split(','),
+        ratePlans: value.ratePlans.split(','),
       }
     }
   },
@@ -55,7 +63,9 @@ onUnmounted(() => {
       :end="end"
       :promo-code="promoCode"
       :accommodation-types="preparedParams.accommodationTypes"
-      :ratePlans="preparedParams.ratePlans"
+      :rate-plans="preparedParams.ratePlans"
+      :use-url-params="useUrlParams"
+      :sync-url="syncUrl"
     />
   </BflexErrorProvider>
 </template>

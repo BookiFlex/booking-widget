@@ -24,10 +24,12 @@ export default defineConfig({
   },
   // publicDir: true,
   build: {
+    manifest: true,
     lib: {
       entry: path.resolve(__dirname, "src/index.js"),
       name,
-      fileName: format => `${name}.${format}.${format === "es" ? "m" : ""}js`,
+      fileName: () => 'index.[hash].js',
+      formats: ['umd']
     },
     rollupOptions: {
       external: ["vue", '@wordpress/i18n'],
@@ -37,6 +39,7 @@ export default defineConfig({
         '@wordpress/i18n': 'wp.i18n',
         },
         inlineDynamicImports: true,
+        assetFileNames: 'style.[hash].css'
       },
     },
     minify: 'terser',
