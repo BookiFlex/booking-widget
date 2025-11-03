@@ -11,20 +11,8 @@ export function useBookingFlow() {
   const pages = [CHOOSE_ACCOMMODATION, BOOKING_CONFIRMATION, RESERVATION_DETAILS]
   const activePage = ref(null)
   const reservationSid = ref(null)
-  const navigationDirection = ref('forward')
 
   const navigateTo = (page) => {
-    // Determine navigation direction based on page order
-    const currentIndex = pages.indexOf(activePage.value)
-    const nextIndex = pages.indexOf(page)
-
-    if (currentIndex !== -1 && nextIndex !== -1) {
-      navigationDirection.value = nextIndex > currentIndex ? 'forward' : 'backward'
-    } else {
-      // Default to forward for special pages (CANCEL_RESERVATION, etc.)
-      navigationDirection.value = 'forward'
-    }
-
     activePage.value = page
     window.dispatchEvent(
       new CustomEvent('bflex:booking-widget:action', {
@@ -67,7 +55,6 @@ export function useBookingFlow() {
   return {
     activePage,
     reservationSid,
-    navigationDirection,
     nextPage,
     startCancellation,
     navigateTo

@@ -1,6 +1,6 @@
 <!-- BookingWidget.vue -->
 <script setup>
-import { ref, onMounted, provide, inject, defineProps, onUnmounted, watch, toRaw, nextTick, computed } from 'vue'
+import { ref, onMounted, provide, inject, defineProps, onUnmounted, watch, toRaw, nextTick } from 'vue'
 import { init } from './api/api.js'
 import {
   CHOOSE_ACCOMMODATION,
@@ -78,7 +78,7 @@ const searchParams = ref({
 })
 
 // Используем composables
-const { activePage, reservationSid, navigationDirection, nextPage: navigateNext, startCancellation } = useBookingFlow()
+const { activePage, reservationSid, nextPage: navigateNext, startCancellation } = useBookingFlow()
 const { loading, withLoading } = useLoading(false)
 
 // Container ref для скролла
@@ -90,11 +90,6 @@ const isTransitioning = ref(false)
 // Height stabilization
 const containerHeight = ref(null)
 const contentWrapper = ref(null)
-
-// Dynamic transition name based on navigation direction
-const transitionName = computed(() => {
-  return `slide-${navigationDirection.value}`
-})
 
 // Error handler
 const { setError } = inject('globalError')
@@ -267,7 +262,7 @@ onUnmounted(() => {
         <!-- Pages with transition wrapper -->
         <div v-else ref="contentWrapper" class="booking-widget__pages">
           <Transition
-            :name="transitionName"
+            name="fade"
             mode="out-in"
             @before-leave="onBeforeLeave"
             @enter="onEnter"
