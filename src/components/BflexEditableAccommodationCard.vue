@@ -173,12 +173,12 @@ onMounted(() => {
         <dl class="accommodation-list__payment-rules">
           <dt class="highlighted">{{ t.prepaymentAmount }}:</dt>
           <dd class="highlighted">
-            <span v-if="loading" class="amount-loader"></span>
+            <span v-if="loading" class="amount-skeleton"></span>
             <span v-else>{{ formatMoney(payment.prepayment, totals.currency)  }}</span>
           </dd>
           <dt>{{ t.onArrivalAmount }}:</dt>
           <dd>
-            <span v-if="loading" class="amount-loader"></span>
+            <span v-if="loading" class="amount-skeleton"></span>
             <span v-else>{{ formatMoney(payment.onArrival || 0, totals.currency) }}</span>
           </dd>
         </dl>

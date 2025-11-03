@@ -23,15 +23,38 @@
       margin-bottom: 0.25rem;
       font-size: 0.875rem;
     }
+
+    dd {
+      transition: opacity 150ms ease-in-out;
+    }
+
     .highlighted {
       color: var(--chosen-accommodation-payment-types, #ea580c);
     }
-    .amount-loader {
-      display: inline-flex;
-      align-items: end;
-      width: 50px;
-      height: 10px;
-      background: var(--chosen-accommodation-payment-types, #ea580c);
+
+    .amount-skeleton {
+      display: inline-block;
+      width: 80px;
+      height: 1em;
+      background: linear-gradient(
+        90deg,
+        #f0f0f0 25%,
+        #e0e0e0 50%,
+        #f0f0f0 75%
+      );
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite ease-in-out;
+      border-radius: 4px;
+      vertical-align: middle;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -100% 0;
+    }
+    100% {
+      background-position: 100% 0;
     }
   }
 

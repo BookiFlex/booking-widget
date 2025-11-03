@@ -57,9 +57,8 @@ const onDeleteAccommodation = async (hash) => {
   try {
     await removeFromCart(hash)
     if (isEmpty.value) {
-      setTimeout(() => {
-        emit('released', { action: EMPTY_CART })
-      }, 300)
+      // Immediate transition with fade - no setTimeout needed
+      emit('released', { action: EMPTY_CART })
     }
   } catch (error) {
     setError(error)
@@ -145,16 +144,19 @@ const onSubmit = async (event) => {
     <BflexGridGap>
       <BflexContactInformationCard v-model="data.customerInfo" />
 
-      <BflexEditableAccommodationCard
-        v-if="cart && !isEmpty"
-        :loading="loading"
-        :locale="settings.widget.locale"
-        :payment="cart.payment"
-        :totals="cart.totals"
-        :reservation="firstItem"
-        @changePaymentType="onChangePaymentType"
-        @deleteAccommodation="onDeleteAccommodation"
-      ></BflexEditableAccommodationCard>
+      <Transition name="fade" mode="out-in">
+        <BflexEditableAccommodationCard
+          v-if="cart && !isEmpty"
+          :key="'accommodation-card'"
+          :loading="loading"
+          :locale="settings.widget.locale"
+          :payment="cart.payment"
+          :totals="cart.totals"
+          :reservation="firstItem"
+          @changePaymentType="onChangePaymentType"
+          @deleteAccommodation="onDeleteAccommodation"
+        ></BflexEditableAccommodationCard>
+      </Transition>
 
       <BflexSpecialRequestCard v-model="data.specialRequest"></BflexSpecialRequestCard>
 
@@ -163,12 +165,15 @@ const onSubmit = async (event) => {
         :rules="settings.hotelRules.rules"
       ></BflexAccommodationRulesCard>
 
-      <BflexSummaryPanel
-        v-if="!loading && cart"
-        :totals="cart.totals"
-        :accommodation-units="accommodationUnits"
-        :length-of-stay="lengthOfStay"
-      ></BflexSummaryPanel>
+      <Transition name="fade" mode="out-in">
+        <BflexSummaryPanel
+          v-if="!loading && cart"
+          :key="'summary-panel'"
+          :totals="cart.totals"
+          :accommodation-units="accommodationUnits"
+          :length-of-stay="lengthOfStay"
+        ></BflexSummaryPanel>
+      </Transition>
     </BflexGridGap>
   </form>
 </template>
