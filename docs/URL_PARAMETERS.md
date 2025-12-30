@@ -717,7 +717,7 @@ preparedParams.value = {
 
 - [Custom Events](./CUSTOM_EVENTS.md) - Widget event system
 - [README](../README.md) - General widget documentation
-- [BookiFlex Core](../../../backend/core/docs/) - Backend API documentation
+- [BookiFlex Core](../../../docs/) - Backend API documentation
 
 ---
 

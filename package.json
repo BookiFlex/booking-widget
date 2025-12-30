@@ -29,7 +29,7 @@
     "prettier": "3.5.3",
     "sass-embedded": "^1.87.0",
     "scss-reset": "^1.4.6",
-    "vite": "7.1.5",
+    "vite": "7.1.11",
     "vite-plugin-vue-devtools": "^7.7.2",
     "vite-svg-loader": "^5.1.0",
     "terser": "^5.44.0"

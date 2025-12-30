@@ -110,8 +110,15 @@ const toggleVariantSelector = () => {
 
 // Закрытие селектора при клике вне его
 const handleClickOutside = (event) => {
-  const selector = event.target.closest('.variant-selector')
-  if (!selector) {
+  // composedPath() работает с Shadow DOM - возвращает полный путь события
+  const path = event.composedPath()
+
+  // Проверить, есть ли .variant-selector в пути события
+  const clickedInsideSelector = path.some(element => {
+    return element.classList && element.classList.contains('variant-selector')
+  })
+
+  if (!clickedInsideSelector) {
     isVariantSelectorOpen.value = false
   }
 }

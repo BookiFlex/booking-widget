@@ -173,11 +173,11 @@ const updateCart = async (data) => {
  * @returns {Promise<void>}
  */
 const removeFromCart = async (hash) => {
-  const endpoint = (await detectRestApiRelativeUrl()) + ENDPOINTS.CART + '/items/' + hash
+  const endpoint = (await detectRestApiRelativeUrl()) + ENDPOINTS.CART + '/items/' + hash + '/delete'
 
   try {
     const response = await fetch(endpoint, {
-      method: 'DELETE',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -199,11 +199,11 @@ const removeFromCart = async (hash) => {
  * @returns {Promise<void>}
  */
 const changePaymentType = async (data) => {
-  const endpoint = (await detectRestApiRelativeUrl()) + ENDPOINTS.CHANGE_PAYMENT_TYPE
+  const endpoint = (await detectRestApiRelativeUrl()) + ENDPOINTS.CHANGE_PAYMENT_TYPE + '/update'
 
   try {
     const response = await fetch(endpoint, {
-      method: 'PATCH',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },

@@ -124,12 +124,7 @@ const onSubmit = async (event) => {
       )
 
       if (result?.reservations) {
-        // Success animation
-        document.querySelector('.booking-confirmation')?.classList.add('success-bounce')
-
-        setTimeout(() => {
           emit('released', { action: BOOKING_CONFIRMATION, result })
-        }, 600)
       }
     } catch (error) {
       setError(error)
@@ -167,11 +162,13 @@ const onSubmit = async (event) => {
 
       <Transition name="fade" mode="out-in">
         <BflexSummaryPanel
-          v-if="!loading && cart"
+          v-if="cart"
           :key="'summary-panel'"
+          :loading="loading"
           :totals="cart.totals"
           :accommodation-units="accommodationUnits"
           :length-of-stay="lengthOfStay"
+          @submit="onSubmit"
         ></BflexSummaryPanel>
       </Transition>
     </BflexGridGap>

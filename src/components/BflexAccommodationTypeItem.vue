@@ -7,6 +7,9 @@ defineProps({
    * @type {{
    *   name: string,
    *   description: string,
+   *   address?: string,
+   *   longitude?: string,
+   *   latitude?: string,
    *   thumbnail: {
    *     url: string,
    *     name: string
@@ -26,6 +29,9 @@ defineProps({
     default: () => ({
       name: '',
       description: '',
+      address: '',
+      longitude: '',
+      latitude: '',
       thumbnail: null,
       gallery: [],
       amenities: [],
@@ -63,6 +69,9 @@ const openGallery = () => {
     <section class="accommodation-type-card__body">
       <div class="accommodation-type-card__body-description">
         <h2>{{ data.name }}</h2>
+        <p v-if="data.address && data.address.trim()" class="accommodation-type-card__address">
+          {{ data.address }}
+        </p>
         <slot name="description">
           <p>{{ data.description }}</p>
         </slot>

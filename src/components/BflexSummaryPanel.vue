@@ -2,6 +2,7 @@
 import { defineProps, defineEmits, computed } from 'vue'
 import BflexIcon from '@/components/ui/BflexIcon.vue'
 import { formatMoney } from '../util/money.js'
+import BflexButton from '@/components/ui/BflexButton.vue'
 
 const props = defineProps({
   totals: {
@@ -16,6 +17,10 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  loading: {
+    type: Boolean,
+    default: false,
+  }
 })
 
 const t = {
@@ -28,7 +33,7 @@ const summaryText = computed(() =>
   `${window.wp.i18n.sprintf(t.room, props.accommodationUnits)}, ${window.wp.i18n.sprintf(t.los, props.lengthOfStay)}`
 )
 
-const emit = defineEmits(['onAccommodationSummaryClick'])
+const emit = defineEmits(['onAccommodationSummaryClick', 'submit'])
 </script>
 
 <template>
@@ -48,9 +53,8 @@ const emit = defineEmits(['onAccommodationSummaryClick'])
           ></BflexIcon>
         </div>
       </div>
-      <button class="button" type="submit">
-        {{ t.complete }}
-      </button>
+      <BflexButton :loading="loading" @click="() => emit('submit')">{{ t.complete }}</BflexButton>
+<!--      <button class="button" type="submit"></button>-->
     </div>
   </div>
 </template>

@@ -380,8 +380,8 @@ The widget communicates with the BookiFlex WordPress REST API:
   - `GET /offers` - Fetch accommodation offers
   - `POST /cart/add` - Add item to cart
   - `GET /cart` - Get cart contents
-  - `PUT /cart/{hash}` - Update cart item
-  - `DELETE /cart/{hash}` - Remove cart item
+  - `POST /cart/{hash}/update` - Update cart item
+  - `POST /cart/{hash}/delete` - Remove cart item
   - `POST /cart/confirm` - Confirm booking
   - `GET /reservation/{sid}` - Get reservation details
   - `POST /reservation/{sid}/cancel` - Cancel reservation
@@ -437,7 +437,7 @@ This project is part of the BookiFlex booking system.
 
 - [URL Parameters Documentation](docs/URL_PARAMETERS.md) - Deep linking and URL parameter handling
 - [Custom Events Documentation](docs/CUSTOM_EVENTS.md) - Widget event system
-- [BookiFlex Core Documentation](../../backend/core/docs/) - Backend API and architecture
+- [BookiFlex Core Documentation](../../docs/) - Backend API and architecture
 
 ## Support
 

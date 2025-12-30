@@ -24,6 +24,7 @@ export default defineConfig({
     },
   },
   server: {
+    // allowedHosts: ['de0362af3c39.ngrok-free.app'],
     proxy: {
       // string shorthand:
       // http://localhost:5173/foo

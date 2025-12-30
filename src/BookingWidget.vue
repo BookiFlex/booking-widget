@@ -220,14 +220,15 @@ onMounted(async () => {
   // ALWAYS initialize widget to get settings (needed by CancellationPage and all other pages)
   await withLoading(async () => {
     try {
-      const { inProgress, settings: appSettings } = await init()
+      const { cart, settings: appSettings } = await init()
       settings.value = appSettings
 
       // Navigate based on cancel parameter or normal flow
       if (cancelSid) {
         startCancellation(cancelSid)
       } else {
-        navigateNext(inProgress ? CHOOSE_ACCOMMODATION : null)
+        const hasActiveCart = cart && !cart.metadata.isEmpty
+        navigateNext(hasActiveCart ? CHOOSE_ACCOMMODATION : null)
       }
     } catch (error) {
       setError(error)
