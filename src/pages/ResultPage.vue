@@ -113,7 +113,7 @@ const onClickAction = () => {
         <BflexDivider></BflexDivider>
         <BflexContent>{{ nextStepTxt }}</BflexContent>
         <template v-if="reservation.payment?.method?.captureToken">
-          <BflexRedirectTimer :capture-token="reservation.payment?.method?.captureToken" :timeout="30" blank />
+          <BflexRedirectTimer :capture-token="reservation.payment?.method?.captureToken" :timeout="30" />
         </template>
       </BflexInformationBlock>
 
