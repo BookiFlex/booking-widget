@@ -5,6 +5,12 @@ import vue from "@vitejs/plugin-vue";
 import svgLoader from 'vite-svg-loader'
 
 const name = "index";
+const BANNER = `/*!
+ * BookiFlex Booking Widget
+ * License: GPL-2.0-or-later
+ * © 2026 BookiFlex. All rights reserved.
+ * Uses external libraries: Vue.js (MIT), @wordpress/i18n (GPL-2.0-or-later)
+ */`
 
 export default defineConfig({
   plugins: [
@@ -39,7 +45,8 @@ export default defineConfig({
         '@wordpress/i18n': 'wp.i18n',
         },
         inlineDynamicImports: true,
-        assetFileNames: 'style.[hash].css'
+        assetFileNames: 'style.[hash].css',
+        banner: BANNER
       },
     },
     minify: 'terser',
