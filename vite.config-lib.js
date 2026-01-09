@@ -8,8 +8,16 @@ const name = "index";
 const BANNER = `/*!
  * BookiFlex Booking Widget
  * License: GPL-2.0-or-later
- * © 2026 BookiFlex. All rights reserved.
- * Uses external libraries: Vue.js (MIT), @wordpress/i18n (GPL-2.0-or-later)
+ * © 2026 BookiFlex
+ *
+ * Uses external libraries: Vue.js (MIT)
+ * Uses WordPress-provided libraries: @wordpress/i18n (GPL-2.0-or-later)
+ *
+ * This bundle includes third-party code:
+ * - floating-vue (MIT)
+ *   https://github.com/Akryum/floating-vue
+ * - GLightbox (MIT, version 3.x)
+ *   https://github.com/biati-digital/glightbox
  */`
 
 export default defineConfig({
@@ -52,16 +60,15 @@ export default defineConfig({
     minify: 'terser',
     terserOptions: {
       compress: {
-        // Не удаляем console и debugger в production (опционально)
-        drop_console: false,
-        drop_debugger: false,
+        drop_console: ['log', 'debug', 'info'], // удаляем только log, debug, info
+        drop_debugger: true, // удаляем debugger statements
       },
       mangle: {
         // Не переименовываем функции WordPress
         reserved: ['wp', 'i18n', '__', 'sprintf', '_x', '_n', '_nx']
       },
       format: {
-        comments: false // Удаляем комментарии
+        // comments: false // Удаляем комментарии
       }
     },
   },
