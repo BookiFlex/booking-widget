@@ -18,7 +18,7 @@ const props = defineProps({
 })
 
 const t = {
-  title: window.wp.i18n.__('Accommodation Rules & Agreements', 'bookiflex'),
+  title: window.wp.i18n.__('House Rules & Policies', 'bookiflex'),
   agreementSentence: window.wp.i18n.__('I agree to the', 'bookiflex'),
   agreementSentenceShort: window.wp.i18n.__('I agree to', 'bookiflex')
 }

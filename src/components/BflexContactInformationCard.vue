@@ -20,12 +20,12 @@ const props = defineProps({
 })
 
 const t = {
-  title: window.wp.i18n.__('Contact Information', 'bookiflex'),
+  title: window.wp.i18n.__('Guest Details', 'bookiflex'),
   firstName: window.wp.i18n.__('First Name', 'bookiflex'),
   lastName: window.wp.i18n.__('Last Name', 'bookiflex'),
   email: window.wp.i18n.__('Email', 'bookiflex'),
   phoneNumber: window.wp.i18n.__('Phone Number', 'bookiflex'),
-  confirmationInfo: window.wp.i18n.__('Booking confirmation will be sent to this email address', 'bookiflex')
+  confirmationInfo: window.wp.i18n.__('Please enter the details of the primary guest or the person responsible for the booking. Booking confirmation will be sent to this email address.', 'bookiflex')
 }
 
 const emit = defineEmits(['update:modelValue'])

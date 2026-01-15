@@ -12,7 +12,7 @@ defineProps({
 })
 
 const t = {
-  title: window.wp.i18n.__('Hotel Information', 'bookiflex')
+  title: window.wp.i18n.__('Contact Information', 'bookiflex')
 }
 </script>
 

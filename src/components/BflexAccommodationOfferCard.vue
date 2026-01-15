@@ -14,7 +14,7 @@ defineProps({
 
 const t = {
   notAvailableTitle: window.wp.i18n.__('Not Available', 'bookiflex'),
-  notAvailableDescription: window.wp.i18n.__('This accommodation type is not available for the selected dates', 'bookiflex')
+  notAvailableDescription: window.wp.i18n.__('This stay is not available for the selected dates', 'bookiflex')
 }
 
 const emit = defineEmits(['accommodationOfferChosen'])

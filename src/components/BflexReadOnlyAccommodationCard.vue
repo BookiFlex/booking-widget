@@ -30,7 +30,7 @@ const props = defineProps({
 })
 
 const t = {
-  title: window.wp.i18n.__('Chosen Accommodation', 'bookiflex'),
+  title: window.wp.i18n.__('Your Stay', 'bookiflex'),
   adults: window.wp.i18n.__('%d adults', 'bookiflex'),
   children: window.wp.i18n.__('%d children', 'bookiflex'),
   paymentMethod: window.wp.i18n.__('Payment Method', 'bookiflex'),
