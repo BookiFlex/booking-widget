@@ -39,7 +39,7 @@ const t = {
   'description.cancelled': window.wp.i18n.__('Your booking has been cancelled.', 'bookiflex'),
   'description.overdue': window.wp.i18n.__('The payment time for your booking has expired. It will be cancelled soon.', 'bookiflex'),
   whatIsNext: window.wp.i18n.__('What happens next?', 'bookiflex'),
-  'nextStep.waitingPayment': window.wp.i18n.__('You can pay now to secure your reservation. We\'ll hold it for a limited time %s — if no payment is received, it may be automatically cancelled.', 'bookiflex'),
+  'nextStep.waitingPayment': window.wp.i18n.__('Pay now to secure your reservation. It will be held until %s (property local time), about %sh from now, otherwise it may be cancelled automatically.\n', 'bookiflex'),
   'nextStep.waitingConfirmation': window.wp.i18n.__('We\'re checking availability and will notify you once your booking is confirmed. Please wait — this usually takes no more than 24 hours.', 'bookiflex'),
   'nextStep.confirmed': window.wp.i18n.__('Thank you for your reservation! You\'ll receive a confirmation email with all details shortly. If you have any questions, feel free to contact us.', 'bookiflex'),
   'nextStep.cancelled': window.wp.i18n.__('Unfortunately, this booking is no longer valid. If you still wish to travel, please make a new reservation.', 'bookiflex'),
@@ -53,9 +53,13 @@ const nextStepTxt = computed(() => {
   const baseText = t[`nextStep.${statusText.value}`]
   if (!baseText) return statusText.value
 
-  if (statusText.value === 'waitingPayment' && reservation.value?.payment?.status?.waitingUntil) {
-    const formattedDate = formatDateTime(reservation.value.payment.status.waitingUntil)
-    return window.wp.i18n.sprintf(baseText, formattedDate)
+  if (statusText.value === 'waitingPayment' && reservation.value?.payment?.status?.waitingUntilFormatted) {
+    // const formattedDate = formatDateTime(reservation.value.payment.status.waitingUntil)
+    return window.wp.i18n.sprintf(
+      baseText,
+      reservation.value.payment.status?.waitingUntilFormatted,
+      reservation.value.payment.status?.timeForConfirmation,
+    )
   }
 
   return baseText

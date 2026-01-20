@@ -42,7 +42,7 @@ defineProps({
 
 const t = {
   thumbnail: window.wp.i18n.__('No image available', 'bookiflex'),
-  roomQuantity: window.wp.i18n.__('Available rooms', 'bookiflex')
+  roomQuantity: window.wp.i18n.__('Available', 'bookiflex')
 }
 
 const isOpen = ref(false)
