@@ -3,6 +3,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import svgLoader from 'vite-svg-loader'
+import replace from '@rollup/plugin-replace';
 
 const name = "index";
 const BANNER = `/*!
@@ -22,6 +23,15 @@ const BANNER = `/*!
 
 export default defineConfig({
   plugins: [
+    // Remove Plyr CDN URLs from glightbox bundle (WordPress.org compliance)
+    // GLightbox includes hardcoded CDN URLs for Plyr video player which we don't use
+    replace({
+      preventAssignment: true,
+      values: {
+        'https://cdn.plyr.io/3.6.12/plyr.css': '',
+        'https://cdn.plyr.io/3.6.12/plyr.js': '',
+      }
+    }),
     vue({
       template: {
         compilerOptions: {

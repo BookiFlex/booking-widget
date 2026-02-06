@@ -22,6 +22,12 @@ onMounted(() => {
     openEffect: 'zoom', // Анимация открытия
     closeEffect: 'fade', // Анимация закрытия
     touchNavigation: true,
+    // Disable Plyr video player (we only use images)
+    // This also prevents CDN URLs from being used at runtime
+    plyr: {
+      css: '',
+      js: '',
+    },
   })
 
   if (props.modelValue) {

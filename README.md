@@ -404,41 +404,6 @@ All translatable strings use the `bookiflex` text domain.
 - Mobile browsers (iOS Safari, Chrome Mobile)
 - Requires ES6+ support
 
-## Development Tips
-
-### Hot Module Replacement
-
-The development server supports HMR. Changes to `.vue` files will update instantly without page reload.
-
-### Debugging
-
-Use Vue DevTools browser extension for component inspection and state debugging.
-
-### API Development
-
-When developing against a local WordPress installation:
-
-1. Start WordPress (e.g., using wp-env): `cd dev-env && wp-env start`
-2. Start the widget dev server: `npm run dev`
-3. The proxy will forward API requests to WordPress
-
-## Contributing
-
-1. Follow the existing code style (enforced by ESLint and Prettier)
-2. Write meaningful commit messages
-3. Test thoroughly before submitting changes
-4. Update documentation when adding features
-
 ## License
 
-This project is part of the BookiFlex booking system.
-
-## Related Documentation
-
-- [URL Parameters Documentation](docs/URL_PARAMETERS.md) - Deep linking and URL parameter handling
-- [Custom Events Documentation](docs/CUSTOM_EVENTS.md) - Widget event system
-- [BookiFlex Core Documentation](../../docs/) - Backend API and architecture
-
-## Support
-
-For issues and questions related to BookiFlex, please refer to the main project documentation or contact the development team.
+See project license file.

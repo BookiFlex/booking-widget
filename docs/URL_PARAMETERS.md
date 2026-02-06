@@ -679,21 +679,6 @@ checkUrlAndAutoOpen() {
 }
 ```
 
-### Backward Compatibility
-
-**Guaranteed:**
-- ✅ Existing integrations work without changes
-- ✅ All new features opt-in (require explicit props)
-- ✅ Default behavior unchanged (`useUrlParams=false`, `syncUrl=false`)
-- ✅ Existing `cancel` parameter continues to work
-- ✅ Props-only mode still works
-
-**Migration:**
-- No breaking changes
-- To enable URL support, add `use-url-params="true"` attribute
-- To enable URL sync, add `sync-url="true"` attribute
-- Controller auto-open can be disabled via `autoOpenFromUrl: false`
-
 ### Bug Fix
 
 **Web Component wrapper** (`BookingWidget.ce.vue:40`):
@@ -710,43 +695,3 @@ preparedParams.value = {
   ratePlans: value.ratePlans.split(','),  // ✅ Correct
 }
 ```
-
----
-
-## Related Documentation
-
-- [Custom Events](./CUSTOM_EVENTS.md) - Widget event system
-- [README](../README.md) - General widget documentation
-- [BookiFlex Core](../../../docs/) - Backend API documentation
-
----
-
-## Future Enhancements
-
-### Planned Features
-
-1. **API Filter Support**
-   - Pass `accommodationTypes` and `ratePlans` to `/offers` endpoint
-   - Backend filters results before returning
-   - Reduces client-side filtering
-
-2. **Additional URL Parameters**
-   - `guests` - Number of guests (adults + children)
-   - `rooms` - Number of rooms
-   - `view` - Initial view mode (grid/list)
-
-3. **URL State Preservation**
-   - Remember selected filters across page navigation
-   - Restore scroll position
-   - Maintain expanded/collapsed state
-
-4. **Analytics Integration**
-   - Track URL parameter usage
-   - Campaign effectiveness (which promo codes used)
-   - Source tracking (where traffic comes from)
-
-### Not Planned
-
-- ❌ Custom parameter name mapping (keeps API simple)
-- ❌ Multiple date range support (single booking only)
-- ❌ Query string encryption (URLs should be human-readable)

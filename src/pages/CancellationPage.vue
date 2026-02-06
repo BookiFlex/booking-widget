@@ -56,7 +56,11 @@ const loadReservationData = async () => {
 }
 
 const penaltyAmount = computed(() => {
-  return reservation.value.cancellation.penalties.reduce((acc, cur) => {
+  const penalties = reservation.value.status === 'CANCELLED'
+    ? reservation.value.cancellation.penalties
+    : reservation.value.cancellation.estimatedPenalties;
+
+  return penalties.reduce((acc, cur) => {
     acc += cur.amount
     return acc
   }, 0)
