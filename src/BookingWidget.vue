@@ -81,9 +81,6 @@ const searchParams = ref({
 const { activePage, reservationSid, nextPage: navigateNext, startCancellation } = useBookingFlow()
 const { loading, withLoading } = useLoading(false)
 
-// Container ref для скролла
-const container = ref(null)
-
 // Transition state
 const isTransitioning = ref(false)
 
@@ -93,16 +90,6 @@ const contentWrapper = ref(null)
 
 // Error handler
 const { setError } = inject('globalError')
-
-// Smooth scroll to top
-const scrollToTop = () => {
-  if (container.value) {
-    container.value.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    })
-  }
-}
 
 // Transition hooks for height stabilization
 const onBeforeLeave = (el) => {
@@ -137,9 +124,6 @@ const onAfterEnter = () => {
 // Enhanced page navigation with transition
 const nextPage = async (action, result = null) => {
   isTransitioning.value = true
-
-  // Scroll immediately and synchronously with transition
-  scrollToTop()
 
   // Navigate to next page
   await nextTick()
@@ -252,7 +236,7 @@ onUnmounted(() => {
 <template>
   <main id="bflex-booking-widget">
     <div class="booking-widget">
-      <section ref="container" class="booking-widget__content">
+      <section class="booking-widget__content">
         <!-- Loading state -->
         <template v-if="loading">
           <BflexGridGap>

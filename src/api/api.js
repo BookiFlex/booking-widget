@@ -70,7 +70,7 @@ async function detectRestApiRelativeUrl() {
 function toRelativeUrl(absoluteUrl) {
   try {
     const url = new URL(absoluteUrl, location.href)
-    return url.pathname + url.search // for ex.: /wp-json/ or /index.php?rest_route=/
+    return url.origin + url.pathname + url.search // for ex.: /wp-json/ or /index.php?rest_route=/
     // eslint-disable-next-line no-unused-vars
   } catch (_) {
     return absoluteUrl // fallback, если URL кривой
