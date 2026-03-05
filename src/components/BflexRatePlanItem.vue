@@ -192,7 +192,7 @@ const losTxt = computed(() => window.wp.i18n.sprintf(t.los, props.lengthOfStay))
             </BflexTooltip>
           </div>
 
-          <div
+          <!--div
             v-if="data.feed"
             class="rate-plan-card__offers-item"
             :class="{ 'feed-offer': hasFeedOffer }"
@@ -200,7 +200,7 @@ const losTxt = computed(() => window.wp.i18n.sprintf(t.los, props.lengthOfStay))
           >
             <BflexIcon name="Restaurant"></BflexIcon>
             <span>{{ data.feed.name ? t[`boardType.${data.feed.name}`] || data.feed.name : '' }}</span>
-          </div>
+          </div-->
 
           <div class="rate-plan-card__offers-item payment-type-offers">
             <BflexIcon name="CreditCard"></BflexIcon>

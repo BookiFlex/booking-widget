@@ -14,10 +14,10 @@ let lightbox = null
 onMounted(() => {
   lightbox = GLightbox({
     elements: props.images.map((img) => ({
-      href: img.url,
+      href: img.sizes?.gallery?.url || img.url,
       type: 'image',
-      title: img.title || '',
-      description: img.description || '',
+      title: img.title || img.name || '',
+      description: img.description || img.caption || '',
     })),
     openEffect: 'zoom', // Анимация открытия
     closeEffect: 'fade', // Анимация закрытия

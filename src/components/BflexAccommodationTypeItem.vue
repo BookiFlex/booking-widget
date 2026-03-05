@@ -1,8 +1,8 @@
 <script setup>
-import { defineProps, ref } from 'vue'
+import { ref, computed } from 'vue'
 import BflexImageGallery from './ui/BflexImageGallery.vue'
 
-defineProps({
+const props = defineProps({
   /**
    * @type {{
    *   name: string,
@@ -12,7 +12,8 @@ defineProps({
    *   latitude?: string,
    *   thumbnail: {
    *     url: string,
-   *     name: string
+   *     name: string,
+   *     sizes?: { card?: string, gallery?: string, full?: string }
    *   } | null,
    *   gallery: Array<{
    *      src: string,
@@ -45,6 +46,16 @@ const t = {
   roomQuantity: window.wp.i18n.__('Available', 'bookiflex')
 }
 
+const thumbnailSrcset = computed(() => {
+  const sizes = props.data?.thumbnail?.sizes
+  if (!sizes) return undefined
+  const parts = []
+  if (sizes.card?.url && sizes.card.width) parts.push(`${sizes.card.url} ${sizes.card.width}w`)
+  if (sizes.card_lg?.url && sizes.card_lg.width) parts.push(`${sizes.card_lg.url} ${sizes.card_lg.width}w`)
+  if (sizes.full?.url && sizes.full.width) parts.push(`${sizes.full.url} ${sizes.full.width}w`)
+  return parts.length ? parts.join(', ') : undefined
+})
+
 const isOpen = ref(false)
 const openGallery = () => {
   isOpen.value = true
@@ -59,7 +70,10 @@ const openGallery = () => {
           v-if="data.thumbnail && data.thumbnail.url"
           @click="openGallery"
           :src="data.thumbnail.url"
+          :srcset="thumbnailSrcset"
+          sizes="(max-width: 480px) 100vw, 300px"
           :alt="data.thumbnail.name"
+          loading="lazy"
         />
         <span v-else>{{ t.thumbnail }}</span>
       </BflexImageGallery>
