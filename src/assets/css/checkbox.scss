@@ -7,19 +7,19 @@
 .custom-checkbox input[type='checkbox'] {
   position: absolute;
   opacity: 0;
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.25em;
+  height: 1.25em;
   cursor: pointer;
 }
 
 .custom-checkbox__box {
-  width: 1rem;
-  height: 1rem;
-  flex: 0 0 1rem;
+  width: 1em;
+  height: 1em;
+  flex: 0 0 1em;
   border: 2px solid rgba(34, 34, 34, 0.2);
   border-radius: 3px;
   position: relative;
-  margin-right: 0.5rem;
+  margin-right: 0.5em;
   transition: background-color 0.3s;
 }
 
@@ -32,8 +32,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 0.5rem;
-  height: 0.5rem;
+  width: 0.5em;
+  height: 0.5em;
   background-color: #ea580c;
   transform: translate(-50%, -50%) scale(0);
   transition: transform 0.3s;

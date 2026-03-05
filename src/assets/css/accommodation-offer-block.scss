@@ -12,12 +12,12 @@
   }
 
   .rate-plan-list__wrapper {
-    padding: 0.5rem;
+    padding: 0.5em;
   }
   .rate-plan-list {
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
     flex-direction: row;
-    column-gap: 0.5rem;
+    column-gap: 0.5em;
   }
 }

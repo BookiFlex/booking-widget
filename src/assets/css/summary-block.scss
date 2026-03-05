@@ -3,7 +3,7 @@
   width: auto;
   bottom: 0;
   right: 0;
-  padding: 1rem;
+  padding: 1em;
   box-shadow: 0 -4px 54px hsla(0, 0%, 62%, 0.2);
   background: #fff;
   z-index: 4;
@@ -21,7 +21,7 @@
     align-items: flex-start;
 
     &__price {
-      font-size: 1rem;
+      font-size: 16px;
       font-weight: bold;
       color: #ea580c;
     }
@@ -29,13 +29,13 @@
     &__text {
       display: flex;
       align-items: center;
-      font-size: 0.875rem;
+      font-size: 14px;
       color: rgba(34, 34, 34, 0.6);
       vertical-align: center;
 
       .icon {
-        font-size: 1rem;
-        margin-left: 0.25rem;
+        font-size: 16px;
+        margin-left: 0.25em;
       }
     }
   }

@@ -20,11 +20,11 @@
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-    padding: 0.5rem 1rem;
+    padding: 0.5em 1em;
   }
 
   &__actions {
-    margin-left: 1rem;
+    margin-left: 1em;
 
     .book-button {
       background: var(--variant-line-button-bg, #ea580c);
@@ -48,9 +48,9 @@
 
     &__content {
       flex-direction: column;
-      row-gap: 0.5rem;
+      row-gap: 0.5em;
       width: 100%;
-      padding: 1rem;
+      padding: 1em;
     }
 
     &__actions {

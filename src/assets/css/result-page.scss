@@ -1,18 +1,18 @@
 .reservation-result {
   display: flex;
   flex-direction: column;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  padding: 0.5rem;
+  margin-top: 2em;
+  margin-bottom: 1em;
+  padding: 0.5em;
 
   &__title {
-    font-size: 1.5rem;
+    font-size: 24px;
     font-weight: bold;
     text-align: center;
   }
 
   &__description {
-    font-size: 1.2rem;
+    font-size: 19px;
     text-align: center;
   }
 }
@@ -20,8 +20,8 @@
 .hotel-information {
   display: flex;
   flex-direction: column;
-  row-gap: 0.25rem;
-  font-size: 0.875rem;
+  row-gap: 0.25em;
+  font-size: 14px;
   justify-content: center;
   justify-items: center;
 }

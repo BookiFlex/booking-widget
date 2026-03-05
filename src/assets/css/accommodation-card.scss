@@ -1,10 +1,10 @@
 .accommodation-info,
 .accommodation-list {
   &__item {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.5em;
 
     &-delete {
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.5em;
       color: #a1a1a1;
 
       &:hover {
@@ -20,8 +20,8 @@
   &__payment-rules {
     dd,
     dt {
-      margin-bottom: 0.25rem;
-      font-size: 0.875rem;
+      margin-bottom: 0.25em;
+      font-size: 14px;
     }
 
     dd {
@@ -62,17 +62,17 @@
     display: inline-flex;
     flex-direction: row;
     align-items: center;
-    font-size: 0.875rem;
+    font-size: 14px;
     border: 1px solid var(--chosen-accommodation-payment-types, #ea580c);
     border-radius: 5px;
-    margin-top: 1rem;
+    margin-top: 1em;
 
     &__label {
       font-weight: bold;
       background-color: var(--chosen-accommodation-payment-types, #ea580c);
       color: white;
       height: 100%;
-      padding: 0.5rem 1rem;
+      padding: 0.5em 1em;
       flex-wrap: nowrap;
       text-wrap: nowrap;
     }
@@ -83,7 +83,7 @@
       align-items: start;
       justify-content: start;
       width: 100%;
-      padding: 0.5rem 1rem;
+      padding: 0.5em 1em;
       box-sizing: border-box;
     }
 
@@ -91,11 +91,11 @@
       display: flex;
       flex-direction: row;
       font-weight: normal;
-      margin-right: 1rem;
+      margin-right: 1em;
       cursor: pointer;
 
       input[type='radio'] {
-        margin: 0 0.25rem;
+        margin: 0 0.25em;
         padding: 0;
       }
     }
@@ -115,7 +115,7 @@
 
     &__item {
       grid-template-columns: 1fr !important;
-      gap: 0.5rem !important;
+      gap: 0.5em !important;
     }
 
     .payment-type {
@@ -137,7 +137,7 @@
 
       label {
         flex-direction: row;
-        padding: 0.5rem 0.5rem 0.5rem 0;
+        padding: 0.5em 0.5em 0.5em 0;
       }
     }
   }

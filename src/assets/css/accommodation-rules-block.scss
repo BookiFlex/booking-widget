@@ -1,12 +1,12 @@
 .agreement-rules-list {
   &__rules {
     li {
-      padding-left: 0.25rem;
+      padding-left: 0.25em;
     }
     li:before {
       display: inline-block;
       content: '—';
-      margin-right: 0.25rem;
+      margin-right: 0.25em;
     }
   }
 
@@ -14,7 +14,7 @@
     &-item {
       display: flex;
       flex-direction: row;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.5em;
     }
   }
 
